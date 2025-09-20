@@ -1,33 +1,33 @@
 ﻿Imports MySql.Data.MySqlClient
+Imports System.Drawing.Printing
 
 Public Class frmWithdrawal
 
-    'Function ng withdraw logic
+    Private ReceiptText As String
+    Dim currentAmount As Double
+
+    ' Withdraw logic
     Private Sub Withdraw()
         Dim withdrawAmount As Double
 
+        ' Validation ----------
         If String.IsNullOrWhiteSpace(txtAmount.Text) Then
             MessageBox.Show("Please enter an amount.", "Missing Input", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             txtAmount.Focus()
             Return
         End If
-
         If Not Double.TryParse(txtAmount.Text.Trim(), withdrawAmount) Then
             MessageBox.Show("Please enter a valid numeric amount.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             txtAmount.Clear()
             txtAmount.Focus()
             Return
         End If
-
-
         If withdrawAmount <= 0 Then
             MessageBox.Show("Withdrawal amount must be greater than 0.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             txtAmount.Clear()
             txtAmount.Focus()
             Return
         End If
-
-
         If txtAmount.Text.Contains(".") Then
             Dim decimals As String() = txtAmount.Text.Split("."c)
             If decimals.Length > 1 AndAlso decimals(1).Length > 2 Then
@@ -36,41 +36,36 @@ Public Class frmWithdrawal
                 Return
             End If
         End If
-
-
         If withdrawAmount > 99999999.99 Then
             MessageBox.Show("Amount entered is too large.", "Limit Exceeded", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             txtAmount.Clear()
             txtAmount.Focus()
             Return
         End If
-
         If withdrawAmount < 100 Then
             MessageBox.Show("Minimum withdrawal is 100.", "Limit", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             txtAmount.Clear()
             txtAmount.Focus()
             Return
         End If
-
-
         If withdrawAmount > 10000 Then
             MessageBox.Show("Maximum withdrawal per transaction is 10,000.", "Limit Exceeded", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             txtAmount.Clear()
             txtAmount.Focus()
             Return
         End If
-
         If withdrawAmount Mod 100 <> 0 Then
             MessageBox.Show("Withdrawal must be in multiples of 100.", "Invalid Denomination", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             txtAmount.Focus()
             Return
         End If
 
+        ' Check Account Balance and Status
         Try
             Call connection()
 
             Dim cmdAcc As New MySqlCommand("SELECT BalanceAmount, AccountStatus FROM tblaccountbalance WHERE AccountNumber=@acc", con)
-            cmdAcc.Parameters.AddWithValue("@acc", LoggedInAccNum)
+            cmdAcc.Parameters.AddWithValue("@acc", LoggedInAccNum.Trim())
             Dim reader = cmdAcc.ExecuteReader()
 
             If Not reader.Read() Then
@@ -88,14 +83,12 @@ Public Class frmWithdrawal
                 Return
             End If
 
-
             If withdrawAmount > currentBalance Then
                 MessageBox.Show("Insufficient balance.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 txtAmount.Clear()
                 txtAmount.Focus()
                 Return
             End If
-
 
             If currentBalance - withdrawAmount < 500 Then
                 MessageBox.Show("You must maintain a minimum balance of 500.", "Minimum Balance Rule", MessageBoxButtons.OK, MessageBoxIcon.Warning)
@@ -104,12 +97,11 @@ Public Class frmWithdrawal
                 Return
             End If
 
-
             Dim cmdDaily As New MySqlCommand("
-            SELECT IFNULL(SUM(Amount),0) 
-            FROM tbltransactions 
-            WHERE AccountNumber=@acc AND TransactionType='Withdraw' AND DATE(TransactionDate)=CURDATE()", con)
-            cmdDaily.Parameters.AddWithValue("@acc", LoggedInAccNum)
+                SELECT IFNULL(SUM(Amount),0) 
+                FROM tbltransaction_history 
+                WHERE sender_AccountNumber=@acc AND transaction_type='Withdraw' AND DATE(Date)=CURDATE()", con)
+            cmdDaily.Parameters.AddWithValue("@acc", LoggedInAccNum.Trim())
             Dim todayTotal As Double = Convert.ToDouble(cmdDaily.ExecuteScalar())
 
             If todayTotal + withdrawAmount > 20000 Then
@@ -119,11 +111,10 @@ Public Class frmWithdrawal
                 Return
             End If
 
-
             Dim cmdCount As New MySqlCommand("
-            SELECT COUNT(*) FROM tbltransactions 
-            WHERE AccountNumber=@acc AND TransactionType='Withdraw' AND DATE(TransactionDate)=CURDATE()", con)
-            cmdCount.Parameters.AddWithValue("@acc", LoggedInAccNum)
+                SELECT COUNT(*) FROM tbltransaction_history 
+                WHERE sender_AccountNumber=@acc AND transaction_type='Withdraw' AND DATE(Date)=CURDATE()", con)
+            cmdCount.Parameters.AddWithValue("@acc", LoggedInAccNum.Trim())
             Dim todayCount As Integer = Convert.ToInt32(cmdCount.ExecuteScalar())
 
             If todayCount >= 3 Then
@@ -131,9 +122,8 @@ Public Class frmWithdrawal
                 Return
             End If
 
-
             Dim transaction = con.BeginTransaction()
-            cmd = New MySqlCommand()
+            Dim cmd As New MySqlCommand()
             cmd.Connection = con
             cmd.Transaction = transaction
 
@@ -146,16 +136,29 @@ Public Class frmWithdrawal
             Dim rowsAffected As Integer = cmd.ExecuteNonQuery()
 
             If rowsAffected > 0 Then
-                ' Insert into transaction logs
-                Dim logCmd As New MySqlCommand("
-                INSERT INTO tbltransactions (AccountNumber, TransactionType, Amount, TransactionDate) 
-                VALUES (@acc, 'Withdraw', @amt, NOW())", con, transaction)
-                logCmd.Parameters.AddWithValue("@acc", LoggedInAccNum)
+                ' Insert transaction logs
+                Dim logCmd As New MySqlCommand("INSERT INTO tbltransaction_history (transaction_type, sender_AccountNumber, receiver_AccountNumber, Amount, Status, `Date`) VALUES (@transactiontype, @senderAcc, NULL, @amt, 'Success', NOW())", con, transaction)
+                logCmd.Parameters.AddWithValue("@transactiontype", "Withdrawal")
+                logCmd.Parameters.AddWithValue("@senderAcc", LoggedInAccNum.Trim())
                 logCmd.Parameters.AddWithValue("@amt", withdrawAmount)
                 logCmd.ExecuteNonQuery()
 
                 transaction.Commit()
                 MessageBox.Show("Withdrawal successful!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+                ' Prepare receipt and auto-print
+                ReceiptText = "===== ATM RECEIPT =====" & vbCrLf &
+                              "Account Number: " & LoggedInAccNum & vbCrLf &
+                              "Transaction: Withdrawal" & vbCrLf &
+                              "Amount Withdrawn: ₱" & withdrawAmount.ToString("N2") & vbCrLf &
+                              "Remaining Balance: ₱" & (currentBalance - withdrawAmount).ToString("N2") & vbCrLf &
+                              "Date: " & DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss") & vbCrLf &
+                              "======================="
+                PrintDocument1.Print()
+                PrintPreviewDialog1.Document = PrintDocument1
+                PrintPreviewDialog1.Width = 800
+                PrintPreviewDialog1.Height = 600
+                PrintPreviewDialog1.ShowDialog()
                 txtAmount.Clear()
             Else
                 transaction.Rollback()
@@ -169,22 +172,17 @@ Public Class frmWithdrawal
         End Try
     End Sub
 
-    ''FORMAT 0,000
-    'Private Sub txtAmount_TextChanged(sender As Object, e As EventArgs) Handles txtAmount.TextChanged
-    '    Dim raw As String = txtAmount.Text.Replace(",", "")
-    '    Dim value As Double
-    '    If Double.TryParse(raw, value) Then
-    '        txtAmount.Text = String.Format("{0:N2}", value)
-    '        txtAmount.SelectionStart = txtAmount.Text.Length
-    '    End If
-    'End Sub
+    ' PrintDocument1 PrintPage event
+    Private Sub PrintDocument1_PrintPage(sender As Object, e As PrintPageEventArgs) Handles PrintDocument1.PrintPage
+        e.Graphics.DrawString(ReceiptText, New Font("Arial", 12, FontStyle.Regular), Brushes.Black, 50, 50)
+    End Sub
 
-    'Clear Button
+    ' Clear button
     Private Sub lblClear_Click_1(sender As Object, e As EventArgs) Handles lblClear.Click
         txtAmount.Clear()
     End Sub
 
-    'Delete Button
+    ' Delete button
     Private Sub lblDel_Click(sender As Object, e As EventArgs) Handles lblDel.Click
         Dim pos As String = txtAmount.Text.Length
         If pos > 0 Then
@@ -193,17 +191,25 @@ Public Class frmWithdrawal
         End If
     End Sub
 
-    'Withdraw Button
+    ' Withdraw button
     Private Sub lblWithdraw_Click(sender As Object, e As EventArgs) Handles lblWithdraw.Click
-        Withdraw()
+        Dim pinForm As New frmVerification()
+        pinForm.ShowDialog()
+        If pinForm.IsPinCorrect Then
+            Withdraw()
+            pctNumpad.Enabled = False
+        Else
+            txtAmount.Clear()
+        End If
     End Sub
 
-    'Cancel Button
+    ' Cancel button
     Private Sub lblCancel_Click(sender As Object, e As EventArgs) Handles lblCancel.Click
         frmMain.Show()
         Me.Hide()
     End Sub
 
+    ' Amount leave formatting
     Private Sub txtWithdraw_Leave(sender As Object, e As EventArgs) Handles txtAmount.Leave
         Dim raw As String = txtAmount.Text.Replace(",", "")
         Dim value As Double
@@ -212,15 +218,14 @@ Public Class frmWithdrawal
         End If
     End Sub
 
-
-    'Decimal 'to
+    ' Decimal button
     Private Sub lblDecimal_Click(sender As Object, e As EventArgs) Handles lblDecimal.Click
         If txtAmount.Focused AndAlso Not txtAmount.Text.Contains(".") Then
             txtAmount.AppendText(".")
         End If
     End Sub
 
-    'NUMPAD BUTTONS
+    ' NUMPAD BUTTONS
     Private Sub lblNo1_Click(sender As Object, e As EventArgs) Handles lblNo1.Click
         txtAmount.AppendText("1")
     End Sub
@@ -252,27 +257,34 @@ Public Class frmWithdrawal
         txtAmount.AppendText("0")
     End Sub
 
+    ' Quick amount buttons
     Private Sub btn500_Click(sender As Object, e As EventArgs) Handles btn500.Click
-        txtAmount.Text = "500.00"
+        UpdateAmount(500)
     End Sub
-
     Private Sub btn1000_Click(sender As Object, e As EventArgs) Handles btn1000.Click
-        txtAmount.Text = "1000.00"
+        UpdateAmount(1000)
     End Sub
-
     Private Sub btn2000_Click(sender As Object, e As EventArgs) Handles btn2000.Click
-        txtAmount.Text = "2000.00"
+        UpdateAmount(2000)
     End Sub
-
     Private Sub btn5000_Click(sender As Object, e As EventArgs) Handles btn5000.Click
-        txtAmount.Text = "5000.00"
+        UpdateAmount(5000)
+    End Sub
+    Private Sub btn10000_Click(sender As Object, e As EventArgs) Handles btn10000.Click
+        UpdateAmount(10000)
     End Sub
 
-    Private Sub btn10000_Click(sender As Object, e As EventArgs) Handles btn10000.Click
-        txtAmount.Text = "10000.00"
+    Private Sub UpdateAmount(amount As Double)
+        If Double.TryParse(txtAmount.Text.Replace(",", ""), currentAmount) Then
+            currentAmount += amount
+            txtAmount.Text = currentAmount.ToString("N2")
+        Else
+            txtAmount.Text = amount.ToString("N2")
+        End If
     End Sub
 
     Private Sub btnOtherAmount_Click(sender As Object, e As EventArgs) Handles btnOtherAmount.Click
         txtAmount.Focus()
     End Sub
+
 End Class

@@ -267,11 +267,11 @@ Partial Class frmMain
         ' lblAccountNumberDisplay
         ' 
         lblAccountNumberDisplay.AutoSize = True
-        lblAccountNumberDisplay.Font = New Font("Century Gothic", 9.75F, FontStyle.Bold)
+        lblAccountNumberDisplay.Font = New Font("Century Gothic", 11.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lblAccountNumberDisplay.ForeColor = Color.White
         lblAccountNumberDisplay.Location = New Point(229, 42)
         lblAccountNumberDisplay.Name = "lblAccountNumberDisplay"
-        lblAccountNumberDisplay.Size = New Size(11, 16)
+        lblAccountNumberDisplay.Size = New Size(12, 18)
         lblAccountNumberDisplay.TabIndex = 16
         lblAccountNumberDisplay.Text = " "
         ' 

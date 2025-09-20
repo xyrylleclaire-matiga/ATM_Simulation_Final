@@ -36,21 +36,21 @@ Partial Class frmUserManagement
         ' lblTitle
         ' 
         lblTitle.AutoSize = True
-        lblTitle.Font = New Font("Segoe UI", 14.0F, FontStyle.Bold)
-        lblTitle.ForeColor = Color.FromArgb(41, 128, 185)
+        lblTitle.Font = New Font("Segoe UI", 14F, FontStyle.Bold)
+        lblTitle.ForeColor = Color.FromArgb(CByte(41), CByte(128), CByte(185))
         lblTitle.Location = New Point(20, 15)
         lblTitle.Name = "lblTitle"
-        lblTitle.Size = New Size(180, 25)
+        lblTitle.Size = New Size(175, 25)
         lblTitle.TabIndex = 0
         lblTitle.Text = "User Management"
         ' 
         ' txtSearch
         ' 
-        txtSearch.Font = New Font("Segoe UI", 10.0F)
+        txtSearch.Font = New Font("Segoe UI", 10F)
         txtSearch.Location = New Point(20, 55)
         txtSearch.Name = "txtSearch"
         txtSearch.PlaceholderText = "Search users..."
-        txtSearch.Size = New Size(200, 25)
+        txtSearch.Size = New Size(145, 25)
         txtSearch.TabIndex = 1
         ' 
         ' dgvUsers
@@ -62,14 +62,14 @@ Partial Class frmUserManagement
         dgvUsers.Location = New Point(20, 100)
         dgvUsers.Name = "dgvUsers"
         dgvUsers.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        dgvUsers.Size = New Size(840, 400)
+        dgvUsers.Size = New Size(733, 327)
         dgvUsers.TabIndex = 10
         ' 
         ' lblUsername
         ' 
         lblUsername.AutoSize = True
-        lblUsername.Font = New Font("Segoe UI", 10.0F, FontStyle.Bold)
-        lblUsername.Location = New Point(240, 55)
+        lblUsername.Font = New Font("Segoe UI", 10F, FontStyle.Bold)
+        lblUsername.Location = New Point(173, 58)
         lblUsername.Name = "lblUsername"
         lblUsername.Size = New Size(80, 19)
         lblUsername.TabIndex = 2
@@ -77,8 +77,8 @@ Partial Class frmUserManagement
         ' 
         ' txtUsernameInput
         ' 
-        txtUsernameInput.Font = New Font("Segoe UI", 10.0F)
-        txtUsernameInput.Location = New Point(320, 53)
+        txtUsernameInput.Font = New Font("Segoe UI", 10F)
+        txtUsernameInput.Location = New Point(253, 56)
         txtUsernameInput.Name = "txtUsernameInput"
         txtUsernameInput.Size = New Size(140, 25)
         txtUsernameInput.TabIndex = 3
@@ -86,8 +86,8 @@ Partial Class frmUserManagement
         ' lblFullName
         ' 
         lblFullName.AutoSize = True
-        lblFullName.Font = New Font("Segoe UI", 10.0F, FontStyle.Bold)
-        lblFullName.Location = New Point(470, 55)
+        lblFullName.Font = New Font("Segoe UI", 10F, FontStyle.Bold)
+        lblFullName.Location = New Point(403, 58)
         lblFullName.Name = "lblFullName"
         lblFullName.Size = New Size(80, 19)
         lblFullName.TabIndex = 4
@@ -95,8 +95,8 @@ Partial Class frmUserManagement
         ' 
         ' txtFullNameInput
         ' 
-        txtFullNameInput.Font = New Font("Segoe UI", 10.0F)
-        txtFullNameInput.Location = New Point(550, 53)
+        txtFullNameInput.Font = New Font("Segoe UI", 10F)
+        txtFullNameInput.Location = New Point(483, 56)
         txtFullNameInput.Name = "txtFullNameInput"
         txtFullNameInput.Size = New Size(150, 25)
         txtFullNameInput.TabIndex = 5
@@ -104,8 +104,8 @@ Partial Class frmUserManagement
         ' lblRole
         ' 
         lblRole.AutoSize = True
-        lblRole.Font = New Font("Segoe UI", 10.0F, FontStyle.Bold)
-        lblRole.Location = New Point(710, 55)
+        lblRole.Font = New Font("Segoe UI", 10F, FontStyle.Bold)
+        lblRole.Location = New Point(643, 58)
         lblRole.Name = "lblRole"
         lblRole.Size = New Size(43, 19)
         lblRole.TabIndex = 6
@@ -113,20 +113,20 @@ Partial Class frmUserManagement
         ' 
         ' txtRoleInput
         ' 
-        txtRoleInput.Font = New Font("Segoe UI", 10.0F)
-        txtRoleInput.Location = New Point(750, 53)
+        txtRoleInput.Font = New Font("Segoe UI", 10F)
+        txtRoleInput.Location = New Point(683, 56)
         txtRoleInput.Name = "txtRoleInput"
         txtRoleInput.Size = New Size(110, 25)
         txtRoleInput.TabIndex = 7
         ' 
         ' btnSave
         ' 
-        btnSave.BackColor = Color.FromArgb(52, 152, 219)
+        btnSave.BackColor = Color.FromArgb(CByte(52), CByte(152), CByte(219))
         btnSave.FlatAppearance.BorderSize = 0
         btnSave.FlatStyle = FlatStyle.Flat
-        btnSave.Font = New Font("Segoe UI", 9.0F, FontStyle.Bold)
+        btnSave.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
         btnSave.ForeColor = Color.White
-        btnSave.Location = New Point(20, 520)
+        btnSave.Location = New Point(20, 433)
         btnSave.Name = "btnSave"
         btnSave.Size = New Size(90, 30)
         btnSave.TabIndex = 8
@@ -138,9 +138,9 @@ Partial Class frmUserManagement
         btnClear.BackColor = Color.Gray
         btnClear.FlatAppearance.BorderSize = 0
         btnClear.FlatStyle = FlatStyle.Flat
-        btnClear.Font = New Font("Segoe UI", 9.0F, FontStyle.Bold)
+        btnClear.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
         btnClear.ForeColor = Color.White
-        btnClear.Location = New Point(120, 520)
+        btnClear.Location = New Point(120, 433)
         btnClear.Name = "btnClear"
         btnClear.Size = New Size(80, 30)
         btnClear.TabIndex = 9
@@ -149,12 +149,12 @@ Partial Class frmUserManagement
         ' 
         ' btnDelete
         ' 
-        btnDelete.BackColor = Color.FromArgb(231, 76, 60)
+        btnDelete.BackColor = Color.FromArgb(CByte(231), CByte(76), CByte(60))
         btnDelete.FlatAppearance.BorderSize = 0
         btnDelete.FlatStyle = FlatStyle.Flat
-        btnDelete.Font = New Font("Segoe UI", 9.0F, FontStyle.Bold)
+        btnDelete.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
         btnDelete.ForeColor = Color.White
-        btnDelete.Location = New Point(210, 520)
+        btnDelete.Location = New Point(210, 433)
         btnDelete.Name = "btnDelete"
         btnDelete.Size = New Size(100, 30)
         btnDelete.TabIndex = 11
@@ -163,10 +163,10 @@ Partial Class frmUserManagement
         ' 
         ' frmUserManagement
         ' 
-        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.WhiteSmoke
-        ClientSize = New Size(880, 580)
+        ClientSize = New Size(867, 494)
         Controls.Add(lblTitle)
         Controls.Add(txtSearch)
         Controls.Add(lblUsername)

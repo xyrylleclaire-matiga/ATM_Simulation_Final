@@ -1,10 +1,12 @@
 ﻿Imports MySql.Data.MySqlClient
+Imports System.Drawing.Printing
 
 Public Class frmBalanceInquiry
 
+    Private BalanceText As String
+
     Private Sub frmBalanceInquiry_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         LoadBalance()
-
         Timer1.Start()
     End Sub
 
@@ -52,4 +54,26 @@ Public Class frmBalanceInquiry
         frmMain.Show()
         Me.Hide()
     End Sub
+
+    ' ===== PRINT/PRINT PREVIEW =====
+    Private Sub btnprint_Click(sender As Object, e As EventArgs) Handles btnprint.Click
+        ' Prepare balance text for printing
+        BalanceText = "===== BALANCE INQUIRY =====" & vbCrLf &
+                      "Account Number: " & LoggedInAccNum & vbCrLf &
+                      "Current Balance: " & lblBalanceAmount.Text & vbCrLf &
+                      "Date: " & DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss") & vbCrLf &
+                      "==========================="
+
+        ' Show print preview
+        PrintPreviewDialog1.Document = PrintDocument1
+        PrintPreviewDialog1.Width = 800
+        PrintPreviewDialog1.Height = 600
+        PrintPreviewDialog1.ShowDialog()
+    End Sub
+
+    Private Sub PrintDocument1_PrintPage(sender As Object, e As PrintPageEventArgs) Handles PrintDocument1.PrintPage
+        ' Draw the balance inquiry receipt
+        e.Graphics.DrawString(BalanceText, New Font("Arial", 12, FontStyle.Regular), Brushes.Black, 50, 50)
+    End Sub
+
 End Class

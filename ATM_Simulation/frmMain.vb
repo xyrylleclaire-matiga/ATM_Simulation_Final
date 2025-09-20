@@ -14,7 +14,9 @@ Public Class frmMain
                 dbConnection.dr("FirstName").ToString().ToUpper() & " " &
                 dbConnection.dr("MiddleName").ToString().ToUpper()
 
-                lblAccountNumberDisplay.Text = dbConnection.dr("AccountNumber").ToString()
+                Dim lastTwo As String = LoggedInAccNum.Substring(LoggedInAccNum.Length - 2)
+                lblAccountNumberDisplay.Text = "**** - **** - " & lastTwo
+
             End If
             dbConnection.dr.Close()
             dbConnection.con.Close()
@@ -33,7 +35,15 @@ Public Class frmMain
     End Sub
 
     Private Sub btnBalanceInquiry_Click(sender As Object, e As EventArgs) Handles btnBalanceInquiry.Click
-        frmBalanceInquiry.Show()
+        Dim pinForm As New frmVerification()
+
+        pinForm.ShowDialog()
+        If pinForm.IsPinCorrect Then
+            frmBalanceInquiry.Show()
+            Me.Hide()
+        Else
+            Me.Show()
+        End If
         Me.Hide()
 
     End Sub

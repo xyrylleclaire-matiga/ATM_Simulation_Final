@@ -22,167 +22,246 @@ Partial Class frmMiniStatement
         lstMiniStatement = New ListBox()
         PictureBox1 = New PictureBox()
         Panel1 = New Panel()
+        lblUser = New Label()
+        lblAccountNumberDisplay = New Label()
+        lbl = New Label()
+        ListView1 = New ListView()
+        ColumnHeader1 = New ColumnHeader()
+        ColumnHeader3 = New ColumnHeader()
+        ColumnHeader4 = New ColumnHeader()
         cmbReportType = New ComboBox()
-        lblReportType = New Label()
+        lblTransactionType = New Label()
         lblFrom = New Label()
         lblTo = New Label()
         dtFrom = New DateTimePicker()
         dtTo = New DateTimePicker()
         btnFilter = New Button()
-        DataGridView1 = New DataGridView()
         Button2 = New Button()
         Button1 = New Button()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         Panel1.SuspendLayout()
-        CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
-        '
+        ' 
         ' lblHeader
-        '
+        ' 
         lblHeader.AutoSize = True
-        lblHeader.Font = New Font("Segoe UI Semibold", 20.0F, FontStyle.Bold)
-        lblHeader.ForeColor = Color.FromArgb(0, 123, 255)
+        lblHeader.Font = New Font("Segoe UI Semibold", 20F, FontStyle.Bold)
+        lblHeader.ForeColor = Color.FromArgb(CByte(0), CByte(123), CByte(255))
         lblHeader.Location = New Point(300, 20)
         lblHeader.Name = "lblHeader"
         lblHeader.Size = New Size(205, 37)
+        lblHeader.TabIndex = 3
         lblHeader.Text = "Mini Statement"
-        '
+        ' 
         ' lstMiniStatement
-        '
-        lstMiniStatement.Font = New Font("Segoe UI", 12.0F)
+        ' 
+        lstMiniStatement.Font = New Font("Segoe UI", 12F)
         lstMiniStatement.FormattingEnabled = True
         lstMiniStatement.ItemHeight = 21
         lstMiniStatement.Location = New Point(50, 80)
         lstMiniStatement.Name = "lstMiniStatement"
         lstMiniStatement.Size = New Size(700, 340)
-        '
+        lstMiniStatement.TabIndex = 2
+        ' 
         ' PictureBox1
-        '
+        ' 
         PictureBox1.Image = My.Resources.Resources.ATM_UI_UX___南街_西洋菜
         PictureBox1.Location = New Point(-3, -3)
         PictureBox1.Name = "PictureBox1"
-        PictureBox1.Size = New Size(821, 529)
+        PictureBox1.Size = New Size(935, 579)
         PictureBox1.SizeMode = PictureBoxSizeMode.StretchImage
+        PictureBox1.TabIndex = 1
         PictureBox1.TabStop = False
-        '
+        ' 
         ' Panel1
-        '
-        Panel1.BackColor = Color.FromArgb(224, 224, 224)
+        ' 
+        Panel1.BackColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
+        Panel1.Controls.Add(lblUser)
+        Panel1.Controls.Add(lblAccountNumberDisplay)
+        Panel1.Controls.Add(lbl)
+        Panel1.Controls.Add(ListView1)
         Panel1.Controls.Add(cmbReportType)
-        Panel1.Controls.Add(lblReportType)
+        Panel1.Controls.Add(lblTransactionType)
         Panel1.Controls.Add(lblFrom)
         Panel1.Controls.Add(lblTo)
         Panel1.Controls.Add(dtFrom)
         Panel1.Controls.Add(dtTo)
         Panel1.Controls.Add(btnFilter)
-        Panel1.Controls.Add(DataGridView1)
         Panel1.Controls.Add(Button2)
         Panel1.Controls.Add(Button1)
         Panel1.Location = New Point(87, 60)
         Panel1.Name = "Panel1"
-        Panel1.Size = New Size(643, 406)
-        '
+        Panel1.Size = New Size(742, 451)
+        Panel1.TabIndex = 0
+        ' 
+        ' lblUser
+        ' 
+        lblUser.AutoSize = True
+        lblUser.BackColor = Color.DarkSlateGray
+        lblUser.Font = New Font("Century Schoolbook", 15.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblUser.ForeColor = Color.White
+        lblUser.Location = New Point(538, 27)
+        lblUser.Name = "lblUser"
+        lblUser.Size = New Size(18, 25)
+        lblUser.TabIndex = 21
+        lblUser.Text = " "
+        ' 
+        ' lblAccountNumberDisplay
+        ' 
+        lblAccountNumberDisplay.AutoSize = True
+        lblAccountNumberDisplay.BackColor = Color.DarkSlateGray
+        lblAccountNumberDisplay.Font = New Font("Century Gothic", 11.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblAccountNumberDisplay.ForeColor = Color.White
+        lblAccountNumberDisplay.Location = New Point(609, 62)
+        lblAccountNumberDisplay.Name = "lblAccountNumberDisplay"
+        lblAccountNumberDisplay.Size = New Size(12, 18)
+        lblAccountNumberDisplay.TabIndex = 23
+        lblAccountNumberDisplay.Text = " "
+        ' 
+        ' lbl
+        ' 
+        lbl.AutoSize = True
+        lbl.BackColor = Color.DarkSlateGray
+        lbl.Font = New Font("Century Gothic", 9.75F, FontStyle.Bold)
+        lbl.ForeColor = Color.White
+        lbl.Location = New Point(483, 62)
+        lbl.Name = "lbl"
+        lbl.Size = New Size(125, 16)
+        lbl.TabIndex = 22
+        lbl.Text = "Account Number: "
+        ' 
+        ' ListView1
+        ' 
+        ListView1.Columns.AddRange(New ColumnHeader() {ColumnHeader1, ColumnHeader3, ColumnHeader4})
+        ListView1.Font = New Font("Arial Rounded MT Bold", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        ListView1.GridLines = True
+        ListView1.Location = New Point(119, 170)
+        ListView1.Name = "ListView1"
+        ListView1.Size = New Size(513, 207)
+        ListView1.TabIndex = 11
+        ListView1.UseCompatibleStateImageBehavior = False
+        ListView1.View = View.Details
+        ' 
+        ' ColumnHeader1
+        ' 
+        ColumnHeader1.Text = "Transaction Type"
+        ColumnHeader1.Width = 150
+        ' 
+        ' ColumnHeader3
+        ' 
+        ColumnHeader3.Text = "Amount"
+        ColumnHeader3.TextAlign = HorizontalAlignment.Center
+        ColumnHeader3.Width = 150
+        ' 
+        ' ColumnHeader4
+        ' 
+        ColumnHeader4.Text = "Date"
+        ColumnHeader4.TextAlign = HorizontalAlignment.Center
+        ColumnHeader4.Width = 200
+        ' 
         ' cmbReportType
-        '
+        ' 
         cmbReportType.DropDownStyle = ComboBoxStyle.DropDownList
-        cmbReportType.Font = New Font("Segoe UI", 10.0!)
-        cmbReportType.Items.AddRange(New Object() {"User Reports", "Transaction Reports"})
-        cmbReportType.Location = New Point(120, 80)
+        cmbReportType.Font = New Font("Segoe UI", 10F)
+        cmbReportType.Items.AddRange(New Object() {"Withdrawal", "Deposit", "Fund Transfer"})
+        cmbReportType.Location = New Point(148, 111)
         cmbReportType.Name = "cmbReportType"
         cmbReportType.Size = New Size(180, 25)
-        '
-        ' lblReportType
-        '
-        lblReportType.AutoSize = True
-        lblReportType.Font = New Font("Segoe UI", 10.0!, FontStyle.Bold)
-        lblReportType.Location = New Point(40, 84)
-        lblReportType.Name = "lblReportType"
-        lblReportType.Size = New Size(74, 19)
-        lblReportType.Text = "Report:"
-        '
+        cmbReportType.TabIndex = 0
+        ' 
+        ' lblTransactionType
+        ' 
+        lblTransactionType.AutoSize = True
+        lblTransactionType.Font = New Font("Segoe UI", 10F, FontStyle.Bold)
+        lblTransactionType.Location = New Point(17, 114)
+        lblTransactionType.Name = "lblTransactionType"
+        lblTransactionType.Size = New Size(125, 19)
+        lblTransactionType.TabIndex = 1
+        lblTransactionType.Text = "Transaction Type:"
+        ' 
         ' lblFrom
-        '
+        ' 
         lblFrom.AutoSize = True
-        lblFrom.Font = New Font("Segoe UI", 10.0!, FontStyle.Bold)
-        lblFrom.Location = New Point(320, 84)
+        lblFrom.Font = New Font("Segoe UI", 10F, FontStyle.Bold)
+        lblFrom.Location = New Point(409, 114)
         lblFrom.Name = "lblFrom"
-        lblFrom.Size = New Size(47, 19)
+        lblFrom.Size = New Size(48, 19)
+        lblFrom.TabIndex = 2
         lblFrom.Text = "From:"
-        '
+        ' 
         ' lblTo
-        '
+        ' 
         lblTo.AutoSize = True
-        lblTo.Font = New Font("Segoe UI", 10.0!, FontStyle.Bold)
-        lblTo.Location = New Point(500, 84)
+        lblTo.Font = New Font("Segoe UI", 10F, FontStyle.Bold)
+        lblTo.Location = New Point(589, 114)
         lblTo.Name = "lblTo"
-        lblTo.Size = New Size(28, 19)
+        lblTo.Size = New Size(29, 19)
+        lblTo.TabIndex = 3
         lblTo.Text = "To:"
-        '
+        ' 
         ' dtFrom
-        '
-        dtFrom.Format = DateTimePickerFormat.[Short]
-        dtFrom.Location = New Point(370, 82)
+        ' 
+        dtFrom.Format = DateTimePickerFormat.Short
+        dtFrom.Location = New Point(459, 112)
         dtFrom.Name = "dtFrom"
         dtFrom.Size = New Size(110, 23)
-        '
+        dtFrom.TabIndex = 4
+        ' 
         ' dtTo
-        '
-        dtTo.Format = DateTimePickerFormat.[Short]
-        dtTo.Location = New Point(530, 82)
+        ' 
+        dtTo.Format = DateTimePickerFormat.Short
+        dtTo.Location = New Point(619, 112)
         dtTo.Name = "dtTo"
         dtTo.Size = New Size(110, 23)
-        '
+        dtTo.TabIndex = 5
+        ' 
         ' btnFilter
-        '
-        btnFilter.BackColor = Color.FromArgb(0, 123, 255)
+        ' 
+        btnFilter.BackColor = Color.DarkSlateGray
         btnFilter.FlatStyle = FlatStyle.Flat
-        btnFilter.Font = New Font("Segoe UI", 9.0!, FontStyle.Bold)
+        btnFilter.Font = New Font("Arial Rounded MT Bold", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnFilter.ForeColor = Color.White
-        btnFilter.Location = New Point(260, 350)
+        btnFilter.Location = New Point(292, 392)
         btnFilter.Name = "btnFilter"
-        btnFilter.Size = New Size(120, 30)
+        btnFilter.Size = New Size(149, 43)
+        btnFilter.TabIndex = 6
         btnFilter.Text = "Apply Filter"
         btnFilter.UseVisualStyleBackColor = False
-        '
-        ' DataGridView1
-        '
-        DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridView1.Location = New Point(43, 122)
-        DataGridView1.Name = "DataGridView1"
-        DataGridView1.Size = New Size(546, 220)
-        '
+        ' 
         ' Button2
-        '
-        Button2.BackColor = Color.FromArgb(108, 117, 125)
+        ' 
+        Button2.BackColor = Color.FromArgb(CByte(108), CByte(117), CByte(125))
         Button2.FlatAppearance.BorderSize = 0
         Button2.FlatStyle = FlatStyle.Flat
-        Button2.Font = New Font("Arial Rounded MT Bold", 12.0!)
+        Button2.Font = New Font("Arial Rounded MT Bold", 12F)
         Button2.ForeColor = Color.White
-        Button2.Location = New Point(502, 363)
+        Button2.Location = New Point(598, 403)
         Button2.Name = "Button2"
         Button2.Size = New Size(131, 35)
+        Button2.TabIndex = 8
         Button2.Text = "Cancel"
         Button2.UseVisualStyleBackColor = False
-        '
+        ' 
         ' Button1
-        '
+        ' 
         Button1.BackColor = Color.DarkSlateGray
         Button1.FlatStyle = FlatStyle.Flat
-        Button1.Font = New Font("Century Gothic", 14.25!, FontStyle.Bold)
+        Button1.Font = New Font("Century Gothic", 14.25F, FontStyle.Bold)
         Button1.ForeColor = SystemColors.ControlLightLight
-        Button1.Location = New Point(-11, 32)
+        Button1.Location = New Point(-12, 20)
         Button1.Name = "Button1"
-        Button1.Size = New Size(655, 37)
+        Button1.Size = New Size(754, 69)
+        Button1.TabIndex = 9
         Button1.Text = "   Mini Statement:"
         Button1.TextAlign = ContentAlignment.MiddleLeft
         Button1.UseVisualStyleBackColor = False
-        '
+        ' 
         ' frmMiniStatement
-        '
-        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
+        ' 
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        BackColor = Color.FromArgb(248, 249, 250)
-        ClientSize = New Size(815, 523)
+        BackColor = Color.FromArgb(CByte(248), CByte(249), CByte(250))
+        ClientSize = New Size(929, 573)
         Controls.Add(Panel1)
         Controls.Add(PictureBox1)
         Controls.Add(lstMiniStatement)
@@ -195,7 +274,6 @@ Partial Class frmMiniStatement
         CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()
-        CType(DataGridView1, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
         PerformLayout()
 
@@ -207,12 +285,18 @@ Partial Class frmMiniStatement
     Friend WithEvents Panel1 As Panel
     Friend WithEvents Button1 As Button
     Friend WithEvents Button2 As Button
-    Friend WithEvents DataGridView1 As DataGridView
     Friend WithEvents cmbReportType As ComboBox
-    Friend WithEvents lblReportType As Label
+    Friend WithEvents lblTransactionType As Label
     Friend WithEvents lblFrom As Label
     Friend WithEvents lblTo As Label
     Friend WithEvents dtFrom As DateTimePicker
     Friend WithEvents dtTo As DateTimePicker
     Friend WithEvents btnFilter As Button
+    Friend WithEvents ListView1 As ListView
+    Friend WithEvents ColumnHeader1 As ColumnHeader
+    Friend WithEvents ColumnHeader3 As ColumnHeader
+    Friend WithEvents ColumnHeader4 As ColumnHeader
+    Friend WithEvents lblUser As Label
+    Friend WithEvents lblAccountNumberDisplay As Label
+    Friend WithEvents lbl As Label
 End Class

@@ -59,7 +59,7 @@ Public Class frmUserManagement
             connection()
             If SelectedUserID = -1 Then
                 ' Add new user
-                sql = "INSERT INTO Users (Username, FullName, Role, Password) VALUES (@Username, @FullName, @Role, @Password)"
+                sql = "INSERT INTO tbladmin_users (Username, FullName, Role, Password) VALUES (@Username, @FullName, @Role, @Password)"
                 cmd = New MySqlCommand(sql, con)
                 cmd.Parameters.AddWithValue("@Username", txtUsernameInput.Text)
                 cmd.Parameters.AddWithValue("@FullName", txtFullNameInput.Text)
@@ -67,7 +67,7 @@ Public Class frmUserManagement
                 cmd.Parameters.AddWithValue("@Password", "1234") ' default password
             Else
                 ' Update existing user
-                sql = "UPDATE Users SET Username=@Username, FullName=@FullName, Role=@Role WHERE UserID=@UserID"
+                sql = "UPDATE tbladmin_users SET Username=@Username, FullName=@FullName, Role=@Role WHERE UserID=@UserID"
                 cmd = New MySqlCommand(sql, con)
                 cmd.Parameters.AddWithValue("@Username", txtUsernameInput.Text)
                 cmd.Parameters.AddWithValue("@FullName", txtFullNameInput.Text)
@@ -89,7 +89,7 @@ Public Class frmUserManagement
         If MessageBox.Show("Are you sure you want to delete this user?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
             Try
                 connection()
-                sql = "DELETE FROM Users WHERE UserID=@UserID"
+                sql = "DELETE FROM tbladmin_users WHERE UserID=@UserID"
                 cmd = New MySqlCommand(sql, con)
                 cmd.Parameters.AddWithValue("@UserID", SelectedUserID)
                 cmd.ExecuteNonQuery()
@@ -114,6 +114,6 @@ Public Class frmUserManagement
     End Sub
 
     Private Sub dgvUsers_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvUsers.CellContentClick
-
+        ' Optional event, left blank
     End Sub
 End Class

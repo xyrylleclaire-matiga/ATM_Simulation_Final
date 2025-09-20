@@ -23,6 +23,7 @@ Partial Class frmBalanceInquiry
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         components = New ComponentModel.Container()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmBalanceInquiry))
         Label1 = New Label()
         lblBalanceAmount = New Label()
         btnCancel = New Button()
@@ -30,7 +31,10 @@ Partial Class frmBalanceInquiry
         Timer1 = New Timer(components)
         PictureBox1 = New PictureBox()
         Panel1 = New Panel()
+        btnprint = New Button()
         Button2 = New Button()
+        PrintPreviewDialog1 = New PrintPreviewDialog()
+        PrintDocument1 = New Printing.PrintDocument()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         Panel1.SuspendLayout()
         SuspendLayout()
@@ -102,6 +106,7 @@ Partial Class frmBalanceInquiry
         ' 
         ' Panel1
         ' 
+        Panel1.Controls.Add(btnprint)
         Panel1.Controls.Add(Button2)
         Panel1.Controls.Add(Label1)
         Panel1.Controls.Add(lblBalanceAmount)
@@ -111,6 +116,20 @@ Partial Class frmBalanceInquiry
         Panel1.Name = "Panel1"
         Panel1.Size = New Size(631, 383)
         Panel1.TabIndex = 8
+        ' 
+        ' btnprint
+        ' 
+        btnprint.BackColor = Color.FromArgb(CByte(255), CByte(192), CByte(192))
+        btnprint.FlatAppearance.BorderSize = 0
+        btnprint.FlatStyle = FlatStyle.Flat
+        btnprint.Font = New Font("Segoe UI Semibold", 12F, FontStyle.Bold)
+        btnprint.ForeColor = Color.White
+        btnprint.Location = New Point(256, 262)
+        btnprint.Name = "btnprint"
+        btnprint.Size = New Size(134, 35)
+        btnprint.TabIndex = 43
+        btnprint.Text = "Print"
+        btnprint.UseVisualStyleBackColor = False
         ' 
         ' Button2
         ' 
@@ -125,6 +144,16 @@ Partial Class frmBalanceInquiry
         Button2.Text = "   Balance Inquiry"
         Button2.TextAlign = ContentAlignment.MiddleLeft
         Button2.UseVisualStyleBackColor = False
+        ' 
+        ' PrintPreviewDialog1
+        ' 
+        PrintPreviewDialog1.AutoScrollMargin = New Size(0, 0)
+        PrintPreviewDialog1.AutoScrollMinSize = New Size(0, 0)
+        PrintPreviewDialog1.ClientSize = New Size(400, 300)
+        PrintPreviewDialog1.Enabled = True
+        PrintPreviewDialog1.Icon = CType(resources.GetObject("PrintPreviewDialog1.Icon"), Icon)
+        PrintPreviewDialog1.Name = "PrintPreviewDialog1"
+        PrintPreviewDialog1.Visible = False
         ' 
         ' frmBalanceInquiry
         ' 
@@ -153,4 +182,7 @@ Partial Class frmBalanceInquiry
     Friend WithEvents PictureBox1 As PictureBox
     Friend WithEvents Panel1 As Panel
     Friend WithEvents Button2 As Button
+    Friend WithEvents btnprint As Button
+    Friend WithEvents PrintPreviewDialog1 As PrintPreviewDialog
+    Friend WithEvents PrintDocument1 As Printing.PrintDocument
 End Class

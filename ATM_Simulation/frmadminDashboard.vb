@@ -20,7 +20,7 @@
     ' ----------------- Sidebar Button Clicks -----------------
     Private Sub btnUsers_Click(sender As Object, e As EventArgs) Handles btnUsers.Click
         ' Open User Management Form inside PanelMain
-        OpenChildForm(New frmUserManagement())
+        OpenChildForm(New frmUserManagement)
     End Sub
 
     Private Sub btnTransactions_Click(sender As Object, e As EventArgs) Handles btnTransactions.Click
@@ -62,5 +62,9 @@
     Private Sub pctbxLogout_Click(sender As Object, e As EventArgs) Handles pctbxLogout.Click
         frmLogin.Show()
         Me.Close()
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        OpenChildForm(New Frmcustomermanagment)
     End Sub
 End Class

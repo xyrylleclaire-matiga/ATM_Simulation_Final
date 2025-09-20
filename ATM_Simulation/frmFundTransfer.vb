@@ -1,12 +1,18 @@
 ﻿Imports MySql.Data.MySqlClient
+Imports System.Drawing.Printing
 
 Public Class frmFundTransfer
 
-    ' ---------------- BALANCE CHECK () --------------
+    ' ------------------- PRINT VARIABLES -------------------
+    Private receiptAmount As Double
+    Private receiptSender As String
+    Private receiptReceiver As String
+    Private receiptAccNum As String
+
+    ' ---------------- BALANCE CHECK ----------------
     Private Function balanceCheck() As Boolean
         Dim transferAmount As Double
 
-        ' ✅ Empty / numeric / positive
         If String.IsNullOrWhiteSpace(txtAmountTransfer.Text) OrElse
            Not Double.TryParse(txtAmountTransfer.Text.Replace(",", ""), transferAmount) OrElse
            transferAmount <= 0 Then
@@ -16,7 +22,6 @@ Public Class frmFundTransfer
             Return False
         End If
 
-        ' ✅ Minimum transfer
         If transferAmount < 100 Then
             MessageBox.Show("Minimum transfer amount is 100.", "Limit", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             txtAmountTransfer.Clear()
@@ -24,7 +29,6 @@ Public Class frmFundTransfer
             Return False
         End If
 
-        ' ✅ Maximum transfer
         If transferAmount > 10000 Then
             MessageBox.Show("Transfer amount exceeds the maximum limit of 10,000.", "Limit Exceeded", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             txtAmountTransfer.Clear()
@@ -32,14 +36,12 @@ Public Class frmFundTransfer
             Return False
         End If
 
-        ' ✅ Optional multiples check
         If transferAmount Mod 100 <> 0 Then
             MessageBox.Show("Transfer amount must be in multiples of 100.", "Invalid Amount", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             txtAmountTransfer.Focus()
             Return False
         End If
 
-        ' ✅ Balance check
         Try
             Call connection()
             sql = "SELECT BalanceAmount FROM tblaccountbalance WHERE AccountNumber = @acc"
@@ -62,17 +64,20 @@ Public Class frmFundTransfer
         Return True
     End Function
 
-
-    ' ---------------- CHECK ACCOUNT () --------------
+    ' ---------------- CHECK ACCOUNT ----------------
+    ' ---------------- CHECK ACCOUNT (REFACTORED) ----------------
     Private Function checkAccount() As Boolean
-        ' ✅ Empty check
+        ' Clear previous name
+        txtAccountName.Clear()
+
+        ' Check if textbox is empty
         If String.IsNullOrWhiteSpace(txtTargetAccount.Text) Then
             MessageBox.Show("Please enter target account number.", "Missing Input", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             txtTargetAccount.Focus()
             Return False
         End If
 
-        ' ✅ Digits only
+        ' Check if numeric
         If Not IsNumeric(txtTargetAccount.Text) Then
             MessageBox.Show("Account number must be numeric.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             txtTargetAccount.Clear()
@@ -80,16 +85,16 @@ Public Class frmFundTransfer
             Return False
         End If
 
-        ' ✅ Length check (e.g. 10 digits)
-        If txtTargetAccount.Text.Length <> 10 Then
+        ' Check length
+        If txtTargetAccount.Text.Trim().Length <> 10 Then
             MessageBox.Show("Account number must be 10 digits.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             txtTargetAccount.Clear()
             txtTargetAccount.Focus()
             Return False
         End If
 
-        ' ✅ Not own account
-        If txtTargetAccount.Text = LoggedInAccNum Then
+        ' Prevent transfer to self
+        If txtTargetAccount.Text.Trim() = LoggedInAccNum Then
             MessageBox.Show("You cannot transfer to your own account.", "Invalid Account", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             txtTargetAccount.Clear()
             txtAccountName.Clear()
@@ -97,26 +102,40 @@ Public Class frmFundTransfer
             Return False
         End If
 
-        ' ✅ Check existence in DB
-        Call connection()
-        sql = "SELECT CONCAT(FirstName, ' ', MiddleName, ' ', LastName) as FullName 
-               FROM tbluserinfo WHERE AccountNumber = @accTarget"
-        cmd = New MySqlCommand(sql, con)
-        cmd.Parameters.AddWithValue("@accTarget", txtTargetAccount.Text)
-
-        Using dr As MySqlDataReader = cmd.ExecuteReader()
-            If dr.Read Then
-                txtAccountName.Text = dr("FullName").ToString().Trim()
-                Return True
-            Else
-                txtAccountName.Text = "Account Not Found"
-                Return False
+        Try
+            ' Ensure connection is fresh
+            If con Is Nothing Then
+                Call connection()
+            ElseIf con.State = ConnectionState.Closed Then
+                con.Open()
             End If
-        End Using
+
+            ' Use parameterized query with Trim
+            sql = "SELECT CONCAT(FirstName, ' ', MiddleName, ' ', LastName) AS FullName
+               FROM tbluserinfo
+               WHERE TRIM(AccountNumber) = @accTarget LIMIT 1"
+
+            Using cmd As New MySqlCommand(sql, con)
+                cmd.Parameters.AddWithValue("@accTarget", txtTargetAccount.Text.Trim())
+
+                Using dr As MySqlDataReader = cmd.ExecuteReader()
+                    If dr.Read() Then
+                        txtAccountName.Text = dr("FullName").ToString().Trim()
+                        Return True
+                    Else
+                        txtAccountName.Text = "Account Not Found"
+                        Return False
+                    End If
+                End Using
+            End Using
+
+        Catch ex As Exception
+            MessageBox.Show("Error checking account: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Return False
+        End Try
     End Function
 
-
-    ' ---------- TRANSFER TRANSACTION () --------------
+    ' ---------- TRANSFER TRANSACTION ----------------
     Private Sub transferTransaction()
         Dim transferAmount As Double
         If Not Double.TryParse(txtAmountTransfer.Text.Replace(",", ""), transferAmount) OrElse transferAmount <= 0 Then
@@ -125,7 +144,6 @@ Public Class frmFundTransfer
             Return
         End If
 
-        ' ✅ Confirmation bago mag-proceed
         If MessageBox.Show("Are you sure you want to transfer ₱" & transferAmount.ToString("N2") &
                            " to account " & txtTargetAccount.Text & "?", "Confirm Transfer",
                            MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.No Then
@@ -136,7 +154,7 @@ Public Class frmFundTransfer
             Call connection()
             Dim transaction As MySqlTransaction = con.BeginTransaction()
 
-            ' Add to target
+            ' Update target account
             sql = "UPDATE tblaccountbalance SET BalanceAmount = BalanceAmount + @transfer WHERE AccountNumber = @accTarget"
             cmd = New MySqlCommand(sql, con, transaction)
             cmd.Parameters.AddWithValue("@transfer", transferAmount)
@@ -151,7 +169,27 @@ Public Class frmFundTransfer
             Dim rowsAffectedSender As Integer = cmd.ExecuteNonQuery
 
             If rowsAffectedSender > 0 AndAlso rowsAffectedTarget > 0 Then
+                ' Log transaction
+                Dim logCmd As New MySqlCommand("
+INSERT INTO tbltransaction_history (transaction_type, sender_AccountNumber, receiver_AccountNumber, Amount, Status, `Date`) 
+VALUES (@transactiontype, @senderAcc, @receiverAcc, @transfer, 'Success', NOW())", con, transaction)
+                logCmd.Parameters.AddWithValue("@transactiontype", "Fund_Transfer")
+                logCmd.Parameters.AddWithValue("@senderAcc", LoggedInAccNum)
+                logCmd.Parameters.AddWithValue("@receiverAcc", txtTargetAccount.Text)
+                logCmd.Parameters.AddWithValue("@transfer", transferAmount)
+                logCmd.ExecuteNonQuery()
+
                 transaction.Commit()
+
+                ' Set receipt values
+                receiptAmount = transferAmount
+                receiptSender = LoggedInAccNum
+                receiptReceiver = txtTargetAccount.Text
+                receiptAccNum = txtAccountName.Text
+
+                ' Show print preview
+                PrintPreviewDialog1.ShowDialog()
+
                 MessageBox.Show("Transaction Complete!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 txtAmountTransfer.Clear()
                 txtTargetAccount.Clear()
@@ -165,19 +203,26 @@ Public Class frmFundTransfer
         End Try
     End Sub
 
-
     '------------------------------ BUTTONS --------------------
     Private Sub btnTransfer_Click(sender As Object, e As EventArgs) Handles btnTransfer.Click
-        If balanceCheck() = False Then Exit Sub
-        If checkAccount() = False Then
-            MessageBox.Show("The target account number does not exist. Please check and try again.", "Account Not Found", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            txtTargetAccount.Focus()
+        Dim pinForm As New frmVerification()
+        pinForm.ShowDialog()
+        If pinForm.IsPinCorrect Then
+            If balanceCheck() = False Then Exit Sub
+            If checkAccount() = False Then
+                MessageBox.Show("The target account number does not exist. Please check and try again.", "Account Not Found", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                txtTargetAccount.Focus()
+                txtTargetAccount.Clear()
+                txtAmountTransfer.Clear()
+                txtAccountName.Clear()
+                Exit Sub
+            End If
+            transferTransaction()
+        Else
             txtTargetAccount.Clear()
             txtAmountTransfer.Clear()
             txtAccountName.Clear()
-            Exit Sub
         End If
-        transferTransaction()
     End Sub
 
     ' Auto-format amount
@@ -206,4 +251,39 @@ Public Class frmFundTransfer
         End If
     End Sub
 
+    ' ----------------- PRINT DOCUMENT -----------------
+    Private Sub PrintDocument1_PrintPage(sender As Object, e As Printing.PrintPageEventArgs) Handles PrintDocument1.PrintPage
+        Dim fontTitle As New Font("Arial", 14, FontStyle.Bold)
+        Dim fontBody As New Font("Arial", 10)
+        Dim y As Integer = 20
+        Dim lineHeight As Integer = 20
+
+        ' Bank Name
+        e.Graphics.DrawString("1TechKonoligia Bank", fontTitle, Brushes.Black, 100, y)
+        y += lineHeight * 2
+
+        ' Receipt title
+        e.Graphics.DrawString("FUND TRANSFER RECEIPT", fontTitle, Brushes.Black, 80, y)
+        y += lineHeight * 2
+
+        ' Details
+        e.Graphics.DrawString("Date: " & DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), fontBody, Brushes.Black, 20, y)
+        y += lineHeight
+        e.Graphics.DrawString("Sender Account #: " & receiptSender, fontBody, Brushes.Black, 20, y)
+        y += lineHeight
+        e.Graphics.DrawString("Receiver Account #: " & receiptReceiver, fontBody, Brushes.Black, 20, y)
+        y += lineHeight
+        e.Graphics.DrawString("Receiver Name: " & receiptAccNum, fontBody, Brushes.Black, 20, y)
+        y += lineHeight
+        e.Graphics.DrawString("Amount Transferred: ₱" & receiptAmount.ToString("N2"), fontBody, Brushes.Black, 20, y)
+        y += lineHeight
+        e.Graphics.DrawString("Status: Success", fontBody, Brushes.Black, 20, y)
+        y += lineHeight * 2
+
+        e.Graphics.DrawString("Thank you for banking with us!", fontBody, Brushes.Black, 20, y)
+    End Sub
+
+    Private Sub PictureBox1_Click(sender As Object, e As EventArgs) Handles PictureBox1.Click
+
+    End Sub
 End Class

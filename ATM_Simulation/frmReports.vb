@@ -1,39 +1,41 @@
-﻿Imports System.Data
+﻿Imports MySql.Data.MySqlClient
+Imports System.Data
 
 Public Class frmReports
 
     Private dtReports As New DataTable
 
     Private Sub frmReports_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ' Setup DataGridView
-        dgvReports.DataSource = dtReports
-        dgvReports.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-        dgvReports.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+        LoadReports()
+    End Sub
 
-        ' Create sample columns
-        dtReports.Columns.Add("ID")
-        dtReports.Columns.Add("Status")
-        dtReports.Columns.Add("Description")
+    Private Sub LoadReports()
+        dtReports.Clear()
+        Try
+            dbConnection.connection() ' open connection
+            Dim sql As String = "SELECT transaction_number, transaction_type, sender_AccountNumber, receiver_AccountNumber, Amount, Status, Date FROM tbltransaction_history"
+            Dim da As New MySqlDataAdapter(sql, dbConnection.con)
+            da.Fill(dtReports)
 
-        ' Add sample data
-        dtReports.Rows.Add(1, "Completed", "Report 1")
-        dtReports.Rows.Add(2, "Failed", "Report 2")
-        dtReports.Rows.Add(3, "Completed", "Report 3")
-        dtReports.Rows.Add(4, "Completed", "Report 4")
-        dtReports.Rows.Add(5, "Failed", "Report 5")
+            dgvReports.DataSource = dtReports
+            dgvReports.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+            dgvReports.SelectionMode = DataGridViewSelectionMode.FullRowSelect
 
-        ' Update counters
-        UpdateCounters()
+            UpdateCounters()
+
+        Catch ex As Exception
+            MsgBox("Error loading reports: " & ex.Message)
+        End Try
     End Sub
 
     Private Sub UpdateCounters()
         Dim total As Integer = dtReports.Rows.Count
-        Dim completed As Integer = dtReports.Select("Status='Completed'").Length
-        Dim failed As Integer = dtReports.Select("Status='Failed'").Length
+        Dim successCount As Integer = dtReports.Select("Status='Success'").Length
+        Dim failedCount As Integer = dtReports.Select("Status<>'Success'").Length
 
         lblTotalTransactions.Text = $"Total Transactions: {total}"
-        lblCompleted.Text = $"Completed: {completed}"
-        lblFailed.Text = $"Failed: {failed}"
+        lblCompleted.Text = $"Success: {successCount}"
+        lblFailed.Text = $"Failed: {failedCount}"
     End Sub
 
     Private Sub txtSearch_TextChanged(sender As Object, e As EventArgs) Handles txtSearch.TextChanged
@@ -42,7 +44,7 @@ Public Class frmReports
             dgvReports.DataSource = dtReports
         Else
             Dim dv As New DataView(dtReports)
-            dv.RowFilter = $"Description LIKE '%{filter}%' OR Status LIKE '%{filter}%'"
+            dv.RowFilter = $"transaction_number LIKE '%{filter}%' OR transaction_type LIKE '%{filter}%' OR sender_AccountNumber LIKE '%{filter}%' OR receiver_AccountNumber LIKE '%{filter}%'"
             dgvReports.DataSource = dv
         End If
     End Sub

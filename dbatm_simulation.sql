@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 16, 2025 at 03:22 AM
+-- Generation Time: Sep 19, 2025 at 10:00 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -29,7 +29,8 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `tblaccountbalance` (
   `Account_id` int(11) NOT NULL,
-  `AccountNumber` int(11) NOT NULL,
+  `AccountNumber` varchar(255) NOT NULL,
+  `AccountStatus` enum('Active','Inactive','Deactivated','') NOT NULL,
   `BalanceAmount` decimal(12,2) NOT NULL DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -37,9 +38,9 @@ CREATE TABLE `tblaccountbalance` (
 -- Dumping data for table `tblaccountbalance`
 --
 
-INSERT INTO `tblaccountbalance` (`Account_id`, `AccountNumber`, `BalanceAmount`) VALUES
-(1001, 12345678, 5985.50),
-(1002, 12345679, 101000.00);
+INSERT INTO `tblaccountbalance` (`Account_id`, `AccountNumber`, `AccountStatus`, `BalanceAmount`) VALUES
+(1001, '0001234567', 'Active', 2600.00),
+(1002, '9876543210', 'Active', 1500.00);
 
 -- --------------------------------------------------------
 
@@ -97,12 +98,33 @@ CREATE TABLE `tblsettings` (
 
 CREATE TABLE `tbltransaction_history` (
   `transaction_number` int(11) NOT NULL,
-  `sender_AccountNumber` int(11) NOT NULL,
-  `receiver_AccountNumber` int(11) NOT NULL,
+  `transaction_type` enum('Withdrawal','Deposit','Fund_Transfer') NOT NULL,
+  `sender_AccountNumber` varchar(255) DEFAULT NULL,
+  `receiver_AccountNumber` varchar(255) DEFAULT NULL,
   `Amount` int(11) NOT NULL,
   `Status` varchar(50) NOT NULL,
   `Date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbltransaction_history`
+--
+
+INSERT INTO `tbltransaction_history` (`transaction_number`, `transaction_type`, `sender_AccountNumber`, `receiver_AccountNumber`, `Amount`, `Status`, `Date`) VALUES
+(1, '', '0001234567', NULL, 500, 'Success', '2025-09-19 11:31:42'),
+(2, 'Withdrawal', '0001234567', NULL, 500, 'Success', '2025-09-19 11:34:04'),
+(3, 'Withdrawal', '0001234567', NULL, 200, 'Success', '2025-09-19 11:34:40'),
+(4, 'Withdrawal', '0001234567', NULL, 1500, 'Success', '2025-09-19 12:09:29'),
+(5, 'Withdrawal', '0001234567', NULL, 500, 'Success', '2025-09-19 13:01:03'),
+(6, 'Withdrawal', '0001234567', NULL, 500, 'Success', '2025-09-19 13:03:20'),
+(7, 'Withdrawal', '0001234567', NULL, 1000, 'Success', '2025-09-19 13:06:30'),
+(8, 'Deposit', NULL, '0001234567', 100, 'Success', '2025-09-19 13:24:42'),
+(9, 'Deposit', NULL, '0001234567', 100, 'Success', '2025-09-19 13:25:13'),
+(10, 'Fund_Transfer', '0001234567', '9876543210', 100, 'Success', '2025-09-19 13:54:00'),
+(11, 'Fund_Transfer', '0001234567', '9876543210', 100, 'Success', '2025-09-19 14:51:29'),
+(12, 'Deposit', NULL, '0001234567', 100, 'Success', '2025-09-19 15:00:53'),
+(13, 'Withdrawal', '0001234567', NULL, 500, 'Success', '2025-09-19 15:01:42'),
+(14, 'Fund_Transfer', '0001234567', '9876543210', 100, 'Success', '2025-09-19 15:02:43');
 
 -- --------------------------------------------------------
 
@@ -111,7 +133,7 @@ CREATE TABLE `tbltransaction_history` (
 --
 
 CREATE TABLE `tbluserinfo` (
-  `AccountNumber` int(20) NOT NULL,
+  `AccountNumber` varchar(255) NOT NULL,
   `FirstName` varchar(255) NOT NULL,
   `LastName` varchar(255) NOT NULL,
   `MiddleName` varchar(255) NOT NULL,
@@ -127,9 +149,9 @@ CREATE TABLE `tbluserinfo` (
 --
 
 INSERT INTO `tbluserinfo` (`AccountNumber`, `FirstName`, `LastName`, `MiddleName`, `EmailAddress`, `ContactNumber`, `PIN`, `attempts`, `Role`) VALUES
-(1111, 'Admin', '  ', '  ', 'admin@gmail.com', 90900909, 11, 0, 'Admin'),
-(12345678, 'Sean', 'Dope', 'Ty', 'SeanTyDope@gmail.com', 99999992, 0, 3, 'User'),
-(12345679, 'Shoyou', 'Shish', 'Sho', 'shoyou@gmail.com', 90900909, 111111, 3, 'User');
+('0001234567', 'Sean', 'Dope', 'Ty', 'SeanTyDope@gmail.com', 99999992, 0, 3, 'User'),
+('1000000001', 'Admin', '  ', '  ', 'admin@gmail.com', 90900909, 11, 0, 'Admin'),
+('9876543210', 'Shoyou', 'Shish', 'Sho', 'shoyou@gmail.com', 90900909, 111111, 3, 'User');
 
 --
 -- Indexes for dumped tables
@@ -199,10 +221,10 @@ ALTER TABLE `tblsettings`
   MODIFY `SettingID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `tbluserinfo`
+-- AUTO_INCREMENT for table `tbltransaction_history`
 --
-ALTER TABLE `tbluserinfo`
-  MODIFY `AccountNumber` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12345680;
+ALTER TABLE `tbltransaction_history`
+  MODIFY `transaction_number` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Constraints for dumped tables

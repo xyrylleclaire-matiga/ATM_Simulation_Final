@@ -54,13 +54,15 @@ Partial Class frmWithdrawal
         lblNo3 = New Label()
         lblNo2 = New Label()
         lblNo1 = New Label()
-        PictureBox2 = New PictureBox()
+        pctNumpad = New PictureBox()
         Button1 = New Button()
+        PrintDocument1 = New Printing.PrintDocument()
+        PrintPreviewDialog1 = New PrintPreviewDialog()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         Panel2.SuspendLayout()
         Panel3.SuspendLayout()
         Panel1.SuspendLayout()
-        CType(PictureBox2, ComponentModel.ISupportInitialize).BeginInit()
+        CType(pctNumpad, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' Label1
@@ -216,7 +218,7 @@ Partial Class frmWithdrawal
         Panel1.Controls.Add(lblNo3)
         Panel1.Controls.Add(lblNo2)
         Panel1.Controls.Add(lblNo1)
-        Panel1.Controls.Add(PictureBox2)
+        Panel1.Controls.Add(pctNumpad)
         Panel1.Location = New Point(214, 216)
         Panel1.Name = "Panel1"
         Panel1.Size = New Size(423, 183)
@@ -474,15 +476,15 @@ Partial Class frmWithdrawal
         lblNo1.TabIndex = 35
         lblNo1.Text = "1"
         ' 
-        ' PictureBox2
+        ' pctNumpad
         ' 
-        PictureBox2.Image = CType(resources.GetObject("PictureBox2.Image"), Image)
-        PictureBox2.Location = New Point(73, 8)
-        PictureBox2.Name = "PictureBox2"
-        PictureBox2.Size = New Size(140, 169)
-        PictureBox2.SizeMode = PictureBoxSizeMode.StretchImage
-        PictureBox2.TabIndex = 52
-        PictureBox2.TabStop = False
+        pctNumpad.Image = CType(resources.GetObject("pctNumpad.Image"), Image)
+        pctNumpad.Location = New Point(73, 8)
+        pctNumpad.Name = "pctNumpad"
+        pctNumpad.Size = New Size(140, 169)
+        pctNumpad.SizeMode = PictureBoxSizeMode.StretchImage
+        pctNumpad.TabIndex = 52
+        pctNumpad.TabStop = False
         ' 
         ' Button1
         ' 
@@ -497,6 +499,20 @@ Partial Class frmWithdrawal
         Button1.Text = "   Withdraw "
         Button1.TextAlign = ContentAlignment.MiddleLeft
         Button1.UseVisualStyleBackColor = False
+        ' 
+        ' PrintDocument1
+        ' 
+        ' 
+        ' PrintPreviewDialog1
+        ' 
+        PrintPreviewDialog1.AutoScrollMargin = New Size(0, 0)
+        PrintPreviewDialog1.AutoScrollMinSize = New Size(0, 0)
+        PrintPreviewDialog1.ClientSize = New Size(400, 300)
+        PrintPreviewDialog1.Document = PrintDocument1
+        PrintPreviewDialog1.Enabled = True
+        PrintPreviewDialog1.Icon = CType(resources.GetObject("PrintPreviewDialog1.Icon"), Icon)
+        PrintPreviewDialog1.Name = "PrintPreviewDialog1"
+        PrintPreviewDialog1.Visible = False
         ' 
         ' frmWithdrawal
         ' 
@@ -517,7 +533,7 @@ Partial Class frmWithdrawal
         Panel3.ResumeLayout(False)
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()
-        CType(PictureBox2, ComponentModel.ISupportInitialize).EndInit()
+        CType(pctNumpad, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
 
     End Sub
@@ -543,7 +559,7 @@ Partial Class frmWithdrawal
     Friend WithEvents lblNo3 As Label
     Friend WithEvents lblNo2 As Label
     Friend WithEvents lblNo1 As Label
-    Friend WithEvents PictureBox2 As PictureBox
+    Friend WithEvents pctNumpad As PictureBox
     Friend WithEvents Button1 As Button
     Friend WithEvents lblClear As Label
     Friend WithEvents lblDel As Label
@@ -558,5 +574,7 @@ Partial Class frmWithdrawal
     Friend WithEvents btn10000 As Button
     Friend WithEvents btn5000 As Button
     Friend WithEvents lblDecimal As Label
+    Friend WithEvents PrintDocument1 As Printing.PrintDocument
+    Friend WithEvents PrintPreviewDialog1 As PrintPreviewDialog
 
 End Class
