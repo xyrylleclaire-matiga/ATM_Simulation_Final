@@ -75,7 +75,7 @@ Partial Class frmAdminDashboard
         Button1.Dock = DockStyle.Top
         Button1.FlatAppearance.BorderSize = 0
         Button1.FlatStyle = FlatStyle.Flat
-        Button1.Font = New Font("Segoe UI", 11.0F, FontStyle.Bold)
+        Button1.Font = New Font("Segoe UI", 11F, FontStyle.Bold)
         Button1.ForeColor = Color.White
         Button1.Location = New Point(0, 240)
         Button1.Name = "Button1"
@@ -100,7 +100,7 @@ Partial Class frmAdminDashboard
         btnUsers.Dock = DockStyle.Top
         btnUsers.FlatAppearance.BorderSize = 0
         btnUsers.FlatStyle = FlatStyle.Flat
-        btnUsers.Font = New Font("Segoe UI", 11.0F, FontStyle.Bold)
+        btnUsers.Font = New Font("Segoe UI", 11F, FontStyle.Bold)
         btnUsers.ForeColor = Color.White
         btnUsers.Location = New Point(0, 180)
         btnUsers.Name = "btnUsers"
@@ -115,7 +115,7 @@ Partial Class frmAdminDashboard
         btnTransactions.Dock = DockStyle.Top
         btnTransactions.FlatAppearance.BorderSize = 0
         btnTransactions.FlatStyle = FlatStyle.Flat
-        btnTransactions.Font = New Font("Segoe UI", 11.0F, FontStyle.Bold)
+        btnTransactions.Font = New Font("Segoe UI", 11F, FontStyle.Bold)
         btnTransactions.ForeColor = Color.White
         btnTransactions.Location = New Point(0, 120)
         btnTransactions.Name = "btnTransactions"
@@ -130,7 +130,7 @@ Partial Class frmAdminDashboard
         btnReports.Dock = DockStyle.Top
         btnReports.FlatAppearance.BorderSize = 0
         btnReports.FlatStyle = FlatStyle.Flat
-        btnReports.Font = New Font("Segoe UI", 11.0F, FontStyle.Bold)
+        btnReports.Font = New Font("Segoe UI", 11F, FontStyle.Bold)
         btnReports.ForeColor = Color.White
         btnReports.Location = New Point(0, 60)
         btnReports.Name = "btnReports"
@@ -145,7 +145,7 @@ Partial Class frmAdminDashboard
         btnSettings.Dock = DockStyle.Top
         btnSettings.FlatAppearance.BorderSize = 0
         btnSettings.FlatStyle = FlatStyle.Flat
-        btnSettings.Font = New Font("Segoe UI", 11.0F, FontStyle.Bold)
+        btnSettings.Font = New Font("Segoe UI", 11F, FontStyle.Bold)
         btnSettings.ForeColor = Color.White
         btnSettings.Location = New Point(0, 0)
         btnSettings.Name = "btnSettings"
@@ -163,12 +163,12 @@ Partial Class frmAdminDashboard
         PanelHeader.Dock = DockStyle.Top
         PanelHeader.Location = New Point(220, 0)
         PanelHeader.Name = "PanelHeader"
-        PanelHeader.Size = New Size(880, 70)
+        PanelHeader.Size = New Size(1005, 70)
         PanelHeader.TabIndex = 1
         ' 
         ' lblHeader
         ' 
-        lblHeader.Font = New Font("Segoe UI", 18.0F, FontStyle.Bold)
+        lblHeader.Font = New Font("Segoe UI", 18F, FontStyle.Bold)
         lblHeader.ForeColor = Color.White
         lblHeader.Location = New Point(20, 20)
         lblHeader.Name = "lblHeader"
@@ -182,9 +182,9 @@ Partial Class frmAdminDashboard
         btnLogout.BackColor = Color.FromArgb(CByte(231), CByte(76), CByte(60))
         btnLogout.FlatAppearance.BorderSize = 0
         btnLogout.FlatStyle = FlatStyle.Flat
-        btnLogout.Font = New Font("Segoe UI", 10.0F, FontStyle.Bold)
+        btnLogout.Font = New Font("Segoe UI", 10F, FontStyle.Bold)
         btnLogout.ForeColor = Color.White
-        btnLogout.Location = New Point(880, 20)
+        btnLogout.Location = New Point(1005, 20)
         btnLogout.Name = "btnLogout"
         btnLogout.Size = New Size(90, 35)
         btnLogout.TabIndex = 1
@@ -201,7 +201,7 @@ Partial Class frmAdminDashboard
         PanelMain.Location = New Point(220, 70)
         PanelMain.Name = "PanelMain"
         PanelMain.Padding = New Padding(30)
-        PanelMain.Size = New Size(880, 580)
+        PanelMain.Size = New Size(1005, 580)
         PanelMain.TabIndex = 0
         ' 
         ' pnlTotalUsers
@@ -209,14 +209,14 @@ Partial Class frmAdminDashboard
         pnlTotalUsers.BackColor = Color.White
         pnlTotalUsers.BorderStyle = BorderStyle.FixedSingle
         pnlTotalUsers.Controls.Add(lblTotalUsers)
-        pnlTotalUsers.Location = New Point(30, 30)
+        pnlTotalUsers.Location = New Point(84, 30)
         pnlTotalUsers.Name = "pnlTotalUsers"
         pnlTotalUsers.Size = New Size(250, 130)
         pnlTotalUsers.TabIndex = 0
         ' 
         ' lblTotalUsers
         ' 
-        lblTotalUsers.Font = New Font("Segoe UI", 12.0F, FontStyle.Bold)
+        lblTotalUsers.Font = New Font("Segoe UI", 12F, FontStyle.Bold)
         lblTotalUsers.ForeColor = Color.FromArgb(CByte(52), CByte(152), CByte(219))
         lblTotalUsers.Location = New Point(20, 20)
         lblTotalUsers.Name = "lblTotalUsers"
@@ -229,14 +229,14 @@ Partial Class frmAdminDashboard
         pnlTotalTransactions.BackColor = Color.White
         pnlTotalTransactions.BorderStyle = BorderStyle.FixedSingle
         pnlTotalTransactions.Controls.Add(lblTotalTransactions)
-        pnlTotalTransactions.Location = New Point(310, 30)
+        pnlTotalTransactions.Location = New Point(364, 30)
         pnlTotalTransactions.Name = "pnlTotalTransactions"
         pnlTotalTransactions.Size = New Size(250, 130)
         pnlTotalTransactions.TabIndex = 1
         ' 
         ' lblTotalTransactions
         ' 
-        lblTotalTransactions.Font = New Font("Segoe UI", 12.0F, FontStyle.Bold)
+        lblTotalTransactions.Font = New Font("Segoe UI", 12F, FontStyle.Bold)
         lblTotalTransactions.ForeColor = Color.FromArgb(CByte(46), CByte(204), CByte(113))
         lblTotalTransactions.Location = New Point(20, 20)
         lblTotalTransactions.Name = "lblTotalTransactions"
@@ -249,14 +249,14 @@ Partial Class frmAdminDashboard
         pnlSystemStatus.BackColor = Color.White
         pnlSystemStatus.BorderStyle = BorderStyle.FixedSingle
         pnlSystemStatus.Controls.Add(lblSystemStatus)
-        pnlSystemStatus.Location = New Point(590, 30)
+        pnlSystemStatus.Location = New Point(644, 30)
         pnlSystemStatus.Name = "pnlSystemStatus"
         pnlSystemStatus.Size = New Size(250, 130)
         pnlSystemStatus.TabIndex = 2
         ' 
         ' lblSystemStatus
         ' 
-        lblSystemStatus.Font = New Font("Segoe UI", 12.0F, FontStyle.Bold)
+        lblSystemStatus.Font = New Font("Segoe UI", 12F, FontStyle.Bold)
         lblSystemStatus.ForeColor = Color.FromArgb(CByte(231), CByte(76), CByte(60))
         lblSystemStatus.Location = New Point(20, 20)
         lblSystemStatus.Name = "lblSystemStatus"
@@ -266,7 +266,7 @@ Partial Class frmAdminDashboard
         ' 
         ' frmAdminDashboard
         ' 
-        ClientSize = New Size(1100, 650)
+        ClientSize = New Size(1225, 650)
         Controls.Add(PanelMain)
         Controls.Add(PanelHeader)
         Controls.Add(PanelSidebar)

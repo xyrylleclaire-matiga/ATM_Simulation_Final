@@ -18,10 +18,13 @@ Partial Class frmTransactions
         lblTitle = New Label()
         pnlTotal = New Panel()
         lblTotal = New Label()
+        Label2 = New Label()
         pnlSuccessful = New Panel()
         lblSuccessful = New Label()
+        Label1 = New Label()
         pnlFailed = New Panel()
         lblFailed = New Label()
+        Label3 = New Label()
         txtSearch = New TextBox()
         dgvTransactions = New DataGridView()
         pnlTotal.SuspendLayout()
@@ -46,6 +49,7 @@ Partial Class frmTransactions
         pnlTotal.BackColor = Color.White
         pnlTotal.BorderStyle = BorderStyle.FixedSingle
         pnlTotal.Controls.Add(lblTotal)
+        pnlTotal.Controls.Add(Label2)
         pnlTotal.Location = New Point(20, 70)
         pnlTotal.Name = "pnlTotal"
         pnlTotal.Size = New Size(220, 100)
@@ -55,17 +59,28 @@ Partial Class frmTransactions
         ' 
         lblTotal.Font = New Font("Segoe UI", 11F, FontStyle.Bold)
         lblTotal.ForeColor = Color.FromArgb(CByte(52), CByte(152), CByte(219))
-        lblTotal.Location = New Point(15, 20)
+        lblTotal.Location = New Point(47, 20)
         lblTotal.Name = "lblTotal"
-        lblTotal.Size = New Size(100, 23)
+        lblTotal.Size = New Size(41, 23)
         lblTotal.TabIndex = 0
-        lblTotal.Text = "Total: 0"
+        lblTotal.Text = "0"
+        ' 
+        ' Label2
+        ' 
+        Label2.Font = New Font("Segoe UI", 11F, FontStyle.Bold)
+        Label2.ForeColor = Color.FromArgb(CByte(52), CByte(152), CByte(219))
+        Label2.Location = New Point(3, 20)
+        Label2.Name = "Label2"
+        Label2.Size = New Size(50, 23)
+        Label2.TabIndex = 1
+        Label2.Text = "Total:"
         ' 
         ' pnlSuccessful
         ' 
         pnlSuccessful.BackColor = Color.White
         pnlSuccessful.BorderStyle = BorderStyle.FixedSingle
         pnlSuccessful.Controls.Add(lblSuccessful)
+        pnlSuccessful.Controls.Add(Label1)
         pnlSuccessful.Location = New Point(260, 70)
         pnlSuccessful.Name = "pnlSuccessful"
         pnlSuccessful.Size = New Size(220, 100)
@@ -75,17 +90,28 @@ Partial Class frmTransactions
         ' 
         lblSuccessful.Font = New Font("Segoe UI", 11F, FontStyle.Bold)
         lblSuccessful.ForeColor = Color.FromArgb(CByte(46), CByte(204), CByte(113))
-        lblSuccessful.Location = New Point(15, 20)
+        lblSuccessful.Location = New Point(83, 20)
         lblSuccessful.Name = "lblSuccessful"
-        lblSuccessful.Size = New Size(100, 23)
+        lblSuccessful.Size = New Size(46, 23)
         lblSuccessful.TabIndex = 0
-        lblSuccessful.Text = "Successful: 0"
+        lblSuccessful.Text = "0"
+        ' 
+        ' Label1
+        ' 
+        Label1.Font = New Font("Segoe UI", 11F, FontStyle.Bold)
+        Label1.ForeColor = Color.FromArgb(CByte(46), CByte(204), CByte(113))
+        Label1.Location = New Point(3, 20)
+        Label1.Name = "Label1"
+        Label1.Size = New Size(92, 23)
+        Label1.TabIndex = 1
+        Label1.Text = "Successful:"
         ' 
         ' pnlFailed
         ' 
         pnlFailed.BackColor = Color.White
         pnlFailed.BorderStyle = BorderStyle.FixedSingle
         pnlFailed.Controls.Add(lblFailed)
+        pnlFailed.Controls.Add(Label3)
         pnlFailed.Location = New Point(500, 70)
         pnlFailed.Name = "pnlFailed"
         pnlFailed.Size = New Size(220, 100)
@@ -95,11 +121,21 @@ Partial Class frmTransactions
         ' 
         lblFailed.Font = New Font("Segoe UI", 11F, FontStyle.Bold)
         lblFailed.ForeColor = Color.FromArgb(CByte(231), CByte(76), CByte(60))
-        lblFailed.Location = New Point(15, 20)
+        lblFailed.Location = New Point(54, 20)
         lblFailed.Name = "lblFailed"
-        lblFailed.Size = New Size(100, 23)
+        lblFailed.Size = New Size(47, 23)
         lblFailed.TabIndex = 0
-        lblFailed.Text = "Failed: 0"
+        lblFailed.Text = "0"
+        ' 
+        ' Label3
+        ' 
+        Label3.Font = New Font("Segoe UI", 11F, FontStyle.Bold)
+        Label3.ForeColor = Color.FromArgb(CByte(231), CByte(76), CByte(60))
+        Label3.Location = New Point(3, 20)
+        Label3.Name = "Label3"
+        Label3.Size = New Size(56, 23)
+        Label3.TabIndex = 1
+        Label3.Text = "Failed:"
         ' 
         ' txtSearch
         ' 
@@ -144,4 +180,8 @@ Partial Class frmTransactions
         ResumeLayout(False)
         PerformLayout()
     End Sub
+
+    Private WithEvents Label1 As Label
+    Private WithEvents Label2 As Label
+    Private WithEvents Label3 As Label
 End Class

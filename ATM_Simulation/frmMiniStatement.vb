@@ -15,7 +15,8 @@ Public Class frmMiniStatement
         cmd = New MySqlCommand(sql, con)
         cmd.Parameters.AddWithValue("@acc", LoggedInAccNum)
         cmd.Parameters.AddWithValue("@startDate", dtFrom.Value.Date)
-        cmd.Parameters.AddWithValue("@endDate", dtTo.Value.Date)
+        cmd.Parameters.AddWithValue("@endDate", dtTo.Value.Date.AddDays(1).AddSeconds(-1))
+
 
         dr = cmd.ExecuteReader
         ListView1.Items.Clear()
@@ -77,7 +78,7 @@ Public Class frmMiniStatement
         cmd = New MySqlCommand(sql, con)
         cmd.Parameters.AddWithValue("@acc", LoggedInAccNum)
         cmd.Parameters.AddWithValue("@startDate", dtFrom.Value.Date)
-        cmd.Parameters.AddWithValue("@endDate", dtTo.Value.Date)
+        cmd.Parameters.AddWithValue("@endDate", dtTo.Value.Date.AddDays(1).AddSeconds(-1))
         dr = cmd.ExecuteReader
 
         ListView1.Items.Clear()

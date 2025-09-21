@@ -39,12 +39,12 @@ Partial Class frmLogin
         PictureBox5 = New PictureBox()
         PictureBox1 = New PictureBox()
         Panel2 = New Panel()
+        lblRole = New Label()
         lblAttempts = New Label()
         PictureBox3 = New PictureBox()
         PictureBox4 = New PictureBox()
         Label4 = New Label()
         PictureBox2 = New PictureBox()
-        lblRole = New Label()
         Panel1.SuspendLayout()
         CType(PictureBox5, ComponentModel.ISupportInitialize).BeginInit()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
@@ -417,6 +417,16 @@ Partial Class frmLogin
         Panel2.Size = New Size(604, 399)
         Panel2.TabIndex = 37
         ' 
+        ' lblRole
+        ' 
+        lblRole.AutoSize = True
+        lblRole.Location = New Point(499, 197)
+        lblRole.Name = "lblRole"
+        lblRole.Size = New Size(12, 15)
+        lblRole.TabIndex = 16
+        lblRole.Text = "-"
+        lblRole.Visible = False
+        ' 
         ' lblAttempts
         ' 
         lblAttempts.AutoSize = True
@@ -470,16 +480,6 @@ Partial Class frmLogin
         PictureBox2.SizeMode = PictureBoxSizeMode.StretchImage
         PictureBox2.TabIndex = 10
         PictureBox2.TabStop = False
-        ' 
-        ' lblRole
-        ' 
-        lblRole.AutoSize = True
-        lblRole.Location = New Point(499, 197)
-        lblRole.Name = "lblRole"
-        lblRole.Size = New Size(30, 15)
-        lblRole.TabIndex = 16
-        lblRole.Text = "Role"
-        lblRole.Visible = False
         ' 
         ' frmLogin
         ' 

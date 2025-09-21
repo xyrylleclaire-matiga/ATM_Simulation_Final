@@ -108,10 +108,10 @@ Partial Class Frmcustomermanagment
         grpForm.Controls.Add(txtEmail)
         grpForm.Controls.Add(lblContact)
         grpForm.Controls.Add(txtContact)
-        grpForm.Font = New Font("Segoe UI", 9F)
+        grpForm.Font = New Font("Arial Rounded MT Bold", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         grpForm.Location = New Point(8, 8)
         grpForm.Name = "grpForm"
-        grpForm.Size = New Size(304, 420)
+        grpForm.Size = New Size(304, 445)
         grpForm.TabIndex = 0
         grpForm.TabStop = False
         grpForm.Text = "Customer Details"
@@ -119,15 +119,15 @@ Partial Class Frmcustomermanagment
         ' Label1
         ' 
         Label1.AutoSize = True
-        Label1.Location = New Point(12, 373)
+        Label1.Location = New Point(11, 381)
         Label1.Name = "Label1"
-        Label1.Size = New Size(52, 15)
+        Label1.Size = New Size(66, 15)
         Label1.TabIndex = 17
-        Label1.Text = "Attemps"
+        Label1.Text = "Attempts"
         ' 
         ' txtattempts
         ' 
-        txtattempts.Location = New Point(13, 391)
+        txtattempts.Location = New Point(12, 399)
         txtattempts.Name = "txtattempts"
         txtattempts.Size = New Size(276, 23)
         txtattempts.TabIndex = 16
@@ -135,15 +135,15 @@ Partial Class Frmcustomermanagment
         ' lblAccountNumber
         ' 
         lblAccountNumber.AutoSize = True
-        lblAccountNumber.Location = New Point(12, 19)
+        lblAccountNumber.Location = New Point(11, 27)
         lblAccountNumber.Name = "lblAccountNumber"
-        lblAccountNumber.Size = New Size(99, 15)
+        lblAccountNumber.Size = New Size(116, 15)
         lblAccountNumber.TabIndex = 0
         lblAccountNumber.Text = "Account Number"
         ' 
         ' txtAccountNumber
         ' 
-        txtAccountNumber.Location = New Point(12, 37)
+        txtAccountNumber.Location = New Point(11, 45)
         txtAccountNumber.Name = "txtAccountNumber"
         txtAccountNumber.ReadOnly = True
         txtAccountNumber.Size = New Size(276, 23)
@@ -152,15 +152,15 @@ Partial Class Frmcustomermanagment
         ' lblFirstName
         ' 
         lblFirstName.AutoSize = True
-        lblFirstName.Location = New Point(12, 63)
+        lblFirstName.Location = New Point(11, 71)
         lblFirstName.Name = "lblFirstName"
-        lblFirstName.Size = New Size(64, 15)
+        lblFirstName.Size = New Size(78, 15)
         lblFirstName.TabIndex = 2
         lblFirstName.Text = "First Name"
         ' 
         ' txtFirstName
         ' 
-        txtFirstName.Location = New Point(12, 81)
+        txtFirstName.Location = New Point(11, 89)
         txtFirstName.Name = "txtFirstName"
         txtFirstName.Size = New Size(276, 23)
         txtFirstName.TabIndex = 3
@@ -168,15 +168,15 @@ Partial Class Frmcustomermanagment
         ' lblLastName
         ' 
         lblLastName.AutoSize = True
-        lblLastName.Location = New Point(13, 107)
+        lblLastName.Location = New Point(12, 115)
         lblLastName.Name = "lblLastName"
-        lblLastName.Size = New Size(63, 15)
+        lblLastName.Size = New Size(76, 15)
         lblLastName.TabIndex = 4
         lblLastName.Text = "Last Name"
         ' 
         ' txtLastName
         ' 
-        txtLastName.Location = New Point(13, 125)
+        txtLastName.Location = New Point(12, 133)
         txtLastName.Name = "txtLastName"
         txtLastName.Size = New Size(276, 23)
         txtLastName.TabIndex = 5
@@ -184,15 +184,15 @@ Partial Class Frmcustomermanagment
         ' lblMiddleName
         ' 
         lblMiddleName.AutoSize = True
-        lblMiddleName.Location = New Point(13, 151)
+        lblMiddleName.Location = New Point(12, 159)
         lblMiddleName.Name = "lblMiddleName"
-        lblMiddleName.Size = New Size(79, 15)
+        lblMiddleName.Size = New Size(91, 15)
         lblMiddleName.TabIndex = 6
         lblMiddleName.Text = "Middle Name"
         ' 
         ' txtMiddleName
         ' 
-        txtMiddleName.Location = New Point(13, 169)
+        txtMiddleName.Location = New Point(12, 177)
         txtMiddleName.Name = "txtMiddleName"
         txtMiddleName.Size = New Size(276, 23)
         txtMiddleName.TabIndex = 7
@@ -200,15 +200,15 @@ Partial Class Frmcustomermanagment
         ' lblPIN
         ' 
         lblPIN.AutoSize = True
-        lblPIN.Location = New Point(13, 195)
+        lblPIN.Location = New Point(12, 203)
         lblPIN.Name = "lblPIN"
-        lblPIN.Size = New Size(26, 15)
+        lblPIN.Size = New Size(30, 15)
         lblPIN.TabIndex = 8
         lblPIN.Text = "PIN"
         ' 
         ' txtPIN
         ' 
-        txtPIN.Location = New Point(12, 213)
+        txtPIN.Location = New Point(11, 221)
         txtPIN.Name = "txtPIN"
         txtPIN.Size = New Size(276, 23)
         txtPIN.TabIndex = 9
@@ -217,9 +217,9 @@ Partial Class Frmcustomermanagment
         ' lblRole
         ' 
         lblRole.AutoSize = True
-        lblRole.Location = New Point(12, 239)
+        lblRole.Location = New Point(11, 247)
         lblRole.Name = "lblRole"
-        lblRole.Size = New Size(30, 15)
+        lblRole.Size = New Size(36, 15)
         lblRole.TabIndex = 10
         lblRole.Text = "Role"
         ' 
@@ -227,7 +227,7 @@ Partial Class Frmcustomermanagment
         ' 
         cmbRole.DropDownStyle = ComboBoxStyle.DropDownList
         cmbRole.Items.AddRange(New Object() {"User", "Admin"})
-        cmbRole.Location = New Point(12, 257)
+        cmbRole.Location = New Point(11, 265)
         cmbRole.Name = "cmbRole"
         cmbRole.Size = New Size(276, 23)
         cmbRole.TabIndex = 11
@@ -235,15 +235,15 @@ Partial Class Frmcustomermanagment
         ' lblEmail
         ' 
         lblEmail.AutoSize = True
-        lblEmail.Location = New Point(12, 283)
+        lblEmail.Location = New Point(11, 291)
         lblEmail.Name = "lblEmail"
-        lblEmail.Size = New Size(36, 15)
+        lblEmail.Size = New Size(44, 15)
         lblEmail.TabIndex = 12
         lblEmail.Text = "Email"
         ' 
         ' txtEmail
         ' 
-        txtEmail.Location = New Point(12, 301)
+        txtEmail.Location = New Point(11, 309)
         txtEmail.Name = "txtEmail"
         txtEmail.Size = New Size(276, 23)
         txtEmail.TabIndex = 13
@@ -251,15 +251,15 @@ Partial Class Frmcustomermanagment
         ' lblContact
         ' 
         lblContact.AutoSize = True
-        lblContact.Location = New Point(12, 327)
+        lblContact.Location = New Point(11, 335)
         lblContact.Name = "lblContact"
-        lblContact.Size = New Size(49, 15)
+        lblContact.Size = New Size(59, 15)
         lblContact.TabIndex = 14
         lblContact.Text = "Contact"
         ' 
         ' txtContact
         ' 
-        txtContact.Location = New Point(12, 345)
+        txtContact.Location = New Point(11, 353)
         txtContact.Name = "txtContact"
         txtContact.Size = New Size(276, 23)
         txtContact.TabIndex = 15
@@ -270,6 +270,7 @@ Partial Class Frmcustomermanagment
         grpActions.Controls.Add(btnUpdate)
         grpActions.Controls.Add(btnDelete)
         grpActions.Controls.Add(btnClear)
+        grpActions.Font = New Font("Arial Rounded MT Bold", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         grpActions.Location = New Point(16, 381)
         grpActions.Name = "grpActions"
         grpActions.Size = New Size(507, 92)
@@ -281,6 +282,7 @@ Partial Class Frmcustomermanagment
         ' 
         btnAdd.BackColor = Color.FromArgb(CByte(46), CByte(204), CByte(113))
         btnAdd.FlatStyle = FlatStyle.Flat
+        btnAdd.Font = New Font("Arial Rounded MT Bold", 9F)
         btnAdd.ForeColor = Color.White
         btnAdd.Location = New Point(6, 55)
         btnAdd.Name = "btnAdd"
@@ -293,6 +295,7 @@ Partial Class Frmcustomermanagment
         ' 
         btnUpdate.BackColor = Color.FromArgb(CByte(52), CByte(152), CByte(219))
         btnUpdate.FlatStyle = FlatStyle.Flat
+        btnUpdate.Font = New Font("Arial Rounded MT Bold", 9F)
         btnUpdate.ForeColor = Color.White
         btnUpdate.Location = New Point(132, 55)
         btnUpdate.Name = "btnUpdate"
@@ -305,6 +308,7 @@ Partial Class Frmcustomermanagment
         ' 
         btnDelete.BackColor = Color.FromArgb(CByte(231), CByte(76), CByte(60))
         btnDelete.FlatStyle = FlatStyle.Flat
+        btnDelete.Font = New Font("Arial Rounded MT Bold", 9F)
         btnDelete.ForeColor = Color.White
         btnDelete.Location = New Point(381, 55)
         btnDelete.Name = "btnDelete"
@@ -317,6 +321,7 @@ Partial Class Frmcustomermanagment
         ' 
         btnClear.BackColor = Color.FromArgb(CByte(149), CByte(165), CByte(166))
         btnClear.FlatStyle = FlatStyle.Flat
+        btnClear.Font = New Font("Arial Rounded MT Bold", 9F)
         btnClear.ForeColor = Color.White
         btnClear.Location = New Point(258, 55)
         btnClear.Name = "btnClear"
@@ -350,17 +355,19 @@ Partial Class Frmcustomermanagment
         ' lblSearch
         ' 
         lblSearch.AutoSize = True
+        lblSearch.Font = New Font("Arial Rounded MT Bold", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         lblSearch.Location = New Point(16, 18)
         lblSearch.Name = "lblSearch"
-        lblSearch.Size = New Size(42, 15)
+        lblSearch.Size = New Size(48, 14)
         lblSearch.TabIndex = 0
         lblSearch.Text = "Search"
         ' 
         ' txtSearch
         ' 
+        txtSearch.Font = New Font("Arial Rounded MT Bold", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         txtSearch.Location = New Point(70, 14)
         txtSearch.Name = "txtSearch"
-        txtSearch.Size = New Size(440, 23)
+        txtSearch.Size = New Size(440, 21)
         txtSearch.TabIndex = 1
         ' 
         ' dgvCustomers
@@ -368,12 +375,12 @@ Partial Class Frmcustomermanagment
         dgvCustomers.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
         dgvCustomers.BackgroundColor = Color.WhiteSmoke
         dgvCustomers.BorderStyle = BorderStyle.None
-        dgvCustomers.Location = New Point(3, 36)
+        dgvCustomers.Location = New Point(6, 41)
         dgvCustomers.Name = "dgvCustomers"
         dgvCustomers.ReadOnly = True
         dgvCustomers.RowHeadersVisible = False
         dgvCustomers.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        dgvCustomers.Size = New Size(543, 340)
+        dgvCustomers.Size = New Size(579, 340)
         dgvCustomers.TabIndex = 2
         ' 
         ' Frmcustomermanagment

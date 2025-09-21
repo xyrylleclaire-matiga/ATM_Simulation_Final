@@ -1,14 +1,26 @@
-﻿Public Class frmAdminDashboard
+﻿Imports MySql.Data.MySqlClient
+Public Class frmAdminDashboard
 
     Private Sub frmAdminDashboard_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ' Example: Load initial summary data
+
         LoadSummaryCards()
     End Sub
 
     ' ----------------- Load Summary Cards -----------------
     Private Sub LoadSummaryCards()
-        Dim totalUsers As Integer = 50
-        Dim totalTransactions As Integer = 120
+
+        Dim totalUsers As Integer
+        Dim totalTransactions As Integer
+
+        Call connection()
+        sql = "SELECT COUNT(*) FROM tbluserinfo"
+        cmd = New MySqlCommand(sql, con)
+        totalUsers = Convert.ToInt32(cmd.ExecuteScalar())
+
+        sql = "SELECT COUNT(*) FROM tbltransaction_history"
+        cmd = New MySqlCommand(sql, con)
+        totalTransactions = Convert.ToInt32(cmd.ExecuteScalar())
+
         Dim systemStatus As String = "OK"
 
         ' Update labels
@@ -60,11 +72,14 @@
     End Sub
 
     Private Sub pctbxLogout_Click(sender As Object, e As EventArgs) Handles pctbxLogout.Click
-        frmLogin.Show()
-        Me.Close()
+        If MsgBox("Are you sure you want to logout?", vbQuestion + vbYesNo) = vbYes Then
+            frmLogin.Show()
+            Me.Close()
+        End If
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         OpenChildForm(New Frmcustomermanagment)
     End Sub
+
 End Class

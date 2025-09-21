@@ -29,7 +29,7 @@ Public Class frmLogin
             adminDr.Close()
             dbConnection.con.Close()
 
-            ' 2. Try User Login
+            ' 
             dbConnection.connection()
             Dim userQuery As String = "SELECT * FROM tbluserinfo WHERE AccountNumber = @accNum AND PIN = @pin"
             Dim userCmd As New MySqlCommand(userQuery, dbConnection.con)

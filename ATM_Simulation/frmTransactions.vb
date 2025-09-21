@@ -9,11 +9,11 @@ Public Class frmTransactions
     ' ----------------- Load Transactions -----------------
     Private Sub LoadTransactions(Optional searchTerm As String = "")
         Try
-            dbConnection.connection() ' Open DB connection
+            dbConnection.connection()
 
             Dim query As String = "SELECT transaction_number, sender_AccountNumber, receiver_AccountNumber, Amount, Status, Date FROM tbltransaction_history"
             If searchTerm <> "" Then
-                query &= " WHERE transaction_number LIKE @search OR UserID LIKE @search OR Status LIKE @search"
+                query &= " WHERE transaction_number LIKE @search OR sender_AccountNumber LIKE @search OR receiver_AccountNumber LIKE @search OR Status LIKE @search"
             End If
 
             Dim cmd As New MySqlCommand(query, dbConnection.con)
@@ -36,10 +36,26 @@ Public Class frmTransactions
 
     ' ----------------- Update Summary Panels -----------------
     Private Sub UpdateSummary(dt As DataTable)
-        lblTotal.Text = "Total: " & dt.Rows.Count
-        lblSuccessful.Text = "Successful: " & dt.AsEnumerable().Count(Function(r) r.Field(Of String)("Status") = "Successful")
-        lblFailed.Text = "Failed: " & dt.AsEnumerable().Count(Function(r) r.Field(Of String)("Status") = "Failed")
+        Dim successCount As Integer = 0
+        Dim failedCount As Integer = 0
+
+        For Each r As DataRow In dt.Rows
+            Dim status As String = r("Status").ToString().Trim().ToLower()
+            If status = "success" Or status = "successful" Then
+                successCount += 1
+            ElseIf status = "failed" Then
+                failedCount += 1
+            End If
+        Next
+
+        lblTotal.Text = dt.Rows.Count.ToString()
+        lblSuccessful.Text = successCount.ToString()
+        lblFailed.Text = failedCount.ToString()
     End Sub
+
+
+
+
 
     ' ----------------- Search Functionality -----------------
     Private Sub txtSearch_TextChanged(sender As Object, e As EventArgs) Handles txtSearch.TextChanged

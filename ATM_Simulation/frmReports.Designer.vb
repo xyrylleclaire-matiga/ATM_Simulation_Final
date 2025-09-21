@@ -39,7 +39,7 @@ Partial Class frmReports
         dgvReports.BorderStyle = BorderStyle.None
         DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle1.BackColor = Color.FromArgb(CByte(52), CByte(58), CByte(64))
-        DataGridViewCellStyle1.Font = New Font("Segoe UI", 9.0F)
+        DataGridViewCellStyle1.Font = New Font("Segoe UI", 9F)
         DataGridViewCellStyle1.ForeColor = Color.White
         DataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight
         DataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText
@@ -56,7 +56,7 @@ Partial Class frmReports
         ' txtSearch
         ' 
         txtSearch.BorderStyle = BorderStyle.FixedSingle
-        txtSearch.Font = New Font("Segoe UI", 10.0F)
+        txtSearch.Font = New Font("Segoe UI", 10F)
         txtSearch.Location = New Point(20, 60)
         txtSearch.Name = "txtSearch"
         txtSearch.PlaceholderText = "Search reports..."
@@ -66,7 +66,7 @@ Partial Class frmReports
         ' lblTitle
         ' 
         lblTitle.AutoSize = True
-        lblTitle.Font = New Font("Segoe UI", 18.0F, FontStyle.Bold)
+        lblTitle.Font = New Font("Segoe UI", 18F, FontStyle.Bold)
         lblTitle.ForeColor = Color.FromArgb(CByte(33), CByte(37), CByte(41))
         lblTitle.Location = New Point(20, 10)
         lblTitle.Name = "lblTitle"
@@ -77,11 +77,11 @@ Partial Class frmReports
         ' lblTotalTransactions
         ' 
         lblTotalTransactions.Dock = DockStyle.Fill
-        lblTotalTransactions.Font = New Font("Segoe UI", 12.0F, FontStyle.Bold)
+        lblTotalTransactions.Font = New Font("Segoe UI", 12F, FontStyle.Bold)
         lblTotalTransactions.ForeColor = Color.White
         lblTotalTransactions.Location = New Point(10, 10)
         lblTotalTransactions.Name = "lblTotalTransactions"
-        lblTotalTransactions.Size = New Size(178, 25)
+        lblTotalTransactions.Size = New Size(210, 25)
         lblTotalTransactions.TabIndex = 0
         lblTotalTransactions.Text = "Total Transactions: 0"
         lblTotalTransactions.TextAlign = ContentAlignment.MiddleCenter
@@ -89,11 +89,11 @@ Partial Class frmReports
         ' lblCompleted
         ' 
         lblCompleted.Dock = DockStyle.Fill
-        lblCompleted.Font = New Font("Segoe UI", 12.0F, FontStyle.Bold)
+        lblCompleted.Font = New Font("Segoe UI", 12F, FontStyle.Bold)
         lblCompleted.ForeColor = Color.White
         lblCompleted.Location = New Point(10, 10)
         lblCompleted.Name = "lblCompleted"
-        lblCompleted.Size = New Size(178, 32)
+        lblCompleted.Size = New Size(210, 32)
         lblCompleted.TabIndex = 0
         lblCompleted.Text = "Completed: 0"
         lblCompleted.TextAlign = ContentAlignment.MiddleCenter
@@ -101,11 +101,11 @@ Partial Class frmReports
         ' lblFailed
         ' 
         lblFailed.Dock = DockStyle.Fill
-        lblFailed.Font = New Font("Segoe UI", 12.0F, FontStyle.Bold)
+        lblFailed.Font = New Font("Segoe UI", 12F, FontStyle.Bold)
         lblFailed.ForeColor = Color.White
         lblFailed.Location = New Point(10, 10)
         lblFailed.Name = "lblFailed"
-        lblFailed.Size = New Size(178, 26)
+        lblFailed.Size = New Size(210, 26)
         lblFailed.TabIndex = 0
         lblFailed.Text = "Failed: 0"
         lblFailed.TextAlign = ContentAlignment.MiddleCenter
@@ -117,7 +117,7 @@ Partial Class frmReports
         pnlTotalTransactions.Location = New Point(638, 199)
         pnlTotalTransactions.Name = "pnlTotalTransactions"
         pnlTotalTransactions.Padding = New Padding(10)
-        pnlTotalTransactions.Size = New Size(198, 45)
+        pnlTotalTransactions.Size = New Size(230, 45)
         pnlTotalTransactions.TabIndex = 3
         ' 
         ' pnlCompleted
@@ -127,7 +127,7 @@ Partial Class frmReports
         pnlCompleted.Location = New Point(638, 141)
         pnlCompleted.Name = "pnlCompleted"
         pnlCompleted.Padding = New Padding(10)
-        pnlCompleted.Size = New Size(198, 52)
+        pnlCompleted.Size = New Size(230, 52)
         pnlCompleted.TabIndex = 4
         ' 
         ' pnlFailed
@@ -137,7 +137,7 @@ Partial Class frmReports
         pnlFailed.Location = New Point(638, 89)
         pnlFailed.Name = "pnlFailed"
         pnlFailed.Padding = New Padding(10)
-        pnlFailed.Size = New Size(198, 46)
+        pnlFailed.Size = New Size(230, 46)
         pnlFailed.TabIndex = 5
         ' 
         ' frmReports

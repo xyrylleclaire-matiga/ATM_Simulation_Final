@@ -11,6 +11,7 @@ Public Class frmBalanceInquiry
     End Sub
 
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
+        updateBalance()
         LoadBalance()
     End Sub
 
@@ -74,6 +75,20 @@ Public Class frmBalanceInquiry
     Private Sub PrintDocument1_PrintPage(sender As Object, e As PrintPageEventArgs) Handles PrintDocument1.PrintPage
         ' Draw the balance inquiry receipt
         e.Graphics.DrawString(BalanceText, New Font("Arial", 12, FontStyle.Regular), Brushes.Black, 50, 50)
+    End Sub
+
+    Private Sub updateBalance()
+        Call connection()
+        sql = "SELECT BalanceAmount FROM tblaccountbalance WHERE AccountNumber = @acc"
+        cmd = New MySqlCommand(sql, con)
+        cmd.Parameters.AddWithValue("@acc", LoggedInAccNum)
+
+        Dim balanceUpdate As Object = cmd.ExecuteScalar()
+        If balanceUpdate IsNot Nothing Then
+            lblBalanceAmount.Text = "₱ " & Convert.ToDouble(balanceUpdate).ToString("N2")
+        End If
+        con.Close()
+
     End Sub
 
 End Class
