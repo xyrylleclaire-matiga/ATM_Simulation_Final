@@ -6,18 +6,31 @@ Public Class frmMiniStatement
         Me.Hide()
     End Sub
 
+    'FOR TRANSACTIONNNN ------------
     Public Sub callTransaction()
         Call connection()
         sql = "SELECT sender_AccountNumber, receiver_AccountNumber, Amount,  transaction_type, Date
-            FROM tbltransaction_history WHERE sender_AccountNumber = @acc OR receiver_AccountNumber = @acc
+            FROM tbltransaction_history WHERE sender_AccountNumber = @acc OR receiver_AccountNumber = @acc AND Date BETWEEN @startDate AND @endDate 
             ORDER BY `Date` DESC LIMIT 5"
         cmd = New MySqlCommand(sql, con)
         cmd.Parameters.AddWithValue("@acc", LoggedInAccNum)
+        cmd.Parameters.AddWithValue("@startDate", dtFrom.Value.Date)
+        cmd.Parameters.AddWithValue("@endDate", dtTo.Value.Date)
 
         dr = cmd.ExecuteReader
         ListView1.Items.Clear()
         While dr.Read()
             Dim x As New ListViewItem(dr("transaction_type").ToString())
+            If dr("transaction_type").ToString = "Withdrawal" Then
+                x.SubItems.Add(dr("sender_AccountNumber").ToString())
+                x.SubItems.Add("-")
+            ElseIf dr("transaction_type").ToString = "Deposit" Then
+                x.SubItems.Add("-")
+                x.SubItems.Add(dr("receiver_AccountNumber").ToString())
+            Else
+                x.SubItems.Add(dr("sender_AccountNumber").ToString())
+                x.SubItems.Add(dr("receiver_AccountNumber").ToString())
+            End If
             x.SubItems.Add(Convert.ToDouble(dr("Amount")).ToString("N2"))
             x.SubItems.Add(Convert.ToDateTime(dr("Date")).ToString("g"))
             ListView1.Items.Add(x)
@@ -26,15 +39,76 @@ Public Class frmMiniStatement
     End Sub
 
 
-    Private Sub ListView1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ListView1.SelectedIndexChanged
+
+    'FOR FILTERINGGGGGGG ---------------
+    Private Sub forFiltering()
+        Call connection()
+        Dim sql As String
+
+        If cboReportType.SelectedItem Is Nothing Then
+            MsgBox("Please select a report type.", MsgBoxStyle.Exclamation)
+            Exit Sub
+        End If
+
+        If cboReportType.SelectedItem.ToString() = "Withdrawal" Then
+            sql = "SELECT sender_AccountNumber, Amount, transaction_type, Date " &
+              "FROM tbltransaction_history " &
+              "WHERE sender_AccountNumber = @acc AND transaction_type = 'Withdrawal' " &
+               "AND Date BETWEEN @startDate AND @endDate " &
+              "ORDER BY `Date` DESC LIMIT 5"
+
+        ElseIf cboReportType.SelectedItem.ToString() = "Deposit" Then
+            sql = "SELECT receiver_AccountNumber, Amount, transaction_type, Date " &
+              "FROM tbltransaction_history " &
+              "WHERE receiver_AccountNumber = @acc AND transaction_type = 'Deposit' " &
+               "AND Date BETWEEN @startDate AND @endDate " &
+              "ORDER BY `Date` DESC LIMIT 5"
+
+        ElseIf cboReportType.SelectedItem.ToString() = "Fund_Transfer" Then
+            sql = "SELECT sender_AccountNumber, receiver_AccountNumber, Amount, transaction_type, Date " &
+              "FROM tbltransaction_history " &
+              "WHERE (sender_AccountNumber = @acc OR receiver_AccountNumber = @acc) " &
+              "AND transaction_type = 'Fund_Transfer' " &
+               "AND Date BETWEEN @startDate AND @endDate " &
+              "ORDER BY `Date` DESC LIMIT 5"
+
+
+        End If
+        cmd = New MySqlCommand(sql, con)
+        cmd.Parameters.AddWithValue("@acc", LoggedInAccNum)
+        cmd.Parameters.AddWithValue("@startDate", dtFrom.Value.Date)
+        cmd.Parameters.AddWithValue("@endDate", dtTo.Value.Date)
+        dr = cmd.ExecuteReader
+
+        ListView1.Items.Clear()
+        While dr.Read()
+            Dim y As New ListViewItem(dr("transaction_type").ToString())
+            If cboReportType.SelectedItem.ToString = "Withdrawal" Then
+                y.SubItems.Add(dr("sender_AccountNumber").ToString())
+                y.SubItems.Add("-")
+            ElseIf cboReportType.SelectedItem.ToString = "Deposit" Then
+                y.SubItems.Add("-")
+                y.SubItems.Add(dr("receiver_AccountNumber").ToString())
+            Else
+                y.SubItems.Add(dr("sender_AccountNumber").ToString())
+                y.SubItems.Add(dr("receiver_AccountNumber").ToString())
+            End If
+            y.SubItems.Add(Convert.ToDouble(dr("Amount")).ToString("N2"))
+            y.SubItems.Add(Convert.ToDateTime(dr("Date")).ToString("g"))
+            ListView1.Items.Add(y)
+        End While
+        dr.Close()
+        con.Close()
 
     End Sub
+
 
     Private Sub frmMiniStatement_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         callTransaction()
         userDetails()
     End Sub
 
+    'DETAILS NI USERRRRR ----------------
     Private Sub userDetails()
         Try
             dbConnection.connection()
@@ -61,4 +135,7 @@ Public Class frmMiniStatement
         End Try
     End Sub
 
+    Private Sub btnFilter_Click(sender As Object, e As EventArgs) Handles btnFilter.Click
+        forFiltering()
+    End Sub
 End Class

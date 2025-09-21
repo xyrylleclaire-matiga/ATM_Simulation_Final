@@ -283,7 +283,102 @@ VALUES (@transactiontype, @senderAcc, @receiverAcc, @transfer, 'Success', NOW())
         e.Graphics.DrawString("Thank you for banking with us!", fontBody, Brushes.Black, 20, y)
     End Sub
 
-    Private Sub PictureBox1_Click(sender As Object, e As EventArgs) Handles PictureBox1.Click
+    Private Sub btnClear_Click(sender As Object, e As EventArgs) Handles btnClear.Click
+        If txtAccountName.Focused Then
+            txtAccountName.Clear()
+            txtTargetAccount.Clear()
+        ElseIf txtAmountTransfer.focused Then
+            txtAmountTransfer.Clear()
+        Else
 
+        End If
+    End Sub
+
+    Private Sub btnDell_Click(sender As Object, e As EventArgs) Handles btnDell.Click
+        If txtTargetAccount.Text.Length > 0 Then
+            txtTargetAccount.Text = txtTargetAccount.Text.Remove(txtTargetAccount.Text.Length - 1, 1)
+        ElseIf txtAmountTransfer.Text.Length > 0 Then
+            txtAmountTransfer.Text = txtAmountTransfer.Text.Remove(txtAmountTransfer.Text.Length - 1, 1)
+        End If
+    End Sub
+
+    Private Sub btnOne_Click(sender As Object, e As EventArgs) Handles btnOne.Click
+        If txtTargetAccount.Focused Then
+            txtTargetAccount.AppendText("1")
+        Else
+            txtAmountTransfer.AppendText("1")
+        End If
+    End Sub
+
+    Private Sub btnTwo_Click(sender As Object, e As EventArgs) Handles btnTwo.Click
+        If txtTargetAccount.Focused Then
+            txtTargetAccount.AppendText("2")
+        Else
+            txtAmountTransfer.AppendText("2")
+        End If
+    End Sub
+
+    Private Sub btnThree_Click(sender As Object, e As EventArgs) Handles btnThree.Click
+        If txtTargetAccount.Focused Then
+            txtTargetAccount.AppendText("3")
+        Else
+            txtAmountTransfer.AppendText("3")
+        End If
+    End Sub
+
+    Private Sub btnFour_Click(sender As Object, e As EventArgs) Handles btnFour.Click
+        If txtTargetAccount.Focused Then
+            txtTargetAccount.AppendText("4")
+        Else
+            txtAmountTransfer.AppendText("4")
+        End If
+    End Sub
+
+    Private Sub btnFive_Click(sender As Object, e As EventArgs) Handles btnFive.Click
+        If txtTargetAccount.Focused Then
+            txtTargetAccount.AppendText("5")
+        Else
+            txtAmountTransfer.AppendText("5")
+        End If
+    End Sub
+
+    Private Sub btnSix_Click(sender As Object, e As EventArgs) Handles btnSix.Click
+        If txtTargetAccount.Focused Then
+            txtTargetAccount.AppendText("6")
+        Else
+            txtAmountTransfer.AppendText("6")
+        End If
+    End Sub
+
+    Private Sub btnSeven_Click(sender As Object, e As EventArgs) Handles btnSeven.Click
+        If txtTargetAccount.Focused Then
+            txtTargetAccount.AppendText("7")
+        Else
+            txtAmountTransfer.AppendText("7")
+        End If
+    End Sub
+
+    Private Sub btnEight_Click(sender As Object, e As EventArgs) Handles btnEight.Click
+        If txtTargetAccount.Focused Then
+            txtTargetAccount.AppendText("8")
+        Else
+            txtAmountTransfer.AppendText("8")
+        End If
+    End Sub
+
+    Private Sub btnNine_Click(sender As Object, e As EventArgs) Handles btnNine.Click
+        If txtTargetAccount.Focused Then
+            txtTargetAccount.AppendText("9")
+        Else
+            txtAmountTransfer.AppendText("9")
+        End If
+    End Sub
+
+    Private Sub btnZero_Click(sender As Object, e As EventArgs) Handles btnZero.Click
+        If txtTargetAccount.Focused Then
+            txtTargetAccount.AppendText("0")
+        Else
+            txtAmountTransfer.AppendText("0")
+        End If
     End Sub
 End Class

@@ -63,12 +63,12 @@ Partial Class frmBalanceInquiry
         ' 
         ' btnCancel
         ' 
-        btnCancel.BackColor = Color.FromArgb(CByte(108), CByte(117), CByte(125))
+        btnCancel.BackColor = Color.Brown
         btnCancel.FlatAppearance.BorderSize = 0
         btnCancel.FlatStyle = FlatStyle.Flat
         btnCancel.Font = New Font("Segoe UI Semibold", 12F, FontStyle.Bold)
         btnCancel.ForeColor = Color.White
-        btnCancel.Location = New Point(331, 221)
+        btnCancel.Location = New Point(249, 262)
         btnCancel.Name = "btnCancel"
         btnCancel.Size = New Size(131, 35)
         btnCancel.TabIndex = 5
@@ -82,7 +82,7 @@ Partial Class frmBalanceInquiry
         btnRefresh.FlatStyle = FlatStyle.Flat
         btnRefresh.Font = New Font("Segoe UI Semibold", 12F, FontStyle.Bold)
         btnRefresh.ForeColor = Color.White
-        btnRefresh.Location = New Point(191, 221)
+        btnRefresh.Location = New Point(173, 221)
         btnRefresh.Name = "btnRefresh"
         btnRefresh.Size = New Size(134, 35)
         btnRefresh.TabIndex = 6
@@ -119,16 +119,16 @@ Partial Class frmBalanceInquiry
         ' 
         ' btnprint
         ' 
-        btnprint.BackColor = Color.FromArgb(CByte(255), CByte(192), CByte(192))
+        btnprint.BackColor = Color.FromArgb(CByte(128), CByte(64), CByte(0))
         btnprint.FlatAppearance.BorderSize = 0
         btnprint.FlatStyle = FlatStyle.Flat
         btnprint.Font = New Font("Segoe UI Semibold", 12F, FontStyle.Bold)
         btnprint.ForeColor = Color.White
-        btnprint.Location = New Point(256, 262)
+        btnprint.Location = New Point(313, 221)
         btnprint.Name = "btnprint"
         btnprint.Size = New Size(134, 35)
         btnprint.TabIndex = 43
-        btnprint.Text = "Print"
+        btnprint.Text = "Print Receipt"
         btnprint.UseVisualStyleBackColor = False
         ' 
         ' Button2
@@ -154,6 +154,9 @@ Partial Class frmBalanceInquiry
         PrintPreviewDialog1.Icon = CType(resources.GetObject("PrintPreviewDialog1.Icon"), Icon)
         PrintPreviewDialog1.Name = "PrintPreviewDialog1"
         PrintPreviewDialog1.Visible = False
+        ' 
+        ' PrintDocument1
+        ' 
         ' 
         ' frmBalanceInquiry
         ' 

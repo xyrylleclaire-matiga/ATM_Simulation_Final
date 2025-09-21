@@ -286,5 +286,4 @@ Public Class frmWithdrawal
     Private Sub btnOtherAmount_Click(sender As Object, e As EventArgs) Handles btnOtherAmount.Click
         txtAmount.Focus()
     End Sub
-
 End Class

@@ -29,7 +29,9 @@ Partial Class frmMiniStatement
         ColumnHeader1 = New ColumnHeader()
         ColumnHeader3 = New ColumnHeader()
         ColumnHeader4 = New ColumnHeader()
-        cmbReportType = New ComboBox()
+        ColumnHeader2 = New ColumnHeader()
+        ColumnHeader5 = New ColumnHeader()
+        cboReportType = New ComboBox()
         lblTransactionType = New Label()
         lblFrom = New Label()
         lblTo = New Label()
@@ -68,7 +70,7 @@ Partial Class frmMiniStatement
         PictureBox1.Image = My.Resources.Resources.ATM_UI_UX___南街_西洋菜
         PictureBox1.Location = New Point(-3, -3)
         PictureBox1.Name = "PictureBox1"
-        PictureBox1.Size = New Size(935, 579)
+        PictureBox1.Size = New Size(990, 579)
         PictureBox1.SizeMode = PictureBoxSizeMode.StretchImage
         PictureBox1.TabIndex = 1
         PictureBox1.TabStop = False
@@ -80,7 +82,7 @@ Partial Class frmMiniStatement
         Panel1.Controls.Add(lblAccountNumberDisplay)
         Panel1.Controls.Add(lbl)
         Panel1.Controls.Add(ListView1)
-        Panel1.Controls.Add(cmbReportType)
+        Panel1.Controls.Add(cboReportType)
         Panel1.Controls.Add(lblTransactionType)
         Panel1.Controls.Add(lblFrom)
         Panel1.Controls.Add(lblTo)
@@ -91,7 +93,7 @@ Partial Class frmMiniStatement
         Panel1.Controls.Add(Button1)
         Panel1.Location = New Point(87, 60)
         Panel1.Name = "Panel1"
-        Panel1.Size = New Size(742, 451)
+        Panel1.Size = New Size(796, 451)
         Panel1.TabIndex = 0
         ' 
         ' lblUser
@@ -100,7 +102,7 @@ Partial Class frmMiniStatement
         lblUser.BackColor = Color.DarkSlateGray
         lblUser.Font = New Font("Century Schoolbook", 15.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lblUser.ForeColor = Color.White
-        lblUser.Location = New Point(538, 27)
+        lblUser.Location = New Point(588, 28)
         lblUser.Name = "lblUser"
         lblUser.Size = New Size(18, 25)
         lblUser.TabIndex = 21
@@ -112,7 +114,7 @@ Partial Class frmMiniStatement
         lblAccountNumberDisplay.BackColor = Color.DarkSlateGray
         lblAccountNumberDisplay.Font = New Font("Century Gothic", 11.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lblAccountNumberDisplay.ForeColor = Color.White
-        lblAccountNumberDisplay.Location = New Point(609, 62)
+        lblAccountNumberDisplay.Location = New Point(660, 62)
         lblAccountNumberDisplay.Name = "lblAccountNumberDisplay"
         lblAccountNumberDisplay.Size = New Size(12, 18)
         lblAccountNumberDisplay.TabIndex = 23
@@ -124,7 +126,7 @@ Partial Class frmMiniStatement
         lbl.BackColor = Color.DarkSlateGray
         lbl.Font = New Font("Century Gothic", 9.75F, FontStyle.Bold)
         lbl.ForeColor = Color.White
-        lbl.Location = New Point(483, 62)
+        lbl.Location = New Point(534, 62)
         lbl.Name = "lbl"
         lbl.Size = New Size(125, 16)
         lbl.TabIndex = 22
@@ -132,12 +134,12 @@ Partial Class frmMiniStatement
         ' 
         ' ListView1
         ' 
-        ListView1.Columns.AddRange(New ColumnHeader() {ColumnHeader1, ColumnHeader3, ColumnHeader4})
+        ListView1.Columns.AddRange(New ColumnHeader() {ColumnHeader1, ColumnHeader3, ColumnHeader4, ColumnHeader2, ColumnHeader5})
         ListView1.Font = New Font("Arial Rounded MT Bold", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         ListView1.GridLines = True
-        ListView1.Location = New Point(119, 170)
+        ListView1.Location = New Point(17, 170)
         ListView1.Name = "ListView1"
-        ListView1.Size = New Size(513, 207)
+        ListView1.Size = New Size(764, 207)
         ListView1.TabIndex = 11
         ListView1.UseCompatibleStateImageBehavior = False
         ListView1.View = View.Details
@@ -149,25 +151,37 @@ Partial Class frmMiniStatement
         ' 
         ' ColumnHeader3
         ' 
-        ColumnHeader3.Text = "Amount"
+        ColumnHeader3.Text = "To"
         ColumnHeader3.TextAlign = HorizontalAlignment.Center
-        ColumnHeader3.Width = 150
+        ColumnHeader3.Width = 130
         ' 
         ' ColumnHeader4
         ' 
-        ColumnHeader4.Text = "Date"
+        ColumnHeader4.Text = "From"
         ColumnHeader4.TextAlign = HorizontalAlignment.Center
-        ColumnHeader4.Width = 200
+        ColumnHeader4.Width = 130
         ' 
-        ' cmbReportType
+        ' ColumnHeader2
         ' 
-        cmbReportType.DropDownStyle = ComboBoxStyle.DropDownList
-        cmbReportType.Font = New Font("Segoe UI", 10F)
-        cmbReportType.Items.AddRange(New Object() {"Withdrawal", "Deposit", "Fund Transfer"})
-        cmbReportType.Location = New Point(148, 111)
-        cmbReportType.Name = "cmbReportType"
-        cmbReportType.Size = New Size(180, 25)
-        cmbReportType.TabIndex = 0
+        ColumnHeader2.Text = "Amount"
+        ColumnHeader2.TextAlign = HorizontalAlignment.Center
+        ColumnHeader2.Width = 150
+        ' 
+        ' ColumnHeader5
+        ' 
+        ColumnHeader5.Text = "Date"
+        ColumnHeader5.TextAlign = HorizontalAlignment.Center
+        ColumnHeader5.Width = 200
+        ' 
+        ' cboReportType
+        ' 
+        cboReportType.DropDownStyle = ComboBoxStyle.DropDownList
+        cboReportType.Font = New Font("Arial Rounded MT Bold", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        cboReportType.Items.AddRange(New Object() {"Withdrawal", "Deposit", "Fund_Transfer"})
+        cboReportType.Location = New Point(148, 111)
+        cboReportType.Name = "cboReportType"
+        cboReportType.Size = New Size(180, 25)
+        cboReportType.TabIndex = 0
         ' 
         ' lblTransactionType
         ' 
@@ -183,7 +197,7 @@ Partial Class frmMiniStatement
         ' 
         lblFrom.AutoSize = True
         lblFrom.Font = New Font("Segoe UI", 10F, FontStyle.Bold)
-        lblFrom.Location = New Point(409, 114)
+        lblFrom.Location = New Point(433, 114)
         lblFrom.Name = "lblFrom"
         lblFrom.Size = New Size(48, 19)
         lblFrom.TabIndex = 2
@@ -193,7 +207,7 @@ Partial Class frmMiniStatement
         ' 
         lblTo.AutoSize = True
         lblTo.Font = New Font("Segoe UI", 10F, FontStyle.Bold)
-        lblTo.Location = New Point(589, 114)
+        lblTo.Location = New Point(641, 112)
         lblTo.Name = "lblTo"
         lblTo.Size = New Size(29, 19)
         lblTo.TabIndex = 3
@@ -201,16 +215,18 @@ Partial Class frmMiniStatement
         ' 
         ' dtFrom
         ' 
+        dtFrom.Font = New Font("Arial Rounded MT Bold", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         dtFrom.Format = DateTimePickerFormat.Short
-        dtFrom.Location = New Point(459, 112)
+        dtFrom.Location = New Point(483, 112)
         dtFrom.Name = "dtFrom"
         dtFrom.Size = New Size(110, 23)
         dtFrom.TabIndex = 4
         ' 
         ' dtTo
         ' 
+        dtTo.Font = New Font("Arial Rounded MT Bold", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         dtTo.Format = DateTimePickerFormat.Short
-        dtTo.Location = New Point(619, 112)
+        dtTo.Location = New Point(671, 110)
         dtTo.Name = "dtTo"
         dtTo.Size = New Size(110, 23)
         dtTo.TabIndex = 5
@@ -221,7 +237,7 @@ Partial Class frmMiniStatement
         btnFilter.FlatStyle = FlatStyle.Flat
         btnFilter.Font = New Font("Arial Rounded MT Bold", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnFilter.ForeColor = Color.White
-        btnFilter.Location = New Point(292, 392)
+        btnFilter.Location = New Point(262, 394)
         btnFilter.Name = "btnFilter"
         btnFilter.Size = New Size(149, 43)
         btnFilter.TabIndex = 6
@@ -230,14 +246,14 @@ Partial Class frmMiniStatement
         ' 
         ' Button2
         ' 
-        Button2.BackColor = Color.FromArgb(CByte(108), CByte(117), CByte(125))
+        Button2.BackColor = Color.Brown
         Button2.FlatAppearance.BorderSize = 0
         Button2.FlatStyle = FlatStyle.Flat
-        Button2.Font = New Font("Arial Rounded MT Bold", 12F)
+        Button2.Font = New Font("Arial Rounded MT Bold", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Button2.ForeColor = Color.White
-        Button2.Location = New Point(598, 403)
+        Button2.Location = New Point(417, 394)
         Button2.Name = "Button2"
-        Button2.Size = New Size(131, 35)
+        Button2.Size = New Size(131, 43)
         Button2.TabIndex = 8
         Button2.Text = "Cancel"
         Button2.UseVisualStyleBackColor = False
@@ -250,7 +266,7 @@ Partial Class frmMiniStatement
         Button1.ForeColor = SystemColors.ControlLightLight
         Button1.Location = New Point(-12, 20)
         Button1.Name = "Button1"
-        Button1.Size = New Size(754, 69)
+        Button1.Size = New Size(817, 69)
         Button1.TabIndex = 9
         Button1.Text = "   Mini Statement:"
         Button1.TextAlign = ContentAlignment.MiddleLeft
@@ -261,7 +277,7 @@ Partial Class frmMiniStatement
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(248), CByte(249), CByte(250))
-        ClientSize = New Size(929, 573)
+        ClientSize = New Size(983, 573)
         Controls.Add(Panel1)
         Controls.Add(PictureBox1)
         Controls.Add(lstMiniStatement)
@@ -285,7 +301,7 @@ Partial Class frmMiniStatement
     Friend WithEvents Panel1 As Panel
     Friend WithEvents Button1 As Button
     Friend WithEvents Button2 As Button
-    Friend WithEvents cmbReportType As ComboBox
+    Friend WithEvents cboReportType As ComboBox
     Friend WithEvents lblTransactionType As Label
     Friend WithEvents lblFrom As Label
     Friend WithEvents lblTo As Label
@@ -299,4 +315,6 @@ Partial Class frmMiniStatement
     Friend WithEvents lblUser As Label
     Friend WithEvents lblAccountNumberDisplay As Label
     Friend WithEvents lbl As Label
+    Friend WithEvents ColumnHeader2 As ColumnHeader
+    Friend WithEvents ColumnHeader5 As ColumnHeader
 End Class
