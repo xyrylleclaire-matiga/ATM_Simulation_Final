@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 19, 2025 at 10:00 AM
+-- Generation Time: Sep 21, 2025 at 12:18 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -39,8 +39,8 @@ CREATE TABLE `tblaccountbalance` (
 --
 
 INSERT INTO `tblaccountbalance` (`Account_id`, `AccountNumber`, `AccountStatus`, `BalanceAmount`) VALUES
-(1001, '0001234567', 'Active', 2600.00),
-(1002, '9876543210', 'Active', 1500.00);
+(1001, '0001234567', 'Active', 1000.00),
+(1002, '9876543210', 'Active', 1000000.00);
 
 -- --------------------------------------------------------
 
@@ -124,7 +124,8 @@ INSERT INTO `tbltransaction_history` (`transaction_number`, `transaction_type`, 
 (11, 'Fund_Transfer', '0001234567', '9876543210', 100, 'Success', '2025-09-19 14:51:29'),
 (12, 'Deposit', NULL, '0001234567', 100, 'Success', '2025-09-19 15:00:53'),
 (13, 'Withdrawal', '0001234567', NULL, 500, 'Success', '2025-09-19 15:01:42'),
-(14, 'Fund_Transfer', '0001234567', '9876543210', 100, 'Success', '2025-09-19 15:02:43');
+(14, 'Fund_Transfer', '0001234567', '9876543210', 100, 'Success', '2025-09-19 15:02:43'),
+(15, 'Deposit', NULL, '0001234567', 100, 'Success', '2025-09-21 14:32:47');
 
 -- --------------------------------------------------------
 
@@ -150,7 +151,7 @@ CREATE TABLE `tbluserinfo` (
 
 INSERT INTO `tbluserinfo` (`AccountNumber`, `FirstName`, `LastName`, `MiddleName`, `EmailAddress`, `ContactNumber`, `PIN`, `attempts`, `Role`) VALUES
 ('0001234567', 'Sean', 'Dope', 'Ty', 'SeanTyDope@gmail.com', 99999992, 0, 3, 'User'),
-('1000000001', 'Admin', '  ', '  ', 'admin@gmail.com', 90900909, 11, 0, 'Admin'),
+('1776039417', 'uiuiuiu', 'jkjkjk', 'uiuiuijk', 'hjhjhj', 909096, 123456, 3, 'User'),
 ('9876543210', 'Shoyou', 'Shish', 'Sho', 'shoyou@gmail.com', 90900909, 111111, 3, 'User');
 
 --
@@ -203,6 +204,12 @@ ALTER TABLE `tbluserinfo`
 --
 
 --
+-- AUTO_INCREMENT for table `tblaccountbalance`
+--
+ALTER TABLE `tblaccountbalance`
+  MODIFY `Account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1003;
+
+--
 -- AUTO_INCREMENT for table `tbladmin_users`
 --
 ALTER TABLE `tbladmin_users`
@@ -224,7 +231,7 @@ ALTER TABLE `tblsettings`
 -- AUTO_INCREMENT for table `tbltransaction_history`
 --
 ALTER TABLE `tbltransaction_history`
-  MODIFY `transaction_number` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `transaction_number` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Constraints for dumped tables
