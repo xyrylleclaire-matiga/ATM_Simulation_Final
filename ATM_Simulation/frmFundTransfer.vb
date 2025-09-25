@@ -93,7 +93,7 @@ Public Class frmFundTransfer
             Return False
         End If
 
-        ' Prevent transfer to self
+        ' Transfer to your own account
         If txtTargetAccount.Text.Trim() = LoggedInAccNum Then
             MessageBox.Show("You cannot transfer to your own account.", "Invalid Account", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             txtTargetAccount.Clear()
@@ -110,10 +110,12 @@ Public Class frmFundTransfer
                 con.Open()
             End If
 
-            ' Use parameterized query with Trim
-            sql = "SELECT CONCAT(FirstName, ' ', MiddleName, ' ', LastName) AS FullName
-               FROM tbluserinfo
-               WHERE TRIM(AccountNumber) = @accTarget LIMIT 1"
+            ' TARGET ACCOUNT CHECKINGGG
+            sql = "SELECT CONCAT(u.FirstName, ' ', u.MiddleName, ' ', u.LastName) AS FullName, " &
+      "b.AccountStatus " &
+      "FROM tbluserinfo u " &
+      "INNER JOIN tblaccountbalance b ON u.AccountNumber = b.AccountNumber " &
+      "WHERE TRIM(u.AccountNumber) = @accTarget LIMIT 1"
 
             Using cmd As New MySqlCommand(sql, con)
                 cmd.Parameters.AddWithValue("@accTarget", txtTargetAccount.Text.Trim())
@@ -121,19 +123,38 @@ Public Class frmFundTransfer
                 Using dr As MySqlDataReader = cmd.ExecuteReader()
                     If dr.Read() Then
                         txtAccountName.Text = dr("FullName").ToString().Trim()
-                        Return True
+                        Dim status As String = dr("AccountStatus").ToString().Trim()
+                        If status = "Deactivated" Then
+                            MsgBox("This account is deactivated. Transfer is not allowed", MsgBoxStyle.Exclamation)
+                            txtAccountName.Text = "Deactivated Account"
+                            Return False
+                        ElseIf status = "Inactive" Then
+                            MsgBox("This account is inactive. Transfer is not allowed", MsgBoxStyle.Exclamation)
+                            txtAccountName.Text = "Inactive Account"
+                            Return False
+                        Else
+                            Return True
+                        End If
+
                     Else
                         txtAccountName.Text = "Account Not Found"
                         Return False
                     End If
+
                 End Using
             End Using
 
         Catch ex As Exception
             MessageBox.Show("Error checking account: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
+        Finally
+            If con IsNot Nothing AndAlso con.State = ConnectionState.Open Then
+                con.Close()
+            End If
         End Try
     End Function
+
+
 
     ' ---------- TRANSFER TRANSACTION ----------------
     Private Sub transferTransaction()
@@ -245,9 +266,7 @@ VALUES (@transactiontype, @senderAcc, @receiverAcc, @transfer, 'Success', NOW())
     ' Target account auto-check
     Private Sub txtTargetAccount_Leave(sender As Object, e As EventArgs) Handles txtTargetAccount.Leave
         If txtTargetAccount.Text.Trim() <> "" Then
-            If checkAccount() = False Then
-                txtTargetAccount.Focus()
-            End If
+            checkAccount()
         End If
     End Sub
 

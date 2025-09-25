@@ -5,11 +5,10 @@ Public Class frmLogin
     ' LOGIN FUNCTION
     Private Sub loginEnter()
         Try
-            dbConnection.connection()
+            Call connection()
 
-            ' 1. Try Admin Login
             Dim adminQuery As String = "SELECT * FROM tbladmin_users WHERE Username = @username AND Password = @password"
-            Dim adminCmd As New MySqlCommand(adminQuery, dbConnection.con)
+            Dim adminCmd As New MySqlCommand(adminQuery, con)
             adminCmd.Parameters.AddWithValue("@username", txtAccNum.Text.Trim())
             adminCmd.Parameters.AddWithValue("@password", txtPIN.Text.Trim())
 
@@ -18,7 +17,7 @@ Public Class frmLogin
             If adminDr.Read() Then
                 ' --- ADMIN LOGIN SUCCESS ---
                 adminDr.Close()
-                dbConnection.con.Close()
+                con.Close()
                 frmAdminDashboard.Show()
                 Me.Hide()
                 txtAccNum.Clear()
@@ -27,12 +26,29 @@ Public Class frmLogin
             End If
 
             adminDr.Close()
-            dbConnection.con.Close()
+            con.Close()
 
-            ' 
-            dbConnection.connection()
+            ' CHECK ATTEMPT FIRST
+            Call connection()
+            Dim checkAttempt As String = "SELECT attempts FROM tbluserinfo WHERE AccountNumber = @accNum"
+            Dim checkCMD As New MySqlCommand(checkAttempt, con)
+            checkCMD.Parameters.AddWithValue("@accNum", txtAccNum.Text.Trim())
+            Dim currentAttempts = checkCMD.ExecuteScalar()
+
+            If currentAttempts IsNot Nothing AndAlso currentAttempts IsNot DBNull.Value Then
+                If Convert.ToInt32(currentAttempts) <= 0 Then
+                    MessageBox.Show("Your account is locked. Please contact the bank.", "Account Locked", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    txtAccNum.Clear()
+                    txtPIN.Clear()
+                    con.Close()
+                    Return
+                End If
+            End If
+
+
+            Call connection()
             Dim userQuery As String = "SELECT * FROM tbluserinfo WHERE AccountNumber = @accNum AND PIN = @pin"
-            Dim userCmd As New MySqlCommand(userQuery, dbConnection.con)
+            Dim userCmd As New MySqlCommand(userQuery, con)
             userCmd.Parameters.AddWithValue("@accNum", txtAccNum.Text.Trim())
             userCmd.Parameters.AddWithValue("@pin", txtPIN.Text.Trim())
 
@@ -43,7 +59,7 @@ Public Class frmLogin
                 dbConnection.LoggedInAccNum = txtAccNum.Text.Trim()
                 lblRole.Text = userDr("Role").ToString()
                 userDr.Close()
-                dbConnection.con.Close()
+                con.Close()
 
                 Dim mainForm As New frmMain()
                 mainForm.Show()
@@ -53,27 +69,35 @@ Public Class frmLogin
 
             Else
                 userDr.Close()
-                dbConnection.con.Close()
+                con.Close()
+
 
                 ' --- FAILED LOGIN ---
                 MessageBox.Show("Invalid Account Number or PIN.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error)
-
-                If String.IsNullOrEmpty(lblAttempts.Text) Then
-                    lblAttempts.Text = "3"
-                End If
-
-                lblAttempts.Text = (Val(lblAttempts.Text) - 1).ToString()
                 updateAttempts()
+                refreshAttempts()
 
                 If Val(lblAttempts.Text) <= 0 Then
                     MessageBox.Show("Your account has been locked due to multiple failed login attempts. Please contact the bank.", "Account Locked", MessageBoxButtons.OK, MessageBoxIcon.Warning)
 
-                    dbConnection.connection()
+                    ' FOR DEACTIVATEEEEEE ------------
+                    Call connection()
+                    sql = "UPDATE tblaccountbalance SET AccountStatus = 'Deactivated' WHERE AccountNumber = @accNum"
+                    cmd = New MySqlCommand(sql, con)
+                    cmd.Parameters.AddWithValue("accNum", txtAccNum.Text.Trim())
+                    cmd.ExecuteNonQuery()
+
+                    txtAccNum.Clear()
+                    txtPIN.Clear()
+                    con.Close()
+
+                    ' FOR RESET ATTEMPTSSS ---------
+                    Call connection()
                     Dim lockSql As String = "UPDATE tbluserinfo SET attempts = 0 WHERE AccountNumber = @accNum"
-                    Dim lockCmd As New MySqlCommand(lockSql, dbConnection.con)
+                    Dim lockCmd As New MySqlCommand(lockSql, con)
                     lockCmd.Parameters.AddWithValue("@accNum", txtAccNum.Text.Trim())
                     lockCmd.ExecuteNonQuery()
-                    dbConnection.con.Close()
+                    con.Close()
 
                     Me.Close()
                 End If
@@ -84,21 +108,32 @@ Public Class frmLogin
 
         Catch ex As Exception
             MessageBox.Show("Error: " & ex.Message)
-            If dbConnection.con.State = ConnectionState.Open Then
-                dbConnection.con.Close()
+            If con.State = ConnectionState.Open Then
+                con.Close()
             End If
         End Try
     End Sub
 
+    Private Sub refreshAttempts()
+        Call connection()
+        Dim sql As String = "SELECT attempts FROM tbluserinfo WHERE AccountNumber = @accNum"
+        cmd = New MySqlCommand(sql, con)
+        cmd.Parameters.AddWithValue("@accNum", txtAccNum.Text.Trim())
+        Dim newAttempts = cmd.ExecuteScalar()
+        If newAttempts IsNot Nothing Then
+            lblAttempts.Text = newAttempts.ToString
+        End If
+        con.Close()
+    End Sub
+
     ' UPDATE NG ATTEMPTS
     Private Sub updateAttempts()
-        dbConnection.connection()
-        Dim sql As String = "UPDATE tbluserinfo SET attempts = @attempts WHERE AccountNumber = @accNum"
-        Dim cmd As New MySqlCommand(sql, dbConnection.con)
-        cmd.Parameters.AddWithValue("@attempts", lblAttempts.Text)
+        Call connection()
+        Dim sql As String = "UPDATE tbluserinfo SET attempts = attempts - 1 WHERE AccountNumber = @accNum"
+        Dim cmd As New MySqlCommand(sql, con)
         cmd.Parameters.AddWithValue("@accNum", txtAccNum.Text.Trim())
         cmd.ExecuteNonQuery()
-        dbConnection.con.Close()
+        con.Close()
     End Sub
 
     ' LOGIN BUTTON
@@ -150,9 +185,6 @@ Public Class frmLogin
         End If
     End Sub
 
-    ' FORM LOAD
-    Private Sub frmLogin_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        lblAttempts.Text = "3"
-    End Sub
+
 
 End Class

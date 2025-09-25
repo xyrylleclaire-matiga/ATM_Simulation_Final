@@ -71,7 +71,6 @@ Public Class frmSignUp
             Exit Sub
         End If
 
-
         If txtFirstName.Text = "" Or txtLastName.Text = "" Or txtMiddleName.Text = "" Or txtContactNumber.Text = "" Or txtEmailAdd.Text = "" Then
             MsgBox("Please fill in all fields", MsgBoxStyle.Exclamation)
         Else
@@ -109,6 +108,6 @@ Public Class frmSignUp
             End If
 
         End If
-            con.Close()
+        con.Close()
     End Sub
 End Class

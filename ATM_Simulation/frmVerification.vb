@@ -20,8 +20,9 @@ Public Class frmVerification
         cmd.Parameters.AddWithValue("@accNum", LoggedInAccNum.Trim())
         cmd.Parameters.AddWithValue("@pin", txtPIN.Text.Trim())
 
-        Dim result As Integer = Convert.ToInt32(cmd.ExecuteScalar())
-        If result > 0 Then
+        Dim resultObj As Object = cmd.ExecuteScalar()
+
+        If resultObj IsNot Nothing AndAlso resultObj IsNot DBNull.Value Then
             IsPinCorrect = True
             MessageBox.Show("PIN is correct. Access granted.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Me.Close()
