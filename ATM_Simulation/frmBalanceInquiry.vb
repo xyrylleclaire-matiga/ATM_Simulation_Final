@@ -7,6 +7,7 @@ Public Class frmBalanceInquiry
 
     Private Sub frmBalanceInquiry_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         LoadBalance()
+        Timer1.Interval = 3000
         Timer1.Start()
     End Sub
 

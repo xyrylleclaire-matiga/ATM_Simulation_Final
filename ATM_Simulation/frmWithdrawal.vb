@@ -144,21 +144,23 @@ Public Class frmWithdrawal
                 logCmd.ExecuteNonQuery()
 
                 transaction.Commit()
-                MessageBox.Show("Withdrawal successful!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
-                ' Prepare receipt and auto-print
-                ReceiptText = "===== ATM RECEIPT =====" & vbCrLf &
+                ' FOR RECEIPT -----
+                If MsgBox("Do you want to print receipt?", vbQuestion + vbYesNo) = vbYes Then
+                    ReceiptText = "===== ATM RECEIPT =====" & vbCrLf &
                               "Account Number: " & LoggedInAccNum & vbCrLf &
                               "Transaction: Withdrawal" & vbCrLf &
                               "Amount Withdrawn: ₱" & withdrawAmount.ToString("N2") & vbCrLf &
                               "Remaining Balance: ₱" & (currentBalance - withdrawAmount).ToString("N2") & vbCrLf &
                               "Date: " & DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss") & vbCrLf &
                               "======================="
-                PrintDocument1.Print()
-                PrintPreviewDialog1.Document = PrintDocument1
-                PrintPreviewDialog1.Width = 800
-                PrintPreviewDialog1.Height = 600
-                PrintPreviewDialog1.ShowDialog()
+                    PrintDocument1.Print()
+                    PrintPreviewDialog1.Document = PrintDocument1
+                    PrintPreviewDialog1.Width = 800
+                    PrintPreviewDialog1.Height = 600
+                    PrintPreviewDialog1.ShowDialog()
+                End If
+                MessageBox.Show("Withdrawal successful!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 txtAmount.Clear()
             Else
                 transaction.Rollback()

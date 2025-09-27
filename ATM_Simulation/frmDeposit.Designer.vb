@@ -49,6 +49,8 @@ Partial Class frmDeposit
         lblNo1 = New Label()
         PictureBox2 = New PictureBox()
         Button1 = New Button()
+        PrintDocument1 = New Printing.PrintDocument()
+        PrintPreviewDialog1 = New PrintPreviewDialog()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         Panel2.SuspendLayout()
         Panel1.SuspendLayout()
@@ -406,6 +408,19 @@ Partial Class frmDeposit
         Button1.TextAlign = ContentAlignment.MiddleLeft
         Button1.UseVisualStyleBackColor = False
         ' 
+        ' PrintDocument1
+        ' 
+        ' 
+        ' PrintPreviewDialog1
+        ' 
+        PrintPreviewDialog1.AutoScrollMargin = New Size(0, 0)
+        PrintPreviewDialog1.AutoScrollMinSize = New Size(0, 0)
+        PrintPreviewDialog1.ClientSize = New Size(400, 300)
+        PrintPreviewDialog1.Enabled = True
+        PrintPreviewDialog1.Icon = CType(resources.GetObject("PrintPreviewDialog1.Icon"), Icon)
+        PrintPreviewDialog1.Name = "PrintPreviewDialog1"
+        PrintPreviewDialog1.Visible = False
+        ' 
         ' frmDeposit
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -457,5 +472,7 @@ Partial Class frmDeposit
     Friend WithEvents btnClear As Label
     Friend WithEvents lblDel As Label
     Friend WithEvents lblDecimal As Label
+    Friend WithEvents PrintDocument1 As Printing.PrintDocument
+    Friend WithEvents PrintPreviewDialog1 As PrintPreviewDialog
 
 End Class

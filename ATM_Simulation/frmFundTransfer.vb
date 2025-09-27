@@ -208,8 +208,11 @@ VALUES (@transactiontype, @senderAcc, @receiverAcc, @transfer, 'Success', NOW())
                 receiptReceiver = txtTargetAccount.Text
                 receiptAccNum = txtAccountName.Text
 
-                ' Show print preview
-                PrintPreviewDialog1.ShowDialog()
+                If MsgBox("Do you want to print receipt?", vbQuestion + vbYesNo) = vbYes Then
+                    'FOR RECEIPTTTT
+                    PrintPreviewDialog1.ShowDialog()
+                End If
+
 
                 MessageBox.Show("Transaction Complete!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 txtAmountTransfer.Clear()
@@ -278,7 +281,7 @@ VALUES (@transactiontype, @senderAcc, @receiverAcc, @transfer, 'Success', NOW())
         Dim lineHeight As Integer = 20
 
         ' Bank Name
-        e.Graphics.DrawString("1TechKonoligia Bank", fontTitle, Brushes.Black, 100, y)
+        e.Graphics.DrawString("QuickCash ATM", fontTitle, Brushes.Black, 100, y)
         y += lineHeight * 2
 
         ' Receipt title

@@ -151,13 +151,13 @@ Partial Class frmMiniStatement
         ' 
         ' ColumnHeader3
         ' 
-        ColumnHeader3.Text = "To"
+        ColumnHeader3.Text = "From"
         ColumnHeader3.TextAlign = HorizontalAlignment.Center
         ColumnHeader3.Width = 130
         ' 
         ' ColumnHeader4
         ' 
-        ColumnHeader4.Text = "From"
+        ColumnHeader4.Text = "To"
         ColumnHeader4.TextAlign = HorizontalAlignment.Center
         ColumnHeader4.Width = 130
         ' 
@@ -177,7 +177,7 @@ Partial Class frmMiniStatement
         ' 
         cboReportType.DropDownStyle = ComboBoxStyle.DropDownList
         cboReportType.Font = New Font("Arial Rounded MT Bold", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        cboReportType.Items.AddRange(New Object() {"Withdrawal", "Deposit", "Fund_Transfer"})
+        cboReportType.Items.AddRange(New Object() {"Withdrawal", "Deposit", "Fund_Transfer", "All"})
         cboReportType.Location = New Point(148, 111)
         cboReportType.Name = "cboReportType"
         cboReportType.Size = New Size(180, 25)

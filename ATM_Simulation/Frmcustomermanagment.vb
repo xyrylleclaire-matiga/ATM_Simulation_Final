@@ -10,6 +10,7 @@ Public Class Frmcustomermanagment
     Private Sub Frmcustomermanagment_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         GenerateAccountNumber()
         LoadCustomers()
+        GeneratePIN()
     End Sub
 
     ' Generate account number based on max existing value + 1, formatted 10 digits
@@ -31,11 +32,29 @@ Public Class Frmcustomermanagment
         End Try
     End Sub
 
+    Private Sub GeneratePIN()
+        Try
+            If conn.State = ConnectionState.Closed Then conn.Open()
+            Dim query As String = "SELECT COALESCE(MAX(CAST(PIN AS UNSIGNED)),0) FROM tbluserinfo"
+            Dim cmd As New MySqlCommand(query, conn)
+            Dim obj = cmd.ExecuteScalar()
+            Dim maxVal As Long = 0
+            If obj IsNot Nothing AndAlso Not IsDBNull(obj) Then Long.TryParse(obj.ToString(), maxVal)
+            Dim nextVal As Long = maxVal + 1
+            txtPIN.Text = nextVal.ToString("D06")
+        Catch ex As Exception
+            MessageBox.Show("Error generating Account Number: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            txtAccountNumber.Text = "000001"
+        Finally
+            If conn.State = ConnectionState.Open Then conn.Close()
+        End Try
+    End Sub
+
     ' Load customers
     Private Sub LoadCustomers()
         Try
             If conn.State = ConnectionState.Closed Then conn.Open()
-            Dim query As String = "SELECT AccountNumber, FirstName, LastName, MiddleName, EmailAddress, ContactNumber, PIN, attempts, Role FROM tbluserinfo ORDER BY AccountNumber"
+            Dim query As String = "SELECT u.AccountNumber, u.FirstName, u.LastName, u.MiddleName, u.EmailAddress, u.ContactNumber, u.PIN, u.attempts, u.Role, a.AccountStatus FROM tbluserinfo u INNER JOIN tblaccountbalance a ON u.AccountNumber = a.AccountNumber ORDER BY u.AccountNumber"
             Dim da As New MySqlDataAdapter(query, conn)
             Dim dt As New DataTable()
             da.Fill(dt)
@@ -54,8 +73,8 @@ Public Class Frmcustomermanagment
             Return False
         End If
 
-        If String.IsNullOrWhiteSpace(txtPIN.Text) OrElse txtPIN.Text.Length < 4 Then
-            MessageBox.Show("PIN is required and must be at least 4 digits.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        If String.IsNullOrWhiteSpace(txtPIN.Text) OrElse txtPIN.Text.Length < 6 Then
+            MessageBox.Show("PIN is required and must be at least 6 digits.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return False
         End If
 
@@ -87,7 +106,7 @@ Public Class Frmcustomermanagment
 
             ' Insert into tbluserinfo
             Dim queryUser As String = "INSERT INTO tbluserinfo (AccountNumber, FirstName, LastName, MiddleName, EmailAddress, ContactNumber, PIN, attempts, Role) " &
-                                      "VALUES (@acc, @fn, @ln, @mn, @email, @contact, @pin, 0, @role)"
+                                      "VALUES (@acc, @fn, @ln, @mn, @email, @contact, @pin, @attempts, @role)"
             Dim cmdUser As New MySqlCommand(queryUser, conn, transaction)
             cmdUser.Parameters.AddWithValue("@acc", txtAccountNumber.Text)
             cmdUser.Parameters.AddWithValue("@fn", txtFirstName.Text.Trim())
@@ -96,6 +115,7 @@ Public Class Frmcustomermanagment
             cmdUser.Parameters.AddWithValue("@email", txtEmail.Text.Trim())
             cmdUser.Parameters.AddWithValue("@contact", txtContact.Text.Trim())
             cmdUser.Parameters.AddWithValue("@pin", txtPIN.Text.Trim())
+            cmdUser.Parameters.AddWithValue("@attempts", 3)
             cmdUser.Parameters.AddWithValue("@role", If(String.IsNullOrWhiteSpace(cmbRole.Text), "User", cmbRole.Text))
             cmdUser.ExecuteNonQuery()
 
@@ -110,6 +130,7 @@ Public Class Frmcustomermanagment
             LoadCustomers()
             ClearForm()
             GenerateAccountNumber()
+            GeneratePIN()
         Catch ex As Exception
             MessageBox.Show("Error adding customer: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Finally
@@ -130,7 +151,18 @@ Public Class Frmcustomermanagment
 
         Try
             If conn.State = ConnectionState.Closed Then conn.Open()
+
+            Dim checkBalancecmd As New MySqlCommand("SELECT BalanceAmount FROM tblaccountbalance WHERE AccountNumber = @acc", conn)
+            checkBalancecmd.Parameters.AddWithValue("@acc", txtAccountNumber.Text)
+            Dim balance As Object = checkBalancecmd.ExecuteScalar()
+            If balance IsNot Nothing AndAlso Convert.ToDecimal(balance) >= 500 Then
+                MessageBox.Show("This account cannot be deleted because the balance is 500 or more.", "Delete Blocked", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                ClearForm()
+                Return
+            End If
+
             Dim transaction As MySqlTransaction = conn.BeginTransaction()
+
 
             ' Delete from tblaccountbalance
             Dim cmdBalance As New MySqlCommand("DELETE FROM tblaccountbalance WHERE AccountNumber=@acc", conn, transaction)
@@ -165,7 +197,7 @@ Public Class Frmcustomermanagment
 
         Try
             If conn.State = ConnectionState.Closed Then conn.Open()
-            Dim query As String = "UPDATE tbluserinfo SET FirstName=@fn, LastName=@ln, MiddleName=@mn, EmailAddress=@email, ContactNumber=@contact, PIN=@pin, Role=@role WHERE AccountNumber=@acc"
+            Dim query As String = "UPDATE tbluserinfo SET FirstName=@fn, LastName=@ln, MiddleName=@mn, EmailAddress=@email, ContactNumber=@contact, PIN=@pin, attempts = @attempts, Role=@role WHERE AccountNumber=@acc"
             Dim cmd As New MySqlCommand(query, conn)
             cmd.Parameters.AddWithValue("@acc", txtAccountNumber.Text)
             cmd.Parameters.AddWithValue("@fn", txtFirstName.Text.Trim())
@@ -174,13 +206,21 @@ Public Class Frmcustomermanagment
             cmd.Parameters.AddWithValue("@email", txtEmail.Text.Trim())
             cmd.Parameters.AddWithValue("@contact", txtContact.Text.Trim())
             cmd.Parameters.AddWithValue("@pin", txtPIN.Text.Trim())
+            cmd.Parameters.AddWithValue("@attempts", txtattempts.Text.Trim())
             cmd.Parameters.AddWithValue("@role", If(String.IsNullOrWhiteSpace(cmbRole.Text), "User", cmbRole.Text))
             cmd.ExecuteNonQuery()
+
+            Dim query2 As String = "UPDATE tblaccountbalance SET AccountStatus = @status WHERE AccountNumber = @acc"
+            Dim cmd2 As New MySqlCommand(query2, conn)
+            cmd2.Parameters.AddWithValue("@status", cboStatus.Text.Trim())
+            cmd2.Parameters.AddWithValue("@acc", txtAccountNumber.Text.Trim)
+            cmd2.ExecuteNonQuery()
 
             MessageBox.Show("Customer updated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
             LoadCustomers()
             ClearForm()
             GenerateAccountNumber()
+
         Catch ex As Exception
             MessageBox.Show("Error updating customer: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Finally
@@ -202,6 +242,7 @@ Public Class Frmcustomermanagment
         txtEmail.Clear()
         txtContact.Clear()
         cmbRole.SelectedIndex = -1
+        cboStatus.SelectedItem = 1
     End Sub
 
     ' ---------------- GRID CLICK ----------------
@@ -216,7 +257,9 @@ Public Class Frmcustomermanagment
         txtEmail.Text = If(row.Cells("EmailAddress").Value IsNot Nothing, row.Cells("EmailAddress").Value.ToString(), "")
         txtContact.Text = If(row.Cells("ContactNumber").Value IsNot Nothing, row.Cells("ContactNumber").Value.ToString(), "")
         txtPIN.Text = If(row.Cells("PIN").Value IsNot Nothing, row.Cells("PIN").Value.ToString(), "")
+        txtattempts.Text = If(row.Cells("attempts").Value IsNot Nothing, row.Cells("attempts").Value.ToString(), "")
         cmbRole.Text = If(row.Cells("Role").Value IsNot Nothing, row.Cells("Role").Value.ToString(), "")
+        cboStatus.Text = If(row.Cells("AccountStatus").Value IsNot Nothing, row.Cells("AccountStatus").Value.ToString(), "")
     End Sub
 
     ' ---------------- LIVE SEARCH ----------------
@@ -236,9 +279,5 @@ Public Class Frmcustomermanagment
         Finally
             If conn.State = ConnectionState.Open Then conn.Close()
         End Try
-    End Sub
-
-    Private Sub grpActions_Enter(sender As Object, e As EventArgs) Handles grpActions.Enter
-        ' Optional: for UI focus actions
     End Sub
 End Class

@@ -52,29 +52,32 @@ Public Class frmMiniStatement
         End If
 
         If cboReportType.SelectedItem.ToString() = "Withdrawal" Then
-            sql = "SELECT sender_AccountNumber, Amount, transaction_type, Date " &
-              "FROM tbltransaction_history " &
-              "WHERE sender_AccountNumber = @acc AND transaction_type = 'Withdrawal' " &
-               "AND Date BETWEEN @startDate AND @endDate " &
-              "ORDER BY `Date` DESC LIMIT 5"
+            sql = "SELECT sender_AccountNumber, receiver_AccountNumber, Amount, transaction_type, Date " &
+                  "FROM tbltransaction_history " &
+                  "WHERE sender_AccountNumber = @acc AND transaction_type = 'Withdrawal' " &
+                  "AND Date BETWEEN @startDate AND @endDate " &
+                  "ORDER BY `Date` DESC LIMIT 5"
 
         ElseIf cboReportType.SelectedItem.ToString() = "Deposit" Then
-            sql = "SELECT receiver_AccountNumber, Amount, transaction_type, Date " &
-              "FROM tbltransaction_history " &
-              "WHERE receiver_AccountNumber = @acc AND transaction_type = 'Deposit' " &
-               "AND Date BETWEEN @startDate AND @endDate " &
-              "ORDER BY `Date` DESC LIMIT 5"
+            sql = "SELECT sender_AccountNumber, receiver_AccountNumber, Amount, transaction_type, Date " &
+                  "FROM tbltransaction_history " &
+                  "WHERE receiver_AccountNumber = @acc AND transaction_type = 'Deposit' " &
+                  "AND Date BETWEEN @startDate AND @endDate " &
+                  "ORDER BY `Date` DESC LIMIT 5"
 
         ElseIf cboReportType.SelectedItem.ToString() = "Fund_Transfer" Then
             sql = "SELECT sender_AccountNumber, receiver_AccountNumber, Amount, transaction_type, Date " &
-              "FROM tbltransaction_history " &
-              "WHERE (sender_AccountNumber = @acc OR receiver_AccountNumber = @acc) " &
-              "AND transaction_type = 'Fund_Transfer' " &
-               "AND Date BETWEEN @startDate AND @endDate " &
-              "ORDER BY `Date` DESC LIMIT 5"
-
-
+                  "FROM tbltransaction_history " &
+                  "WHERE (sender_AccountNumber = @acc OR receiver_AccountNumber = @acc) " &
+                  "AND transaction_type = 'Fund_Transfer' " &
+                  "AND Date BETWEEN @startDate AND @endDate " &
+                  "ORDER BY `Date` DESC LIMIT 5"
+        Else
+            sql = "SELECT sender_AccountNumber, receiver_AccountNumber, Amount,  transaction_type, Date
+            FROM tbltransaction_history WHERE sender_AccountNumber = @acc OR receiver_AccountNumber = @acc AND Date BETWEEN @startDate AND @endDate 
+            ORDER BY `Date` DESC LIMIT 5"
         End If
+
         cmd = New MySqlCommand(sql, con)
         cmd.Parameters.AddWithValue("@acc", LoggedInAccNum)
         cmd.Parameters.AddWithValue("@startDate", dtFrom.Value.Date)

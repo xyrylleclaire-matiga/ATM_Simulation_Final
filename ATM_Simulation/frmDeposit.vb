@@ -1,9 +1,13 @@
-﻿Imports MySql.Data.MySqlClient
+﻿Imports System.Drawing.Printing
 Imports System.Transactions
+Imports MySql.Data.MySqlClient
 
 Public Class frmDeposit
 
+    Private receiptText As String
+    Dim balanceAmount As Integer
     Private Sub Deposit()
+
         Dim depositAmount As Double
 
         ' ---------------- Input Validations ----------------
@@ -59,15 +63,12 @@ Public Class frmDeposit
         End If
 
         Try
-            ' ---------------- Database Check ----------------
             Call connection()
 
             ' Ensure account number is trimmed and padded to 10 characters
             Dim accNum As String = dbConnection.LoggedInAccNum.Trim()
             accNum = accNum.PadLeft(10, "0"c)
 
-            ' Debug check
-            'MessageBox.Show("Checking account: [" & accNum & "]") 
 
             Dim cmdAcc As New MySqlCommand("SELECT BalanceAmount, AccountStatus FROM tblaccountbalance WHERE TRIM(AccountNumber)=@acc", con)
             cmdAcc.Parameters.AddWithValue("@acc", accNum)
@@ -80,6 +81,7 @@ Public Class frmDeposit
             End If
 
             Dim accStatus As String = reader("AccountStatus").ToString()
+            balanceAmount = Convert.ToDouble(reader("BalanceAmount"))
             reader.Close()
 
             If accStatus <> "Active" Then
@@ -120,7 +122,9 @@ Public Class frmDeposit
             cmd.Connection = con
             cmd.Transaction = transaction
 
+
             cmd.CommandText = "UPDATE tblaccountbalance SET BalanceAmount = BalanceAmount + @deposit WHERE TRIM(AccountNumber) = @acc"
+            cmd.Parameters.AddWithValue("@BalanceAmount", balanceAmount)
             cmd.Parameters.AddWithValue("@deposit", depositAmount)
             cmd.Parameters.AddWithValue("@acc", accNum)
             Dim rowsAffected As Integer = cmd.ExecuteNonQuery()
@@ -136,6 +140,21 @@ Public Class frmDeposit
                 logCmd.ExecuteNonQuery()
 
                 transaction.Commit()
+                If MsgBox("Do you want to print your receipt?", vbQuestion + vbYesNo) = vbYes Then
+                    ' FOR RECEIPT -----
+                    receiptText = "===== ATM RECEIPT =====" & vbCrLf &
+                                  "Account Number: " & LoggedInAccNum & vbCrLf &
+                                  "Transaction: Deposit" & vbCrLf &
+                                  "Amount Deposit: ₱" & depositAmount.ToString("N2") & vbCrLf &
+                                  "Remaining Balance: ₱" & (balanceAmount + depositAmount).ToString("N2") & vbCrLf &
+                                  "Date: " & DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss") & vbCrLf &
+                                  "======================="
+                    PrintDocument1.Print()
+                    PrintPreviewDialog1.Document = PrintDocument1
+                    PrintPreviewDialog1.Width = 800
+                    PrintPreviewDialog1.Height = 600
+                    PrintPreviewDialog1.ShowDialog()
+                End If
                 MessageBox.Show("Deposit successful!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 txtDepositAmount.Clear()
             Else
@@ -152,8 +171,14 @@ Public Class frmDeposit
         End Try
     End Sub
 
+    ' PrintDocument1 PrintPage event
+    Private Sub PrintDocument1_PrintPage(sender As Object, e As PrintPageEventArgs) Handles PrintDocument1.PrintPage
+        e.Graphics.DrawString(receiptText, New Font("Arial", 12, FontStyle.Regular), Brushes.Black, 50, 50)
+    End Sub
+
     ' ---------------- Button Handlers ----------------
     Private Sub btnDeposit_Click(sender As Object, e As EventArgs) Handles btnDeposit.Click
+
         Dim pinForm As New frmVerification()
         pinForm.ShowDialog()
         If pinForm.IsPinCorrect Then

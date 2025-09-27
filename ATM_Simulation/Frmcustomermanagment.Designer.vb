@@ -19,8 +19,10 @@ Partial Class Frmcustomermanagment
         pnlHeader = New Panel()
         lblTitle = New Label()
         pnlLeft = New Panel()
+        cboStatus = New ComboBox()
         grpForm = New GroupBox()
-        Label1 = New Label()
+        lblStatus = New Label()
+        lblAttempts = New Label()
         txtattempts = New TextBox()
         lblAccountNumber = New Label()
         txtAccountNumber = New TextBox()
@@ -88,9 +90,21 @@ Partial Class Frmcustomermanagment
         pnlLeft.Size = New Size(320, 519)
         pnlLeft.TabIndex = 1
         ' 
+        ' cboStatus
+        ' 
+        cboStatus.Font = New Font("Arial Rounded MT Bold", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        cboStatus.FormattingEnabled = True
+        cboStatus.Items.AddRange(New Object() {"Active", "Inactive", "Deactivated"})
+        cboStatus.Location = New Point(12, 459)
+        cboStatus.Name = "cboStatus"
+        cboStatus.Size = New Size(275, 25)
+        cboStatus.TabIndex = 19
+        ' 
         ' grpForm
         ' 
-        grpForm.Controls.Add(Label1)
+        grpForm.Controls.Add(cboStatus)
+        grpForm.Controls.Add(lblStatus)
+        grpForm.Controls.Add(lblAttempts)
         grpForm.Controls.Add(txtattempts)
         grpForm.Controls.Add(lblAccountNumber)
         grpForm.Controls.Add(txtAccountNumber)
@@ -111,23 +125,32 @@ Partial Class Frmcustomermanagment
         grpForm.Font = New Font("Arial Rounded MT Bold", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         grpForm.Location = New Point(8, 8)
         grpForm.Name = "grpForm"
-        grpForm.Size = New Size(304, 445)
+        grpForm.Size = New Size(304, 500)
         grpForm.TabIndex = 0
         grpForm.TabStop = False
         grpForm.Text = "Customer Details"
         ' 
-        ' Label1
+        ' lblStatus
         ' 
-        Label1.AutoSize = True
-        Label1.Location = New Point(11, 381)
-        Label1.Name = "Label1"
-        Label1.Size = New Size(66, 15)
-        Label1.TabIndex = 17
-        Label1.Text = "Attempts"
+        lblStatus.AutoSize = True
+        lblStatus.Location = New Point(12, 438)
+        lblStatus.Name = "lblStatus"
+        lblStatus.Size = New Size(49, 15)
+        lblStatus.TabIndex = 18
+        lblStatus.Text = "Status"
+        ' 
+        ' lblAttempts
+        ' 
+        lblAttempts.AutoSize = True
+        lblAttempts.Location = New Point(11, 394)
+        lblAttempts.Name = "lblAttempts"
+        lblAttempts.Size = New Size(66, 15)
+        lblAttempts.TabIndex = 17
+        lblAttempts.Text = "Attempts"
         ' 
         ' txtattempts
         ' 
-        txtattempts.Location = New Point(12, 399)
+        txtattempts.Location = New Point(12, 412)
         txtattempts.Name = "txtattempts"
         txtattempts.Size = New Size(276, 23)
         txtattempts.TabIndex = 16
@@ -152,7 +175,7 @@ Partial Class Frmcustomermanagment
         ' lblFirstName
         ' 
         lblFirstName.AutoSize = True
-        lblFirstName.Location = New Point(11, 71)
+        lblFirstName.Location = New Point(12, 115)
         lblFirstName.Name = "lblFirstName"
         lblFirstName.Size = New Size(78, 15)
         lblFirstName.TabIndex = 2
@@ -160,7 +183,7 @@ Partial Class Frmcustomermanagment
         ' 
         ' txtFirstName
         ' 
-        txtFirstName.Location = New Point(11, 89)
+        txtFirstName.Location = New Point(12, 133)
         txtFirstName.Name = "txtFirstName"
         txtFirstName.Size = New Size(276, 23)
         txtFirstName.TabIndex = 3
@@ -168,7 +191,7 @@ Partial Class Frmcustomermanagment
         ' lblLastName
         ' 
         lblLastName.AutoSize = True
-        lblLastName.Location = New Point(12, 115)
+        lblLastName.Location = New Point(11, 74)
         lblLastName.Name = "lblLastName"
         lblLastName.Size = New Size(76, 15)
         lblLastName.TabIndex = 4
@@ -176,7 +199,7 @@ Partial Class Frmcustomermanagment
         ' 
         ' txtLastName
         ' 
-        txtLastName.Location = New Point(12, 133)
+        txtLastName.Location = New Point(11, 92)
         txtLastName.Name = "txtLastName"
         txtLastName.Size = New Size(276, 23)
         txtLastName.TabIndex = 5
@@ -184,7 +207,7 @@ Partial Class Frmcustomermanagment
         ' lblMiddleName
         ' 
         lblMiddleName.AutoSize = True
-        lblMiddleName.Location = New Point(12, 159)
+        lblMiddleName.Location = New Point(13, 165)
         lblMiddleName.Name = "lblMiddleName"
         lblMiddleName.Size = New Size(91, 15)
         lblMiddleName.TabIndex = 6
@@ -192,7 +215,7 @@ Partial Class Frmcustomermanagment
         ' 
         ' txtMiddleName
         ' 
-        txtMiddleName.Location = New Point(12, 177)
+        txtMiddleName.Location = New Point(13, 183)
         txtMiddleName.Name = "txtMiddleName"
         txtMiddleName.Size = New Size(276, 23)
         txtMiddleName.TabIndex = 7
@@ -200,7 +223,7 @@ Partial Class Frmcustomermanagment
         ' lblPIN
         ' 
         lblPIN.AutoSize = True
-        lblPIN.Location = New Point(12, 203)
+        lblPIN.Location = New Point(13, 218)
         lblPIN.Name = "lblPIN"
         lblPIN.Size = New Size(30, 15)
         lblPIN.TabIndex = 8
@@ -208,7 +231,7 @@ Partial Class Frmcustomermanagment
         ' 
         ' txtPIN
         ' 
-        txtPIN.Location = New Point(11, 221)
+        txtPIN.Location = New Point(12, 236)
         txtPIN.Name = "txtPIN"
         txtPIN.Size = New Size(276, 23)
         txtPIN.TabIndex = 9
@@ -217,7 +240,7 @@ Partial Class Frmcustomermanagment
         ' lblRole
         ' 
         lblRole.AutoSize = True
-        lblRole.Location = New Point(11, 247)
+        lblRole.Location = New Point(11, 262)
         lblRole.Name = "lblRole"
         lblRole.Size = New Size(36, 15)
         lblRole.TabIndex = 10
@@ -227,7 +250,7 @@ Partial Class Frmcustomermanagment
         ' 
         cmbRole.DropDownStyle = ComboBoxStyle.DropDownList
         cmbRole.Items.AddRange(New Object() {"User", "Admin"})
-        cmbRole.Location = New Point(11, 265)
+        cmbRole.Location = New Point(11, 280)
         cmbRole.Name = "cmbRole"
         cmbRole.Size = New Size(276, 23)
         cmbRole.TabIndex = 11
@@ -235,7 +258,7 @@ Partial Class Frmcustomermanagment
         ' lblEmail
         ' 
         lblEmail.AutoSize = True
-        lblEmail.Location = New Point(11, 291)
+        lblEmail.Location = New Point(11, 306)
         lblEmail.Name = "lblEmail"
         lblEmail.Size = New Size(44, 15)
         lblEmail.TabIndex = 12
@@ -243,7 +266,7 @@ Partial Class Frmcustomermanagment
         ' 
         ' txtEmail
         ' 
-        txtEmail.Location = New Point(11, 309)
+        txtEmail.Location = New Point(11, 324)
         txtEmail.Name = "txtEmail"
         txtEmail.Size = New Size(276, 23)
         txtEmail.TabIndex = 13
@@ -251,7 +274,7 @@ Partial Class Frmcustomermanagment
         ' lblContact
         ' 
         lblContact.AutoSize = True
-        lblContact.Location = New Point(11, 335)
+        lblContact.Location = New Point(11, 350)
         lblContact.Name = "lblContact"
         lblContact.Size = New Size(59, 15)
         lblContact.TabIndex = 14
@@ -259,7 +282,7 @@ Partial Class Frmcustomermanagment
         ' 
         ' txtContact
         ' 
-        txtContact.Location = New Point(11, 353)
+        txtContact.Location = New Point(11, 368)
         txtContact.Name = "txtContact"
         txtContact.Size = New Size(276, 23)
         txtContact.TabIndex = 15
@@ -441,7 +464,9 @@ Partial Class Frmcustomermanagment
     Friend WithEvents lblSearch As System.Windows.Forms.Label
     Friend WithEvents txtSearch As System.Windows.Forms.TextBox
     Friend WithEvents dgvCustomers As System.Windows.Forms.DataGridView
-    Friend WithEvents Label1 As Label
+    Friend WithEvents lblAttempts As Label
     Friend WithEvents txtattempts As TextBox
+    Friend WithEvents lblStatus As Label
+    Friend WithEvents cboStatus As ComboBox
 
 End Class
