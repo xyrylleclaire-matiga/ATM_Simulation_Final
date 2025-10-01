@@ -8,48 +8,74 @@ Public Class Frmcustomermanagment
 
     ' Form Load
     Private Sub Frmcustomermanagment_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        GenerateAccountNumber()
+        txtAccountNumber.Text = generateAccountNumberr()
         LoadCustomers()
-        GeneratePIN()
+        txtPIN.Text = GeneratePIN()
 
     End Sub
 
-    ' Generate account number based on max existing value + 1, formatted 10 digits
-    Private Sub GenerateAccountNumber()
+    Private Function isDuplicate(email As String, contact As String) As Boolean
         Try
-            If conn.State = ConnectionState.Closed Then conn.Open()
-            Dim query As String = "SELECT COALESCE(MAX(CAST(AccountNumber AS UNSIGNED)),0) FROM tbluserinfo"
-            Dim cmd As New MySqlCommand(query, conn)
-            Dim obj = cmd.ExecuteScalar()
-            Dim maxVal As Long = 0
-            If obj IsNot Nothing AndAlso Not IsDBNull(obj) Then Long.TryParse(obj.ToString(), maxVal)
-            Dim nextVal As Long = maxVal + 1
-            txtAccountNumber.Text = nextVal.ToString("D10")
-        Catch ex As Exception
-            MessageBox.Show("Error generating Account Number: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            txtAccountNumber.Text = "0000000001"
-        Finally
-            If conn.State = ConnectionState.Open Then conn.Close()
-        End Try
-    End Sub
+            Call connection()
+            sql = "SELECT COUNT(*) FROM tbluserinfo WHERE EmailAddress = @emailadd OR ContactNumber = @contactno"
+            cmd = New MySqlCommand(sql, con)
+            cmd.Parameters.AddWithValue("@emailadd", email.Trim())
+            cmd.Parameters.AddWithValue("@contactno", contact.Trim())
 
-    Private Sub GeneratePIN()
-        Try
-            If conn.State = ConnectionState.Closed Then conn.Open()
-            Dim query As String = "SELECT COALESCE(MAX(CAST(PIN AS UNSIGNED)),0) FROM tbluserinfo"
-            Dim cmd As New MySqlCommand(query, conn)
-            Dim obj = cmd.ExecuteScalar()
-            Dim maxVal As Long = 0
-            If obj IsNot Nothing AndAlso Not IsDBNull(obj) Then Long.TryParse(obj.ToString(), maxVal)
-            Dim nextVal As Long = maxVal + 1
-            txtPIN.Text = nextVal.ToString("D06")
+
+            Dim count As Integer = Convert.ToInt32(cmd.ExecuteScalar())
+            Return count > 0
         Catch ex As Exception
-            MessageBox.Show("Error generating Account Number: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            txtAccountNumber.Text = "000001"
+            MsgBox("Error checking duplicates : ", ex.Message)
+            Return True
         Finally
-            If conn.State = ConnectionState.Open Then conn.Close()
+            con.Close()
+
         End Try
-    End Sub
+    End Function
+
+    'FOR ACCOUNT NUMBER GENERATORRRRR ----------------
+    Private Function generateAccountNumberr() As String
+        Dim rndm As New Random()
+        Dim accountNo As String
+        Dim isDuplicate As Boolean
+
+        Do
+            accountNo = rndm.Next(1000000000, Integer.MaxValue).ToString()
+
+            Call connection()
+            sql = "SELECT COUNT(*) FROM tbluserinfo WHERE AccountNumber = @accNo"
+            cmd = New MySqlCommand(sql, con)
+
+            cmd.Parameters.AddWithValue("@accNo", accountNo)
+            Dim count As Integer = Convert.ToInt32(cmd.ExecuteScalar())
+            con.Close()
+
+            isDuplicate = (count > 0)
+
+        Loop While isDuplicate
+        Return accountNo
+    End Function
+
+    Private Function GeneratePIN() As String
+        Dim rndm As New Random()
+        Dim pinNumber As String
+        Dim isDuplicate As Boolean
+        Do
+            pinNumber = rndm.Next(100000, 1000000).ToString()
+
+            Call connection()
+            sql = "SELECT COUNT(*) FROM tbluserinfo WHERE PIN = @pin"
+            cmd = New MySqlCommand(sql, con)
+
+            cmd.Parameters.AddWithValue("@pin", pinNumber)
+            Dim count As Integer = Convert.ToInt32(cmd.ExecuteScalar())
+            con.Close()
+
+            isDuplicate = (count > 0)
+        Loop While isDuplicate
+        Return pinNumber
+    End Function
 
     ' Load customers
     Private Sub LoadCustomers()
@@ -130,8 +156,8 @@ Public Class Frmcustomermanagment
             MessageBox.Show("Customer added successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
             LoadCustomers()
             ClearForm()
-            GenerateAccountNumber()
-            GeneratePIN()
+            txtAccountNumber.Text = generateAccountNumberr()
+            txtPIN.Text = GeneratePIN()
         Catch ex As Exception
             MessageBox.Show("Error adding customer: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Finally
@@ -179,7 +205,7 @@ Public Class Frmcustomermanagment
             MessageBox.Show("Customer and their account balance deleted.", "Deleted", MessageBoxButtons.OK, MessageBoxIcon.Information)
             LoadCustomers()
             ClearForm()
-            GenerateAccountNumber()
+            txtAccountNumber.Text = generateAccountNumberr()
         Catch ex As Exception
             MessageBox.Show("Error deleting customer: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Finally
@@ -220,7 +246,7 @@ Public Class Frmcustomermanagment
             MessageBox.Show("Customer updated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
             LoadCustomers()
             ClearForm()
-            GenerateAccountNumber()
+            txtAccountNumber.Text = generateAccountNumberr()
 
         Catch ex As Exception
             MessageBox.Show("Error updating customer: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -232,7 +258,7 @@ Public Class Frmcustomermanagment
     ' ---------------- CLEAR FORM ----------------
     Private Sub btnClear_Click(sender As Object, e As EventArgs) Handles btnClear.Click
         ClearForm()
-        GenerateAccountNumber()
+        txtAccountNumber.Text = generateAccountNumberr()
     End Sub
 
     Private Sub ClearForm()
@@ -284,4 +310,5 @@ Public Class Frmcustomermanagment
 
     Private Sub dgvCustomers_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvCustomers.CellContentClick
     End Sub
+
 End Class
