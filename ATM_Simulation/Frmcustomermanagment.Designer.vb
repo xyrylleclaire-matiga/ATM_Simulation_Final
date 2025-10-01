@@ -19,8 +19,8 @@ Partial Class Frmcustomermanagment
         pnlHeader = New Panel()
         lblTitle = New Label()
         pnlLeft = New Panel()
-        cboStatus = New ComboBox()
         grpForm = New GroupBox()
+        cboStatus = New ComboBox()
         lblStatus = New Label()
         lblAttempts = New Label()
         txtattempts = New TextBox()
@@ -65,7 +65,7 @@ Partial Class Frmcustomermanagment
         pnlHeader.Dock = DockStyle.Top
         pnlHeader.Location = New Point(0, 0)
         pnlHeader.Name = "pnlHeader"
-        pnlHeader.Size = New Size(880, 38)
+        pnlHeader.Size = New Size(1076, 38)
         pnlHeader.TabIndex = 0
         ' 
         ' lblTitle
@@ -89,16 +89,6 @@ Partial Class Frmcustomermanagment
         pnlLeft.Padding = New Padding(8)
         pnlLeft.Size = New Size(320, 519)
         pnlLeft.TabIndex = 1
-        ' 
-        ' cboStatus
-        ' 
-        cboStatus.Font = New Font("Arial Rounded MT Bold", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        cboStatus.FormattingEnabled = True
-        cboStatus.Items.AddRange(New Object() {"Active", "Inactive", "Deactivated"})
-        cboStatus.Location = New Point(12, 459)
-        cboStatus.Name = "cboStatus"
-        cboStatus.Size = New Size(275, 25)
-        cboStatus.TabIndex = 19
         ' 
         ' grpForm
         ' 
@@ -129,6 +119,16 @@ Partial Class Frmcustomermanagment
         grpForm.TabIndex = 0
         grpForm.TabStop = False
         grpForm.Text = "Customer Details"
+        ' 
+        ' cboStatus
+        ' 
+        cboStatus.Font = New Font("Arial Rounded MT Bold", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        cboStatus.FormattingEnabled = True
+        cboStatus.Items.AddRange(New Object() {"Active", "Inactive", "Deactivated"})
+        cboStatus.Location = New Point(12, 459)
+        cboStatus.Name = "cboStatus"
+        cboStatus.Size = New Size(275, 25)
+        cboStatus.TabIndex = 19
         ' 
         ' lblStatus
         ' 
@@ -372,7 +372,7 @@ Partial Class Frmcustomermanagment
         pnlRight.Dock = DockStyle.Fill
         pnlRight.Location = New Point(322, 38)
         pnlRight.Name = "pnlRight"
-        pnlRight.Size = New Size(558, 519)
+        pnlRight.Size = New Size(754, 519)
         pnlRight.TabIndex = 2
         ' 
         ' lblSearch
@@ -390,7 +390,7 @@ Partial Class Frmcustomermanagment
         txtSearch.Font = New Font("Arial Rounded MT Bold", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         txtSearch.Location = New Point(70, 14)
         txtSearch.Name = "txtSearch"
-        txtSearch.Size = New Size(440, 21)
+        txtSearch.Size = New Size(672, 21)
         txtSearch.TabIndex = 1
         ' 
         ' dgvCustomers
@@ -403,14 +403,14 @@ Partial Class Frmcustomermanagment
         dgvCustomers.ReadOnly = True
         dgvCustomers.RowHeadersVisible = False
         dgvCustomers.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        dgvCustomers.Size = New Size(579, 340)
+        dgvCustomers.Size = New Size(699, 340)
         dgvCustomers.TabIndex = 2
         ' 
         ' Frmcustomermanagment
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(880, 557)
+        ClientSize = New Size(1076, 557)
         Controls.Add(pnlRight)
         Controls.Add(PanelSeparator)
         Controls.Add(pnlLeft)

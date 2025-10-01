@@ -188,4 +188,7 @@ Partial Class frmBalanceInquiry
     Friend WithEvents btnprint As Button
     Friend WithEvents PrintPreviewDialog1 As PrintPreviewDialog
     Friend WithEvents PrintDocument1 As Printing.PrintDocument
+
+
+
 End Class

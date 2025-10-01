@@ -39,6 +39,7 @@ Public Class frmMain
 
         pinForm.ShowDialog()
         If pinForm.IsPinCorrect Then
+            frmBalanceInquiry.LoadBalance()
             frmBalanceInquiry.Show()
             Me.Hide()
         Else

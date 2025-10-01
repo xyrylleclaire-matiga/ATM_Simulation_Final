@@ -67,7 +67,7 @@ Partial Class frmAdminDashboard
         PanelSidebar.Dock = DockStyle.Left
         PanelSidebar.Location = New Point(0, 0)
         PanelSidebar.Name = "PanelSidebar"
-        PanelSidebar.Size = New Size(220, 650)
+        PanelSidebar.Size = New Size(220, 673)
         PanelSidebar.TabIndex = 2
         ' 
         ' Button1
@@ -88,7 +88,7 @@ Partial Class frmAdminDashboard
         ' pctbxLogout
         ' 
         pctbxLogout.Image = My.Resources.Resources.download__38__removebg_preview
-        pctbxLogout.Location = New Point(0, 600)
+        pctbxLogout.Location = New Point(0, 623)
         pctbxLogout.Name = "pctbxLogout"
         pctbxLogout.Size = New Size(53, 50)
         pctbxLogout.SizeMode = PictureBoxSizeMode.StretchImage
@@ -163,7 +163,7 @@ Partial Class frmAdminDashboard
         PanelHeader.Dock = DockStyle.Top
         PanelHeader.Location = New Point(220, 0)
         PanelHeader.Name = "PanelHeader"
-        PanelHeader.Size = New Size(1005, 70)
+        PanelHeader.Size = New Size(1113, 70)
         PanelHeader.TabIndex = 1
         ' 
         ' lblHeader
@@ -184,7 +184,7 @@ Partial Class frmAdminDashboard
         btnLogout.FlatStyle = FlatStyle.Flat
         btnLogout.Font = New Font("Segoe UI", 10F, FontStyle.Bold)
         btnLogout.ForeColor = Color.White
-        btnLogout.Location = New Point(1005, 20)
+        btnLogout.Location = New Point(1113, 20)
         btnLogout.Name = "btnLogout"
         btnLogout.Size = New Size(90, 35)
         btnLogout.TabIndex = 1
@@ -201,7 +201,7 @@ Partial Class frmAdminDashboard
         PanelMain.Location = New Point(220, 70)
         PanelMain.Name = "PanelMain"
         PanelMain.Padding = New Padding(30)
-        PanelMain.Size = New Size(1005, 580)
+        PanelMain.Size = New Size(1113, 603)
         PanelMain.TabIndex = 0
         ' 
         ' pnlTotalUsers
@@ -266,7 +266,7 @@ Partial Class frmAdminDashboard
         ' 
         ' frmAdminDashboard
         ' 
-        ClientSize = New Size(1225, 650)
+        ClientSize = New Size(1333, 673)
         Controls.Add(PanelMain)
         Controls.Add(PanelHeader)
         Controls.Add(PanelSidebar)

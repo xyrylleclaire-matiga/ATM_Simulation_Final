@@ -11,6 +11,7 @@ Public Class Frmcustomermanagment
         GenerateAccountNumber()
         LoadCustomers()
         GeneratePIN()
+
     End Sub
 
     ' Generate account number based on max existing value + 1, formatted 10 digits
@@ -54,7 +55,7 @@ Public Class Frmcustomermanagment
     Private Sub LoadCustomers()
         Try
             If conn.State = ConnectionState.Closed Then conn.Open()
-            Dim query As String = "SELECT u.AccountNumber, u.FirstName, u.LastName, u.MiddleName, u.EmailAddress, u.ContactNumber, u.PIN, u.attempts, u.Role, a.AccountStatus FROM tbluserinfo u INNER JOIN tblaccountbalance a ON u.AccountNumber = a.AccountNumber ORDER BY u.AccountNumber"
+            Dim query As String = "SELECT u.AccountNumber, u.FirstName, u.LastName, u.MiddleName, u.EmailAddress, u.ContactNumber, u.attempts, u.Role, a.AccountStatus FROM tbluserinfo u INNER JOIN tblaccountbalance a ON u.AccountNumber = a.AccountNumber ORDER BY u.AccountNumber"
             Dim da As New MySqlDataAdapter(query, conn)
             Dim dt As New DataTable()
             da.Fill(dt)
@@ -256,7 +257,7 @@ Public Class Frmcustomermanagment
         txtMiddleName.Text = If(row.Cells("MiddleName").Value IsNot Nothing, row.Cells("MiddleName").Value.ToString(), "")
         txtEmail.Text = If(row.Cells("EmailAddress").Value IsNot Nothing, row.Cells("EmailAddress").Value.ToString(), "")
         txtContact.Text = If(row.Cells("ContactNumber").Value IsNot Nothing, row.Cells("ContactNumber").Value.ToString(), "")
-        txtPIN.Text = If(row.Cells("PIN").Value IsNot Nothing, row.Cells("PIN").Value.ToString(), "")
+        txtPIN.Text = "******"
         txtattempts.Text = If(row.Cells("attempts").Value IsNot Nothing, row.Cells("attempts").Value.ToString(), "")
         cmbRole.Text = If(row.Cells("Role").Value IsNot Nothing, row.Cells("Role").Value.ToString(), "")
         cboStatus.Text = If(row.Cells("AccountStatus").Value IsNot Nothing, row.Cells("AccountStatus").Value.ToString(), "")
@@ -279,5 +280,8 @@ Public Class Frmcustomermanagment
         Finally
             If conn.State = ConnectionState.Open Then conn.Close()
         End Try
+    End Sub
+
+    Private Sub dgvCustomers_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvCustomers.CellContentClick
     End Sub
 End Class

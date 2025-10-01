@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 27, 2025 at 05:37 PM
+-- Generation Time: Oct 01, 2025 at 05:12 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -39,7 +39,7 @@ CREATE TABLE `tblaccountbalance` (
 --
 
 INSERT INTO `tblaccountbalance` (`Account_id`, `AccountNumber`, `AccountStatus`, `BalanceAmount`) VALUES
-(1001, '0001234567', 'Active', 2000.00),
+(1001, '0001234567', 'Active', 1000.00),
 (1002, '9876543210', 'Active', 1000900.00),
 (1005, '1781989531', 'Active', 800.00),
 (1009, '9876543212', 'Active', 0.00);
@@ -143,7 +143,21 @@ INSERT INTO `tbltransaction_history` (`transaction_number`, `transaction_type`, 
 (28, 'Deposit', NULL, '0001234567', 100, 'Success', '2025-09-27 22:13:48'),
 (29, 'Deposit', NULL, '0001234567', 100, 'Success', '2025-09-27 23:13:56'),
 (30, 'Deposit', NULL, '0001234567', 1000, 'Success', '2025-09-27 23:14:06'),
-(31, 'Fund_Transfer', '0001234567', '1781989531', 100, 'Success', '2025-09-27 23:21:55');
+(31, 'Fund_Transfer', '0001234567', '1781989531', 100, 'Success', '2025-09-27 23:21:55'),
+(32, 'Deposit', NULL, '0001234567', 100, 'Success', '2025-09-28 22:05:50'),
+(33, 'Deposit', NULL, '0001234567', 100, 'Success', '2025-09-28 22:06:11'),
+(34, 'Deposit', NULL, '0001234567', 100, 'Success', '2025-09-28 22:13:00'),
+(35, 'Deposit', NULL, '0001234567', 100, 'Success', '2025-09-28 22:16:11'),
+(36, 'Deposit', NULL, '0001234567', 100, 'Success', '2025-09-29 00:43:03'),
+(37, 'Deposit', NULL, '0001234567', 1500, 'Success', '2025-09-29 00:58:01'),
+(38, 'Withdrawal', '0001234567', NULL, 2000, 'Success', '2025-09-29 01:17:03'),
+(39, 'Deposit', NULL, '0001234567', 1500, 'Success', '2025-09-29 01:27:20'),
+(40, 'Deposit', NULL, '0001234567', 100, 'Success', '2025-09-29 01:54:41'),
+(41, 'Withdrawal', '0001234567', NULL, 600, 'Success', '2025-09-29 01:57:33'),
+(42, 'Withdrawal', '0001234567', NULL, 500, 'Success', '2025-09-29 02:17:06'),
+(43, 'Withdrawal', '0001234567', NULL, 500, 'Success', '2025-09-29 02:20:32'),
+(44, 'Withdrawal', '0001234567', NULL, 500, 'Success', '2025-09-29 02:22:31'),
+(45, 'Withdrawal', '0001234567', NULL, 500, 'Success', '2025-10-01 11:10:01');
 
 -- --------------------------------------------------------
 
@@ -168,7 +182,7 @@ CREATE TABLE `tbluserinfo` (
 --
 
 INSERT INTO `tbluserinfo` (`AccountNumber`, `FirstName`, `LastName`, `MiddleName`, `EmailAddress`, `ContactNumber`, `PIN`, `attempts`, `Role`) VALUES
-('0001234567', 'Sean', 'Dope', 'Ty', 'SeanTyDope@gmail.com', '99999992', '000000', 3, 'User'),
+('0001234567', 'Sean', 'Dope', 'Ty', 'SeanTyDope@gmail.com', '99999992', '000000', 2, 'User'),
 ('1781989531', 'Yolanda', 'Lasin', 'Luzong', 'lola@gmail.com', '2147483647', '123456', 3, 'User'),
 ('9876543210', 'Shoyou', 'Shish', 'Sho', 'shoyou@gmail.com', '90900909', '111111', 2, 'User'),
 ('9876543212', 'Rouie', 'Matiga', 'Lasin', 'jhihj@gmail.com', '097887878', '123457', 3, 'User');
@@ -252,7 +266,7 @@ ALTER TABLE `tblsettings`
 -- AUTO_INCREMENT for table `tbltransaction_history`
 --
 ALTER TABLE `tbltransaction_history`
-  MODIFY `transaction_number` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `transaction_number` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- Constraints for dumped tables

@@ -172,6 +172,11 @@ Public Class frmWithdrawal
         Finally
             con.Close()
         End Try
+
+        Me.Hide()
+        frmMain.Show()
+
+
     End Sub
 
     ' PrintDocument1 PrintPage event
@@ -288,4 +293,5 @@ Public Class frmWithdrawal
     Private Sub btnOtherAmount_Click(sender As Object, e As EventArgs) Handles btnOtherAmount.Click
         txtAmount.Focus()
     End Sub
+
 End Class

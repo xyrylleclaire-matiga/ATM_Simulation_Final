@@ -7,12 +7,11 @@ Public Class frmBalanceInquiry
 
     Private Sub frmBalanceInquiry_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         LoadBalance()
-        Timer1.Interval = 3000
+        Timer1.Interval = 1000
         Timer1.Start()
     End Sub
 
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
-        updateBalance()
         LoadBalance()
     End Sub
 
@@ -29,15 +28,14 @@ Public Class frmBalanceInquiry
             cmd.Parameters.Clear()
             cmd.Parameters.AddWithValue("@acc", LoggedInAccNum)
 
-            dr = cmd.ExecuteReader()
+            Dim balanceValue As Object = cmd.ExecuteScalar()
 
-            If dr.Read() Then
-                lblBalanceAmount.Text = "₱" & Format(CDbl(dr("BalanceAmount")), "N2")
+            If balanceValue IsNot Nothing Then
+                lblBalanceAmount.Text = "₱" & Convert.ToDouble(balanceValue).ToString("N2")
             Else
                 lblBalanceAmount.Text = "No balance found"
             End If
 
-            dr.Close()
         Catch ex As Exception
             MessageBox.Show("Error: " & ex.Message, "Load Balance Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Finally
@@ -46,6 +44,7 @@ Public Class frmBalanceInquiry
             End If
         End Try
     End Sub
+
 
     Private Sub btnRefresh_Click(sender As Object, e As EventArgs) Handles btnRefresh.Click
         LoadBalance()
@@ -78,18 +77,18 @@ Public Class frmBalanceInquiry
         e.Graphics.DrawString(BalanceText, New Font("Arial", 12, FontStyle.Regular), Brushes.Black, 50, 50)
     End Sub
 
-    Private Sub updateBalance()
-        Call connection()
-        sql = "SELECT BalanceAmount FROM tblaccountbalance WHERE AccountNumber = @acc"
-        cmd = New MySqlCommand(sql, con)
-        cmd.Parameters.AddWithValue("@acc", LoggedInAccNum)
+    'Private Sub updateBalance()
+    '    Call connection()
+    '    sql = "SELECT BalanceAmount FROM tblaccountbalance WHERE AccountNumber = @acc"
+    '    cmd = New MySqlCommand(sql, con)
+    '    cmd.Parameters.AddWithValue("@acc", LoggedInAccNum)
 
-        Dim balanceUpdate As Object = cmd.ExecuteScalar()
-        If balanceUpdate IsNot Nothing Then
-            lblBalanceAmount.Text = "₱ " & Convert.ToDouble(balanceUpdate).ToString("N2")
-        End If
-        con.Close()
+    '    Dim balanceUpdate As Object = cmd.ExecuteScalar()
+    '    If balanceUpdate IsNot Nothing Then
+    '        lblBalanceAmount.Text = "₱ " & Convert.ToDouble(balanceUpdate).ToString("N2")
+    '    End If
+    '    con.Close()
 
-    End Sub
+    'End Sub
 
 End Class
