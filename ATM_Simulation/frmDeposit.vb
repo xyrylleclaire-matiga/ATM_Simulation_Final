@@ -169,6 +169,8 @@ Public Class frmDeposit
         Finally
             con.Close()
         End Try
+        Me.Close()
+        frmMain.Show()
     End Sub
 
     ' PrintDocument1 PrintPage event
@@ -181,6 +183,13 @@ Public Class frmDeposit
 
         Dim pinForm As New frmVerification()
         pinForm.ShowDialog()
+
+        If pinForm.maxAttemptsReached Then
+            Me.Close()
+            frmLogin.Show()
+            Exit Sub
+        End If
+
         If pinForm.IsPinCorrect Then
             Deposit()
         Else
@@ -264,4 +273,5 @@ Public Class frmDeposit
     Private Sub PictureBox1_Click(sender As Object, e As EventArgs) Handles PictureBox1.Click
 
     End Sub
+
 End Class

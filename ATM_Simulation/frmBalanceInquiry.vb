@@ -46,8 +46,8 @@ Public Class frmBalanceInquiry
     End Sub
 
 
-    Private Sub btnRefresh_Click(sender As Object, e As EventArgs) Handles btnRefresh.Click
-        LoadBalance()
+    Private Sub btnRefresh_Click(sender As Object, e As EventArgs)
+        LoadBalance
     End Sub
 
     Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
@@ -76,6 +76,7 @@ Public Class frmBalanceInquiry
         ' Draw the balance inquiry receipt
         e.Graphics.DrawString(BalanceText, New Font("Arial", 12, FontStyle.Regular), Brushes.Black, 50, 50)
     End Sub
+
 
     'Private Sub updateBalance()
     '    Call connection()

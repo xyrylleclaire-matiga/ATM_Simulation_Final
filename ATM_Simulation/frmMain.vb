@@ -36,8 +36,14 @@ Public Class frmMain
 
     Private Sub btnBalanceInquiry_Click(sender As Object, e As EventArgs) Handles btnBalanceInquiry.Click
         Dim pinForm As New frmVerification()
-
         pinForm.ShowDialog()
+
+        If pinForm.maxAttemptsReached Then
+            Me.Close()
+            frmLogin.Show()
+            Exit Sub
+        End If
+
         If pinForm.IsPinCorrect Then
             frmBalanceInquiry.LoadBalance()
             frmBalanceInquiry.Show()

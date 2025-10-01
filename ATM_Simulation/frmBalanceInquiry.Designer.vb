@@ -27,7 +27,6 @@ Partial Class frmBalanceInquiry
         Label1 = New Label()
         lblBalanceAmount = New Label()
         btnCancel = New Button()
-        btnRefresh = New Button()
         Timer1 = New Timer(components)
         PictureBox1 = New PictureBox()
         Panel1 = New Panel()
@@ -68,26 +67,12 @@ Partial Class frmBalanceInquiry
         btnCancel.FlatStyle = FlatStyle.Flat
         btnCancel.Font = New Font("Segoe UI Semibold", 12F, FontStyle.Bold)
         btnCancel.ForeColor = Color.White
-        btnCancel.Location = New Point(249, 262)
+        btnCancel.Location = New Point(305, 216)
         btnCancel.Name = "btnCancel"
         btnCancel.Size = New Size(131, 35)
         btnCancel.TabIndex = 5
         btnCancel.Text = "Cancel"
         btnCancel.UseVisualStyleBackColor = False
-        ' 
-        ' btnRefresh
-        ' 
-        btnRefresh.BackColor = Color.DarkSlateGray
-        btnRefresh.FlatAppearance.BorderSize = 0
-        btnRefresh.FlatStyle = FlatStyle.Flat
-        btnRefresh.Font = New Font("Segoe UI Semibold", 12F, FontStyle.Bold)
-        btnRefresh.ForeColor = Color.White
-        btnRefresh.Location = New Point(173, 221)
-        btnRefresh.Name = "btnRefresh"
-        btnRefresh.Size = New Size(134, 35)
-        btnRefresh.TabIndex = 6
-        btnRefresh.Text = "Refresh"
-        btnRefresh.UseVisualStyleBackColor = False
         ' 
         ' Timer1
         ' 
@@ -110,7 +95,6 @@ Partial Class frmBalanceInquiry
         Panel1.Controls.Add(Button2)
         Panel1.Controls.Add(Label1)
         Panel1.Controls.Add(lblBalanceAmount)
-        Panel1.Controls.Add(btnRefresh)
         Panel1.Controls.Add(btnCancel)
         Panel1.Location = New Point(81, 48)
         Panel1.Name = "Panel1"
@@ -119,12 +103,12 @@ Partial Class frmBalanceInquiry
         ' 
         ' btnprint
         ' 
-        btnprint.BackColor = Color.FromArgb(CByte(128), CByte(64), CByte(0))
+        btnprint.BackColor = Color.DarkSlateGray
         btnprint.FlatAppearance.BorderSize = 0
         btnprint.FlatStyle = FlatStyle.Flat
         btnprint.Font = New Font("Segoe UI Semibold", 12F, FontStyle.Bold)
         btnprint.ForeColor = Color.White
-        btnprint.Location = New Point(313, 221)
+        btnprint.Location = New Point(165, 216)
         btnprint.Name = "btnprint"
         btnprint.Size = New Size(134, 35)
         btnprint.TabIndex = 43
@@ -180,7 +164,6 @@ Partial Class frmBalanceInquiry
     Friend WithEvents Label1 As Label
     Friend WithEvents lblBalanceAmount As Label
     Friend WithEvents btnCancel As Button
-    Friend WithEvents btnRefresh As Button
     Friend WithEvents Timer1 As Timer
     Friend WithEvents PictureBox1 As PictureBox
     Friend WithEvents Panel1 As Panel

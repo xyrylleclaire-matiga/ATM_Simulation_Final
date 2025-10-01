@@ -64,7 +64,6 @@ Public Class frmFundTransfer
         Return True
     End Function
 
-    ' ---------------- CHECK ACCOUNT ----------------
     ' ---------------- CHECK ACCOUNT (REFACTORED) ----------------
     Private Function checkAccount() As Boolean
         ' Clear previous name
@@ -112,10 +111,10 @@ Public Class frmFundTransfer
 
             ' TARGET ACCOUNT CHECKINGGG
             sql = "SELECT CONCAT(u.FirstName, ' ', u.MiddleName, ' ', u.LastName) AS FullName, " &
-      "b.AccountStatus " &
-      "FROM tbluserinfo u " &
-      "INNER JOIN tblaccountbalance b ON u.AccountNumber = b.AccountNumber " &
-      "WHERE TRIM(u.AccountNumber) = @accTarget LIMIT 1"
+                  "b.AccountStatus " &
+                  "FROM tbluserinfo u " &
+                  "INNER JOIN tblaccountbalance b ON u.AccountNumber = b.AccountNumber " &
+                  "WHERE TRIM(u.AccountNumber) = @accTarget LIMIT 1"
 
             Using cmd As New MySqlCommand(sql, con)
                 cmd.Parameters.AddWithValue("@accTarget", txtTargetAccount.Text.Trim())
@@ -166,8 +165,11 @@ Public Class frmFundTransfer
         End If
 
         If MessageBox.Show("Are you sure you want to transfer ₱" & transferAmount.ToString("N2") &
-                           " to account " & txtTargetAccount.Text & "?", "Confirm Transfer",
+                           " to account " & txtTargetAccount.Text & " : " & txtAccountName.Text & "?", "Confirm Transfer",
                            MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.No Then
+            txtAccountName.Clear()
+            txtTargetAccount.Clear()
+            txtAmountTransfer.Clear()
             Return
         End If
 
@@ -192,8 +194,8 @@ Public Class frmFundTransfer
             If rowsAffectedSender > 0 AndAlso rowsAffectedTarget > 0 Then
                 ' Log transaction
                 Dim logCmd As New MySqlCommand("
-INSERT INTO tbltransaction_history (transaction_type, sender_AccountNumber, receiver_AccountNumber, Amount, Status, `Date`) 
-VALUES (@transactiontype, @senderAcc, @receiverAcc, @transfer, 'Success', NOW())", con, transaction)
+                    INSERT INTO tbltransaction_history (transaction_type, sender_AccountNumber, receiver_AccountNumber, Amount, Status, `Date`) 
+                    VALUES (@transactiontype, @senderAcc, @receiverAcc, @transfer, 'Success', NOW())", con, transaction)
                 logCmd.Parameters.AddWithValue("@transactiontype", "Fund_Transfer")
                 logCmd.Parameters.AddWithValue("@senderAcc", LoggedInAccNum)
                 logCmd.Parameters.AddWithValue("@receiverAcc", txtTargetAccount.Text)
@@ -225,12 +227,21 @@ VALUES (@transactiontype, @senderAcc, @receiverAcc, @transfer, 'Success', NOW())
         Catch ex As Exception
             MessageBox.Show("Error: " & ex.Message, "Transfer Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
+        Me.Close()
+        frmMain.Show()
     End Sub
 
     '------------------------------ BUTTONS --------------------
     Private Sub btnTransfer_Click(sender As Object, e As EventArgs) Handles btnTransfer.Click
         Dim pinForm As New frmVerification()
         pinForm.ShowDialog()
+
+        If pinForm.maxAttemptsReached Then
+            Me.Close()
+            frmLogin.Show()
+            Exit Sub
+        End If
+
         If pinForm.IsPinCorrect Then
             If balanceCheck() = False Then Exit Sub
             If checkAccount() = False Then

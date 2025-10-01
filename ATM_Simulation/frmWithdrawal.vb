@@ -173,7 +173,7 @@ Public Class frmWithdrawal
             con.Close()
         End Try
 
-        Me.Hide()
+        Me.Close()
         frmMain.Show()
 
 
@@ -202,6 +202,13 @@ Public Class frmWithdrawal
     Private Sub lblWithdraw_Click(sender As Object, e As EventArgs) Handles lblWithdraw.Click
         Dim pinForm As New frmVerification()
         pinForm.ShowDialog()
+
+        If pinForm.maxAttemptsReached Then
+            Me.Close()
+            frmLogin.Show()
+            Exit Sub
+        End If
+
         If pinForm.IsPinCorrect Then
             Withdraw()
             pctNumpad.Enabled = False

@@ -1,6 +1,8 @@
 ﻿Imports MySql.Data.MySqlClient
 Public Class frmVerification
     Public IsPinCorrect As Boolean = False
+    Dim verificationAttempts As Integer = 3
+    Public maxAttemptsReached As Boolean = False
 
     Private Sub btnEnter_Click(sender As Object, e As EventArgs) Handles btnEnter.Click
 
@@ -22,13 +24,24 @@ Public Class frmVerification
 
         Dim resultObj As Object = cmd.ExecuteScalar()
 
+
         If resultObj IsNot Nothing AndAlso resultObj IsNot DBNull.Value Then
             IsPinCorrect = True
+            verificationAttempts = 3
             MessageBox.Show("PIN is correct. Access granted.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Me.Close()
         Else
             IsPinCorrect = False
-            MessageBox.Show("Invalid PIN. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            verificationAttempts -= 1
+            If verificationAttempts > 0 Then
+                MessageBox.Show("Invalid PIN. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                txtPIN.Clear()
+                txtPIN.Focus()
+            Else
+                MessageBox.Show("You have exceeded the maximum number of attempts", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Stop)
+                maxAttemptsReached = True
+                Me.Close()
+            End If
             txtPIN.Clear()
             txtPIN.Focus()
         End If
